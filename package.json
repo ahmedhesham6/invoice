@@ -17,7 +17,10 @@
     "check": "oxlint && oxfmt --write"
   },
   "dependencies": {
+    "@convex-dev/workos": "^0.0.1",
+    "@convex-dev/workos-authkit": "^0.1.6",
     "@invoice/env": "workspace:*",
+    "@workos-inc/authkit-react": "^0.16.0",
     "dotenv": "catalog:",
     "zod": "catalog:"
   },
@@ -28,5 +31,6 @@
     "turbo": "^2.6.3",
     "typescript": "catalog:"
   },
+  "pnpm": {},
   "packageManager": "pnpm@10.28.1"
 }

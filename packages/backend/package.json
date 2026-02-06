@@ -5,8 +5,8 @@
   "license": "ISC",
   "author": "",
   "scripts": {
-    "dev": "convex dev",
-    "dev:setup": "convex dev --configure --until-success"
+    "dev": "GITHUB_TOKEN=$(gh auth token) convex dev",
+    "dev:setup": "GITHUB_TOKEN=$(gh auth token) convex dev --configure --until-success"
   },
   "dependencies": {
     "@convex-dev/better-auth": "catalog:",

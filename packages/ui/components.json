@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema.json",
+  "style": "base-lyra",
+  "rsc": false,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "src/styles/globals.css",
+    "baseColor": "stone",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "rtl": false,
+  "aliases": {
+    "components": "@invoice/ui/components",
+    "utils": "@invoice/ui/lib/utils",
+    "hooks": "@invoice/ui/hooks",
+    "lib": "@invoice/ui/lib",
+    "ui": "@invoice/ui/components"
+  },
+  "menuColor": "default",
+  "menuAccent": "bold",
+  "registries": {}
+}

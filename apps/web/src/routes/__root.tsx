@@ -7,21 +7,15 @@ import {
   Outlet,
   Scripts,
   createRootRouteWithContext,
-  useRouteContext,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { createServerFn } from "@tanstack/react-start";
+import { ThemeProvider } from "next-themes";
 
-import { Toaster } from "@/components/ui/sonner";
+import { Toaster } from "@invoice/ui/components/sonner";
 import { authClient } from "@/lib/auth-client";
-import { getToken } from "@/lib/auth-server";
 
 import Header from "../components/header";
 import appCss from "../index.css?url";
-
-const getAuth = createServerFn({ method: "GET" }).handler(async () => {
-  return await getToken();
-});
 
 export interface RouterAppContext {
   queryClient: QueryClient;
@@ -39,10 +33,28 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "My App",
+        title: "Invoice — Professional Invoicing for Freelancers",
       },
     ],
     links: [
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        href: "/favicon.svg",
+      },
+      {
+        rel: "preconnect",
+        href: "https://fonts.googleapis.com",
+      },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap",
+      },
       {
         rel: "stylesheet",
         href: appCss,
@@ -50,41 +62,48 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
     ],
   }),
 
-  component: RootDocument,
-  beforeLoad: async (ctx) => {
-    const token = await getAuth();
-    if (token) {
-      ctx.context.convexQueryClient.serverHttpClient?.setAuth(token);
-    }
-    return {
-      isAuthenticated: !!token,
-      token,
-    };
-  },
+  component: RootComponent,
 });
 
-function RootDocument() {
-  const context = useRouteContext({ from: Route.id });
+function RootComponent() {
+  const context = Route.useRouteContext();
+  
   return (
     <ConvexBetterAuthProvider
       client={context.convexQueryClient.convexClient}
       authClient={authClient}
-      initialToken={context.token}
     >
-      <html lang="en" className="dark">
-        <head>
-          <HeadContent />
-        </head>
-        <body>
-          <div className="grid h-svh grid-rows-[auto_1fr]">
+      <RootDocument>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="min-h-svh flex flex-col grain">
             <Header />
-            <Outlet />
+            <main className="flex-1">
+              <Outlet />
+            </main>
           </div>
           <Toaster richColors />
-          <TanStackRouterDevtools position="bottom-left" />
-          <Scripts />
-        </body>
-      </html>
+        </ThemeProvider>
+        <TanStackRouterDevtools position="bottom-left" />
+      </RootDocument>
     </ConvexBetterAuthProvider>
+  );
+}
+
+function RootDocument({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        {children}
+        <Scripts />
+      </body>
+    </html>
   );
 }

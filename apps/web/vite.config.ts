@@ -8,6 +8,15 @@ export default defineConfig({
   plugins: [tsconfigPaths(), tailwindcss(), tanstackStart(), viteReact()],
   server: {
     port: 3001,
+    proxy: {
+      // Proxy auth requests to Convex
+      '/api/auth': {
+        target: 'http://127.0.0.1:3211',
+        changeOrigin: true,
+        // Preserve cookies
+        cookieDomainRewrite: 'localhost',
+      },
+    },
   },
   ssr: {
     noExternal: ["@convex-dev/better-auth"],

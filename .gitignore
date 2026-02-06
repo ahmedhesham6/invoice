@@ -48,3 +48,15 @@ coverage
 .cache
 tmp
 temp
+
+# Stakpak session files
+.stakpak/session*
+
+# Better-T-Stack metadata (safe to delete)
+bts.jsonc
+
+# Editor-specific config (Zed)
+.zed/
+
+# AI agent instructions
+AGENT.md
