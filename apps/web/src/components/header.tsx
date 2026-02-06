@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@invoice/ui/components/dropdown-menu';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { FileText, Users, LayoutDashboard, Settings, LogOut, Sun, Moon, Menu } from 'lucide-react';
+import { FileText, LayoutDashboard, LogOut, Menu, Moon, Settings, Sun, Users } from 'lucide-react';
 import { useTheme } from 'next-themes';
 
 import { useAuth } from '@/lib/use-auth';
