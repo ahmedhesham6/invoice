@@ -4,8 +4,7 @@ import { authComponent, createAuth } from './auth';
 
 const http = httpRouter();
 
-// Register Better Auth HTTP routes
-// Requests come from TanStack Start proxy (same server), so no CORS needed
-authComponent.registerRoutes(http, createAuth);
+// Register Better Auth HTTP routes with CORS for cross-domain auth
+authComponent.registerRoutes(http, createAuth, { cors: true });
 
 export default http;
