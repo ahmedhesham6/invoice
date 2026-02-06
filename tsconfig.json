@@ -1,3 +1,3 @@
 {
-  "extends": "@invoice/config/tsconfig.base.json",
+  "extends": "@invoice/config/tsconfig.base.json"
 }

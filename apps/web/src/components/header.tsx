@@ -30,10 +30,7 @@ export default function Header() {
       <div className="container mx-auto flex h-[60px] max-w-6xl items-center justify-between px-6">
         {/* Logo & Nav */}
         <div className="flex items-center gap-10">
-          <Link 
-            to={isAuthenticated ? "/dashboard" : "/"} 
-            className="group flex items-center gap-3"
-          >
+          <Link to={isAuthenticated ? '/dashboard' : '/'} className="group flex items-center gap-3">
             {/* Monogram Logo */}
             <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden bg-primary text-primary-foreground transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/20">
               <span className="font-display text-lg">I</span>
@@ -83,15 +80,15 @@ export default function Header() {
                   <Menu className="h-4 w-4" />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48 md:hidden">
-                  <DropdownMenuItem onClick={() => navigate({ to: "/dashboard" })}>
+                  <DropdownMenuItem onClick={() => navigate({ to: '/dashboard' })}>
                     <LayoutDashboard className="h-4 w-4 mr-2" />
                     Dashboard
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate({ to: "/invoices" })}>
+                  <DropdownMenuItem onClick={() => navigate({ to: '/invoices' })}>
                     <FileText className="h-4 w-4 mr-2" />
                     Invoices
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate({ to: "/clients" })}>
+                  <DropdownMenuItem onClick={() => navigate({ to: '/clients' })}>
                     <Users className="h-4 w-4 mr-2" />
                     Clients
                   </DropdownMenuItem>
@@ -103,7 +100,9 @@ export default function Header() {
                 <DropdownMenuTrigger className="group relative ml-1">
                   <div className="flex h-8 w-8 items-center justify-center bg-muted hover:bg-muted/80 transition-all duration-200 cursor-pointer overflow-hidden border border-border/50">
                     <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-                      {user?.name?.charAt(0)?.toUpperCase() || user?.email?.charAt(0)?.toUpperCase() || 'U'}
+                      {user?.name?.charAt(0)?.toUpperCase() ||
+                        user?.email?.charAt(0)?.toUpperCase() ||
+                        'U'}
                     </span>
                   </div>
                   {/* Active indicator */}
@@ -116,8 +115,8 @@ export default function Header() {
                     <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
                   </div>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem 
-                    onClick={() => navigate({ to: "/settings" })}
+                  <DropdownMenuItem
+                    onClick={() => navigate({ to: '/settings' })}
                     className="flex items-center gap-2.5 px-3 py-2 cursor-pointer"
                   >
                     <Settings className="h-3.5 w-3.5 text-muted-foreground" />
@@ -137,7 +136,11 @@ export default function Header() {
           ) : (
             <div className="flex items-center gap-2">
               <Link to="/login">
-                <Button variant="ghost" size="sm" className="h-8 text-sm font-medium text-muted-foreground hover:text-foreground">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 text-sm font-medium text-muted-foreground hover:text-foreground"
+                >
                   Sign in
                 </Button>
               </Link>

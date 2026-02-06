@@ -1,6 +1,7 @@
-import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
-import { authComponent } from "./auth";
+import { v } from 'convex/values';
+
+import { mutation, query } from './_generated/server';
+import { authComponent } from './auth';
 
 // Get the current user's profile
 export const get = query({
@@ -12,8 +13,8 @@ export const get = query({
     }
 
     const profile = await ctx.db
-      .query("profiles")
-      .withIndex("by_userId", (q) => q.eq("userId", authUser._id))
+      .query('profiles')
+      .withIndex('by_userId', (q) => q.eq('userId', authUser._id))
       .first();
 
     if (profile && profile.logoId) {
@@ -34,13 +35,13 @@ export const create = mutation({
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     // Check if profile already exists
     const existingProfile = await ctx.db
-      .query("profiles")
-      .withIndex("by_userId", (q) => q.eq("userId", authUser._id))
+      .query('profiles')
+      .withIndex('by_userId', (q) => q.eq('userId', authUser._id))
       .first();
 
     if (existingProfile) {
@@ -48,12 +49,12 @@ export const create = mutation({
     }
 
     const now = Date.now();
-    const profileId = await ctx.db.insert("profiles", {
+    const profileId = await ctx.db.insert('profiles', {
       userId: authUser._id,
       displayName: args.displayName,
       email: args.email,
-      defaultCurrency: "USD",
-      invoicePrefix: "INV-",
+      defaultCurrency: 'USD',
+      invoicePrefix: 'INV-',
       nextInvoiceNumber: 1,
       defaultPaymentTerms: 30,
       createdAt: now,
@@ -85,22 +86,22 @@ export const update = mutation({
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const profile = await ctx.db
-      .query("profiles")
-      .withIndex("by_userId", (q) => q.eq("userId", authUser._id))
+      .query('profiles')
+      .withIndex('by_userId', (q) => q.eq('userId', authUser._id))
       .first();
 
     const now = Date.now();
 
     // Create profile if it doesn't exist (upsert)
     if (!profile) {
-      const profileId = await ctx.db.insert("profiles", {
+      const profileId = await ctx.db.insert('profiles', {
         userId: authUser._id,
-        displayName: args.displayName || authUser.name || "User",
-        email: args.email || authUser.email || "",
+        displayName: args.displayName || authUser.name || 'User',
+        email: args.email || authUser.email || '',
         phone: args.phone,
         website: args.website,
         address: args.address,
@@ -108,8 +109,8 @@ export const update = mutation({
         country: args.country,
         postalCode: args.postalCode,
         taxId: args.taxId,
-        defaultCurrency: args.defaultCurrency || "USD",
-        invoicePrefix: args.invoicePrefix || "INV-",
+        defaultCurrency: args.defaultCurrency || 'USD',
+        invoicePrefix: args.invoicePrefix || 'INV-',
         nextInvoiceNumber: 1,
         defaultPaymentTerms: args.defaultPaymentTerms || 30,
         paymentDetails: args.paymentDetails,
@@ -139,7 +140,7 @@ export const generateLogoUploadUrl = mutation({
   handler: async (ctx) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     return await ctx.storage.generateUploadUrl();
@@ -149,21 +150,21 @@ export const generateLogoUploadUrl = mutation({
 // Save logo after upload
 export const saveLogo = mutation({
   args: {
-    storageId: v.id("_storage"),
+    storageId: v.id('_storage'),
   },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const profile = await ctx.db
-      .query("profiles")
-      .withIndex("by_userId", (q) => q.eq("userId", authUser._id))
+      .query('profiles')
+      .withIndex('by_userId', (q) => q.eq('userId', authUser._id))
       .first();
 
     if (!profile) {
-      throw new Error("Profile not found");
+      throw new Error('Profile not found');
     }
 
     // Delete old logo if exists
@@ -186,16 +187,16 @@ export const deleteLogo = mutation({
   handler: async (ctx) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const profile = await ctx.db
-      .query("profiles")
-      .withIndex("by_userId", (q) => q.eq("userId", authUser._id))
+      .query('profiles')
+      .withIndex('by_userId', (q) => q.eq('userId', authUser._id))
       .first();
 
     if (!profile) {
-      throw new Error("Profile not found");
+      throw new Error('Profile not found');
     }
 
     if (profile.logoId) {
@@ -214,20 +215,20 @@ export const getAndIncrementInvoiceNumber = mutation({
   handler: async (ctx) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const profile = await ctx.db
-      .query("profiles")
-      .withIndex("by_userId", (q) => q.eq("userId", authUser._id))
+      .query('profiles')
+      .withIndex('by_userId', (q) => q.eq('userId', authUser._id))
       .first();
 
     if (!profile) {
-      throw new Error("Profile not found");
+      throw new Error('Profile not found');
     }
 
     const currentNumber = profile.nextInvoiceNumber;
-    const invoiceNumber = `${profile.invoicePrefix}${String(currentNumber).padStart(3, "0")}`;
+    const invoiceNumber = `${profile.invoicePrefix}${String(currentNumber).padStart(3, '0')}`;
 
     await ctx.db.patch(profile._id, {
       nextInvoiceNumber: currentNumber + 1,

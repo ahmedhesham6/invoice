@@ -1,4 +1,4 @@
-@import "tailwindcss";
-@import "@invoice/ui/globals.css";
+@import 'tailwindcss';
+@import '@invoice/ui/globals.css';
 
 @source "../../../packages/ui";

@@ -1,15 +1,25 @@
-import { convexQuery, useConvexMutation } from "@convex-dev/react-query";
-import { api } from "@invoice/backend/convex/_generated/api";
-import { Badge } from "@invoice/ui/components/badge";
-import { Button } from "@invoice/ui/components/button";
-import { Card, CardContent } from "@invoice/ui/components/card";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { FileText, Plus, Users, AlertTriangle, TrendingUp, ArrowRight, Clock, Sparkles } from "lucide-react";
-import { useEffect, useRef } from "react";
-import { ProtectedRoute } from "@/components/protected-route";
+import { convexQuery, useConvexMutation } from '@convex-dev/react-query';
+import { api } from '@invoice/backend/convex/_generated/api';
+import { Badge } from '@invoice/ui/components/badge';
+import { Button } from '@invoice/ui/components/button';
+import { Card, CardContent } from '@invoice/ui/components/card';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { createFileRoute, Link } from '@tanstack/react-router';
+import {
+  FileText,
+  Plus,
+  Users,
+  AlertTriangle,
+  TrendingUp,
+  ArrowRight,
+  Clock,
+  Sparkles,
+} from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
-export const Route = createFileRoute("/dashboard")({
+import { ProtectedRoute } from '@/components/protected-route';
+
+export const Route = createFileRoute('/dashboard')({
   component: DashboardPage,
 });
 
@@ -21,26 +31,26 @@ function DashboardPage() {
   );
 }
 
-function formatCurrency(cents: number, currency = "USD") {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
+function formatCurrency(cents: number, currency = 'USD') {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
     currency,
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(cents / 100);
 }
 
-function formatCurrencyFull(cents: number, currency = "USD") {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
+function formatCurrencyFull(cents: number, currency = 'USD') {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
     currency,
   }).format(cents / 100);
 }
 
 function formatDate(timestamp: number) {
-  return new Intl.DateTimeFormat("en-US", {
-    month: "short",
-    day: "numeric",
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
   }).format(new Date(timestamp));
 }
 
@@ -55,34 +65,36 @@ function DashboardContent() {
   useEffect(() => {
     if (!checkedOverdue.current && profile.data) {
       checkedOverdue.current = true;
-      checkOverdue().then((count) => {
-        if (count > 0) {
-          queryClient.invalidateQueries();
-        }
-      }).catch(() => {});
+      checkOverdue()
+        .then((count) => {
+          if (count > 0) {
+            queryClient.invalidateQueries();
+          }
+        })
+        .catch(() => {});
     }
   }, [checkOverdue, queryClient, profile.data]);
 
   const statusConfig: Record<string, { color: string; bg: string; label: string }> = {
-    draft: { 
-      color: "text-muted-foreground",
-      bg: "bg-muted",
-      label: "Draft"
+    draft: {
+      color: 'text-muted-foreground',
+      bg: 'bg-muted',
+      label: 'Draft',
     },
-    sent: { 
-      color: "text-blue-500 dark:text-blue-400",
-      bg: "bg-blue-500/10",
-      label: "Pending"
+    sent: {
+      color: 'text-blue-500 dark:text-blue-400',
+      bg: 'bg-blue-500/10',
+      label: 'Pending',
     },
-    paid: { 
-      color: "text-emerald-500 dark:text-emerald-400",
-      bg: "bg-emerald-500/10",
-      label: "Paid"
+    paid: {
+      color: 'text-emerald-500 dark:text-emerald-400',
+      bg: 'bg-emerald-500/10',
+      label: 'Paid',
     },
-    overdue: { 
-      color: "text-red-500 dark:text-red-400",
-      bg: "bg-red-500/10",
-      label: "Overdue"
+    overdue: {
+      color: 'text-red-500 dark:text-red-400',
+      bg: 'bg-red-500/10',
+      label: 'Overdue',
     },
   };
 
@@ -106,21 +118,25 @@ function DashboardContent() {
               </p>
               <h1 className="font-display text-5xl lg:text-6xl tracking-tight leading-[0.95]">
                 {firstName ? (
-                  <>Welcome back,<br /><span className="text-gradient">{firstName}</span></>
+                  <>
+                    Welcome back,
+                    <br />
+                    <span className="text-gradient">{firstName}</span>
+                  </>
                 ) : (
-                  "Your Dashboard"
+                  'Your Dashboard'
                 )}
               </h1>
               <p className="text-muted-foreground text-[15px] max-w-md">
                 Here's an overview of your invoicing activity and outstanding payments.
               </p>
             </div>
-            
+
             <div className="flex gap-2.5">
-              <Button 
-                variant="outline" 
-                size="lg" 
-                asChild 
+              <Button
+                variant="outline"
+                size="lg"
+                asChild
                 className="group h-10 border-border/60 hover:border-primary/30 hover:bg-primary/5 transition-all duration-300"
               >
                 <Link to="/clients/new">
@@ -128,9 +144,9 @@ function DashboardContent() {
                   Add Client
                 </Link>
               </Button>
-              <Button 
-                size="lg" 
-                asChild 
+              <Button
+                size="lg"
+                asChild
                 className="group h-10 shadow-lg shadow-primary/15 hover:shadow-primary/25 hover:-translate-y-0.5 transition-all duration-300"
               >
                 <Link to="/invoices/new">
@@ -159,11 +175,9 @@ function DashboardContent() {
                 </div>
                 <div className="space-y-1">
                   <p className="font-display text-3xl tracking-tight">
-                    {stats.data ? formatCurrency(stats.data.outstanding) : "$0"}
+                    {stats.data ? formatCurrency(stats.data.outstanding) : '$0'}
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    Awaiting payment
-                  </p>
+                  <p className="text-xs text-muted-foreground">Awaiting payment</p>
                 </div>
               </CardContent>
             </Card>
@@ -181,11 +195,9 @@ function DashboardContent() {
                 </div>
                 <div className="space-y-1">
                   <p className="font-display text-3xl tracking-tight text-success">
-                    {stats.data ? formatCurrency(stats.data.paidThisMonth) : "$0"}
+                    {stats.data ? formatCurrency(stats.data.paidThisMonth) : '$0'}
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    Revenue collected
-                  </p>
+                  <p className="text-xs text-muted-foreground">Revenue collected</p>
                 </div>
               </CardContent>
             </Card>
@@ -194,15 +206,21 @@ function DashboardContent() {
             <Card className="card-premium group">
               <CardContent className="p-5">
                 <div className="flex items-start justify-between mb-5">
-                  <div className={`p-2 ${(stats.data?.overdueCount ?? 0) > 0 ? 'bg-destructive/10' : 'bg-muted'}`}>
-                    <AlertTriangle className={`h-4 w-4 ${(stats.data?.overdueCount ?? 0) > 0 ? 'text-destructive' : 'text-muted-foreground'}`} />
+                  <div
+                    className={`p-2 ${(stats.data?.overdueCount ?? 0) > 0 ? 'bg-destructive/10' : 'bg-muted'}`}
+                  >
+                    <AlertTriangle
+                      className={`h-4 w-4 ${(stats.data?.overdueCount ?? 0) > 0 ? 'text-destructive' : 'text-muted-foreground'}`}
+                    />
                   </div>
                   <span className="text-[10px] font-medium text-muted-foreground/60 uppercase tracking-[0.15em]">
                     Overdue
                   </span>
                 </div>
                 <div className="space-y-1">
-                  <p className={`font-display text-3xl tracking-tight ${(stats.data?.overdueCount ?? 0) > 0 ? 'text-destructive' : ''}`}>
+                  <p
+                    className={`font-display text-3xl tracking-tight ${(stats.data?.overdueCount ?? 0) > 0 ? 'text-destructive' : ''}`}
+                  >
                     {stats.data?.overdueCount ?? 0}
                   </p>
                   <p className="text-xs text-muted-foreground">
@@ -227,9 +245,7 @@ function DashboardContent() {
                   <p className="font-display text-3xl tracking-tight">
                     {stats.data?.totalClients ?? 0}
                   </p>
-                  <p className="text-xs text-muted-foreground">
-                    Active relationships
-                  </p>
+                  <p className="text-xs text-muted-foreground">Active relationships</p>
                 </div>
               </CardContent>
             </Card>
@@ -243,7 +259,12 @@ function DashboardContent() {
               <h2 className="font-display text-2xl tracking-tight">Recent Invoices</h2>
               <p className="text-muted-foreground text-xs mt-1">Your latest billing activity</p>
             </div>
-            <Button variant="ghost" size="sm" asChild className="group text-muted-foreground hover:text-foreground h-8 text-xs">
+            <Button
+              variant="ghost"
+              size="sm"
+              asChild
+              className="group text-muted-foreground hover:text-foreground h-8 text-xs"
+            >
               <Link to="/invoices">
                 View all
                 <ArrowRight className="h-3 w-3 ml-1 group-hover:translate-x-0.5 transition-transform" />
@@ -286,15 +307,15 @@ function DashboardContent() {
                         <span className="font-mono text-xs font-medium text-foreground group-hover:text-primary transition-colors">
                           {invoice.invoiceNumber}
                         </span>
-                        <Badge 
-                          variant="secondary" 
+                        <Badge
+                          variant="secondary"
                           className={`${statusConfig[invoice.status].bg} ${statusConfig[invoice.status].color} border-0 text-[10px] font-medium px-1.5 py-0`}
                         >
                           {statusConfig[invoice.status].label}
                         </Badge>
                       </div>
                       <p className="text-xs text-muted-foreground mt-0.5 truncate">
-                        {invoice.client?.name ?? "Unknown client"}
+                        {invoice.client?.name ?? 'Unknown client'}
                       </p>
                     </div>
 
@@ -357,7 +378,7 @@ function DashboardContent() {
 
 function getGreeting() {
   const hour = new Date().getHours();
-  if (hour < 12) return "Good morning";
-  if (hour < 18) return "Good afternoon";
-  return "Good evening";
+  if (hour < 12) return 'Good morning';
+  if (hour < 18) return 'Good afternoon';
+  return 'Good evening';
 }

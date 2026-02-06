@@ -1,23 +1,24 @@
-import { convexQuery, useConvexMutation } from "@convex-dev/react-query";
-import { api } from "@invoice/backend/convex/_generated/api";
-import { Button } from "@invoice/ui/components/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@invoice/ui/components/card";
+import { convexQuery, useConvexMutation } from '@convex-dev/react-query';
+import { api } from '@invoice/backend/convex/_generated/api';
+import { Button } from '@invoice/ui/components/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@invoice/ui/components/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@invoice/ui/components/dropdown-menu";
-import { Input } from "@invoice/ui/components/input";
-import { useQuery } from "@tanstack/react-query";
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { MoreHorizontal, Pencil, Plus, Search, Trash2, Users, Mail, Phone } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
-import { ProtectedRoute } from "@/components/protected-route";
+} from '@invoice/ui/components/dropdown-menu';
+import { Input } from '@invoice/ui/components/input';
+import { useQuery } from '@tanstack/react-query';
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { MoreHorizontal, Pencil, Plus, Search, Trash2, Users, Mail, Phone } from 'lucide-react';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
-export const Route = createFileRoute("/clients/")({
+import { ProtectedRoute } from '@/components/protected-route';
+
+export const Route = createFileRoute('/clients/')({
   component: ClientsPage,
 });
 
@@ -30,7 +31,7 @@ function ClientsPage() {
 }
 
 function ClientsPageContent() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
   const clients = useQuery(convexQuery(api.clients.list, {}));
   const deleteClient = useConvexMutation(api.clients.remove);
 
@@ -43,9 +44,9 @@ function ClientsPageContent() {
   const handleDelete = async (id: string) => {
     try {
       await deleteClient({ id: id as any });
-      toast.success("Client deleted successfully");
+      toast.success('Client deleted successfully');
     } catch {
-      toast.error("Failed to delete client");
+      toast.error('Failed to delete client');
     }
   };
 
@@ -107,8 +108,8 @@ function ClientsPageContent() {
                 <h3 className="font-display text-xl mb-2">No clients yet</h3>
                 <p className="text-sm text-muted-foreground text-center mb-8 max-w-sm">
                   {searchTerm
-                    ? "No clients match your search"
-                    : "Add your first client to start creating invoices"}
+                    ? 'No clients match your search'
+                    : 'Add your first client to start creating invoices'}
                 </p>
                 {!searchTerm && (
                   <Link to="/clients/new">
@@ -148,8 +149,13 @@ function ClientsPageContent() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-40">
                           <DropdownMenuItem className="text-xs">
-                            <Link to="/clients/$id" params={{ id: client._id }} className="flex items-center w-full">
-                              <Pencil className="h-3.5 w-3.5 mr-2" />Edit
+                            <Link
+                              to="/clients/$id"
+                              params={{ id: client._id }}
+                              className="flex items-center w-full"
+                            >
+                              <Pencil className="h-3.5 w-3.5 mr-2" />
+                              Edit
                             </Link>
                           </DropdownMenuItem>
                           <DropdownMenuSeparator />
@@ -157,7 +163,8 @@ function ClientsPageContent() {
                             className="text-xs text-destructive focus:text-destructive"
                             onClick={() => handleDelete(client._id)}
                           >
-                            <Trash2 className="h-3.5 w-3.5 mr-2" />Delete
+                            <Trash2 className="h-3.5 w-3.5 mr-2" />
+                            Delete
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

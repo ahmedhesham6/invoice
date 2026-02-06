@@ -1,21 +1,15 @@
-import type { ConvexQueryClient } from "@convex-dev/react-query";
-import type { QueryClient } from "@tanstack/react-query";
+import { ConvexBetterAuthProvider } from '@convex-dev/better-auth/react';
+import type { ConvexQueryClient } from '@convex-dev/react-query';
+import { Toaster } from '@invoice/ui/components/sonner';
+import type { QueryClient } from '@tanstack/react-query';
+import { HeadContent, Outlet, Scripts, createRootRouteWithContext } from '@tanstack/react-router';
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
+import { ThemeProvider } from 'next-themes';
 
-import { ConvexBetterAuthProvider } from "@convex-dev/better-auth/react";
-import {
-  HeadContent,
-  Outlet,
-  Scripts,
-  createRootRouteWithContext,
-} from "@tanstack/react-router";
-import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
-import { ThemeProvider } from "next-themes";
+import { authClient } from '@/lib/auth-client';
 
-import { Toaster } from "@invoice/ui/components/sonner";
-import { authClient } from "@/lib/auth-client";
-
-import Header from "../components/header";
-import appCss from "../index.css?url";
+import Header from '../components/header';
+import appCss from '../index.css?url';
 
 export interface RouterAppContext {
   queryClient: QueryClient;
@@ -26,37 +20,37 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
   head: () => ({
     meta: [
       {
-        charSet: "utf-8",
+        charSet: 'utf-8',
       },
       {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1",
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1',
       },
       {
-        title: "Invoice — Professional Invoicing for Freelancers",
+        title: 'Invoice — Professional Invoicing for Freelancers',
       },
     ],
     links: [
       {
-        rel: "icon",
-        type: "image/svg+xml",
-        href: "/favicon.svg",
+        rel: 'icon',
+        type: 'image/svg+xml',
+        href: '/favicon.svg',
       },
       {
-        rel: "preconnect",
-        href: "https://fonts.googleapis.com",
+        rel: 'preconnect',
+        href: 'https://fonts.googleapis.com',
       },
       {
-        rel: "preconnect",
-        href: "https://fonts.gstatic.com",
-        crossOrigin: "anonymous",
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com',
+        crossOrigin: 'anonymous',
       },
       {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap",
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap',
       },
       {
-        rel: "stylesheet",
+        rel: 'stylesheet',
         href: appCss,
       },
     ],
@@ -67,19 +61,14 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
 
 function RootComponent() {
   const context = Route.useRouteContext();
-  
+
   return (
     <ConvexBetterAuthProvider
       client={context.convexQueryClient.convexClient}
       authClient={authClient}
     >
       <RootDocument>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <div className="min-h-svh flex flex-col grain">
             <Header />
             <main className="flex-1">

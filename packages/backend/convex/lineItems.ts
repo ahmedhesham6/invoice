@@ -1,12 +1,13 @@
-import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
-import type { MutationCtx } from "./_generated/server";
-import type { Id } from "./_generated/dataModel";
-import { authComponent } from "./auth";
+import type { Id } from './_generated/dataModel';
+import type { MutationCtx } from './_generated/server';
+import { v } from 'convex/values';
+
+import { mutation, query } from './_generated/server';
+import { authComponent } from './auth';
 
 // Get line items for an invoice
 export const listByInvoice = query({
-  args: { invoiceId: v.id("invoices") },
+  args: { invoiceId: v.id('invoices') },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
@@ -20,8 +21,8 @@ export const listByInvoice = query({
     }
 
     const lineItems = await ctx.db
-      .query("lineItems")
-      .withIndex("by_invoiceId", (q) => q.eq("invoiceId", args.invoiceId))
+      .query('lineItems')
+      .withIndex('by_invoiceId', (q) => q.eq('invoiceId', args.invoiceId))
       .collect();
 
     return lineItems.sort((a, b) => a.order - b.order);
@@ -31,7 +32,7 @@ export const listByInvoice = query({
 // Add a line item to an invoice
 export const create = mutation({
   args: {
-    invoiceId: v.id("invoices"),
+    invoiceId: v.id('invoices'),
     description: v.string(),
     quantity: v.number(),
     unit: v.optional(v.string()),
@@ -40,33 +41,32 @@ export const create = mutation({
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     // Verify invoice belongs to user and is draft
     const invoice = await ctx.db.get(args.invoiceId);
     if (!invoice || invoice.userId !== authUser._id) {
-      throw new Error("Invoice not found");
+      throw new Error('Invoice not found');
     }
 
-    if (invoice.status !== "draft") {
-      throw new Error("Can only add items to draft invoices");
+    if (invoice.status !== 'draft') {
+      throw new Error('Can only add items to draft invoices');
     }
 
     // Get current max order
     const existingItems = await ctx.db
-      .query("lineItems")
-      .withIndex("by_invoiceId", (q) => q.eq("invoiceId", args.invoiceId))
+      .query('lineItems')
+      .withIndex('by_invoiceId', (q) => q.eq('invoiceId', args.invoiceId))
       .collect();
 
-    const maxOrder = existingItems.length > 0
-      ? Math.max(...existingItems.map((item) => item.order))
-      : -1;
+    const maxOrder =
+      existingItems.length > 0 ? Math.max(...existingItems.map((item) => item.order)) : -1;
 
     const now = Date.now();
     const total = Math.round(args.quantity * args.unitPrice);
 
-    const lineItemId = await ctx.db.insert("lineItems", {
+    const lineItemId = await ctx.db.insert('lineItems', {
       invoiceId: args.invoiceId,
       description: args.description,
       quantity: args.quantity,
@@ -88,7 +88,7 @@ export const create = mutation({
 // Update a line item
 export const update = mutation({
   args: {
-    id: v.id("lineItems"),
+    id: v.id('lineItems'),
     description: v.optional(v.string()),
     quantity: v.optional(v.number()),
     unit: v.optional(v.string()),
@@ -97,22 +97,22 @@ export const update = mutation({
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const lineItem = await ctx.db.get(args.id);
     if (!lineItem) {
-      throw new Error("Line item not found");
+      throw new Error('Line item not found');
     }
 
     // Verify invoice belongs to user and is draft
     const invoice = await ctx.db.get(lineItem.invoiceId);
     if (!invoice || invoice.userId !== authUser._id) {
-      throw new Error("Invoice not found");
+      throw new Error('Invoice not found');
     }
 
-    if (invoice.status !== "draft") {
-      throw new Error("Can only edit items on draft invoices");
+    if (invoice.status !== 'draft') {
+      throw new Error('Can only edit items on draft invoices');
     }
 
     const updates: Record<string, unknown> = { updatedAt: Date.now() };
@@ -138,26 +138,26 @@ export const update = mutation({
 
 // Delete a line item
 export const remove = mutation({
-  args: { id: v.id("lineItems") },
+  args: { id: v.id('lineItems') },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const lineItem = await ctx.db.get(args.id);
     if (!lineItem) {
-      throw new Error("Line item not found");
+      throw new Error('Line item not found');
     }
 
     // Verify invoice belongs to user and is draft
     const invoice = await ctx.db.get(lineItem.invoiceId);
     if (!invoice || invoice.userId !== authUser._id) {
-      throw new Error("Invoice not found");
+      throw new Error('Invoice not found');
     }
 
-    if (invoice.status !== "draft") {
-      throw new Error("Can only remove items from draft invoices");
+    if (invoice.status !== 'draft') {
+      throw new Error('Can only remove items from draft invoices');
     }
 
     const invoiceId = lineItem.invoiceId;
@@ -171,23 +171,23 @@ export const remove = mutation({
 // Reorder line items
 export const reorder = mutation({
   args: {
-    invoiceId: v.id("invoices"),
-    itemIds: v.array(v.id("lineItems")),
+    invoiceId: v.id('invoices'),
+    itemIds: v.array(v.id('lineItems')),
   },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     // Verify invoice belongs to user and is draft
     const invoice = await ctx.db.get(args.invoiceId);
     if (!invoice || invoice.userId !== authUser._id) {
-      throw new Error("Invoice not found");
+      throw new Error('Invoice not found');
     }
 
-    if (invoice.status !== "draft") {
-      throw new Error("Can only reorder items on draft invoices");
+    if (invoice.status !== 'draft') {
+      throw new Error('Can only reorder items on draft invoices');
     }
 
     // Update order for each item
@@ -201,16 +201,13 @@ export const reorder = mutation({
 });
 
 // Helper function to recalculate invoice totals
-async function recalculateInvoiceTotals(
-  ctx: MutationCtx,
-  invoiceId: Id<"invoices">
-) {
+async function recalculateInvoiceTotals(ctx: MutationCtx, invoiceId: Id<'invoices'>) {
   const invoice = await ctx.db.get(invoiceId);
   if (!invoice) return;
 
   const lineItems = await ctx.db
-    .query("lineItems")
-    .withIndex("by_invoiceId", (q) => q.eq("invoiceId", invoiceId))
+    .query('lineItems')
+    .withIndex('by_invoiceId', (q) => q.eq('invoiceId', invoiceId))
     .collect();
 
   let subtotal = 0;
@@ -223,7 +220,7 @@ async function recalculateInvoiceTotals(
   let discountAmount = 0;
   const inv = invoice as { discountType?: string; discountValue?: number };
   if (inv.discountType && inv.discountValue) {
-    if (inv.discountType === "percentage") {
+    if (inv.discountType === 'percentage') {
       discountAmount = Math.round(subtotal * (inv.discountValue / 100));
     } else {
       discountAmount = inv.discountValue;

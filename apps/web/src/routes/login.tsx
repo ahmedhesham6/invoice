@@ -1,10 +1,10 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
 
-import SignInForm from "@/components/sign-in-form";
-import { useAuth } from "@/lib/use-auth";
+import SignInForm from '@/components/sign-in-form';
+import { useAuth } from '@/lib/use-auth';
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute('/login')({
   component: LoginPage,
 });
 
@@ -14,7 +14,7 @@ function LoginPage() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      navigate({ to: "/dashboard" });
+      navigate({ to: '/dashboard' });
     }
   }, [isLoading, isAuthenticated, navigate]);
 
@@ -24,13 +24,14 @@ function LoginPage() {
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-[20%] left-[20%] w-[400px] h-[400px] bg-primary/5 blur-[150px] rounded-full" />
         <div className="absolute bottom-[20%] right-[20%] w-[350px] h-[350px] bg-primary/3 blur-[120px] rounded-full" />
-        
+
         {/* Dot grid */}
-        <div 
+        <div
           className="absolute inset-0 opacity-[0.02]"
           style={{
-            backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 0.5px, transparent 0)',
-            backgroundSize: '32px 32px'
+            backgroundImage:
+              'radial-gradient(circle at 1px 1px, currentColor 0.5px, transparent 0)',
+            backgroundSize: '32px 32px',
           }}
         />
       </div>

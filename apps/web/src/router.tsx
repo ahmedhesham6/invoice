@@ -1,16 +1,16 @@
-import { ConvexQueryClient } from "@convex-dev/react-query";
-import { env } from "@invoice/env/web";
-import { QueryClient } from "@tanstack/react-query";
-import { createRouter as createTanStackRouter } from "@tanstack/react-router";
-import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
+import { ConvexQueryClient } from '@convex-dev/react-query';
+import { env } from '@invoice/env/web';
+import { QueryClient } from '@tanstack/react-query';
+import { createRouter as createTanStackRouter } from '@tanstack/react-router';
+import { setupRouterSsrQueryIntegration } from '@tanstack/react-router-ssr-query';
 
-import Loader from "./components/loader";
-import { routeTree } from "./routeTree.gen";
+import Loader from './components/loader';
+import { routeTree } from './routeTree.gen';
 
 export function getRouter() {
   const convexUrl = env.VITE_CONVEX_URL;
   if (!convexUrl) {
-    throw new Error("VITE_CONVEX_URL is not set");
+    throw new Error('VITE_CONVEX_URL is not set');
   }
 
   const convexQueryClient = new ConvexQueryClient(convexUrl, {
@@ -29,7 +29,7 @@ export function getRouter() {
 
   const router = createTanStackRouter({
     routeTree,
-    defaultPreload: "intent",
+    defaultPreload: 'intent',
     defaultPendingComponent: () => <Loader />,
     defaultNotFoundComponent: () => <div>Not Found</div>,
     context: { queryClient, convexQueryClient },
@@ -43,7 +43,7 @@ export function getRouter() {
   return router;
 }
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface Register {
     router: ReturnType<typeof getRouter>;
   }

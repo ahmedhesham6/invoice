@@ -1,13 +1,19 @@
 {
   "name": "@invoice/ui",
   "version": "0.0.0",
-  "type": "module",
   "private": true,
-  "scripts": {},
-  "peerDependencies": {
-    "react": "catalog:",
-    "react-dom": "catalog:"
+  "type": "module",
+  "exports": {
+    "./globals.css": {
+      "style": "./src/styles/globals.css",
+      "default": "./src/styles/globals.css"
+    },
+    "./postcss.config": "./postcss.config.mjs",
+    "./lib/*": "./src/lib/*.ts",
+    "./components/*": "./src/components/*.tsx",
+    "./hooks/*": "./src/hooks/*.ts"
   },
+  "scripts": {},
   "dependencies": {
     "@base-ui/react": "^1.1.0",
     "@fontsource-variable/outfit": "^5.2.8",
@@ -31,14 +37,8 @@
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3"
   },
-  "exports": {
-    "./globals.css": {
-      "style": "./src/styles/globals.css",
-      "default": "./src/styles/globals.css"
-    },
-    "./postcss.config": "./postcss.config.mjs",
-    "./lib/*": "./src/lib/*.ts",
-    "./components/*": "./src/components/*.tsx",
-    "./hooks/*": "./src/hooks/*.ts"
+  "peerDependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:"
   }
 }

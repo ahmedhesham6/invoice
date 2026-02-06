@@ -1,10 +1,4 @@
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-} from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
 
 const styles = StyleSheet.create({
   page: {
@@ -16,16 +10,16 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 10,
   },
   row: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 5,
   },
   label: {
     width: 120,
-    color: "#666",
+    color: '#666',
   },
   value: {
     flex: 1,
@@ -35,53 +29,53 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   tableHeader: {
-    flexDirection: "row",
-    backgroundColor: "#f0f0f0",
+    flexDirection: 'row',
+    backgroundColor: '#f0f0f0',
     padding: 8,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   tableRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     padding: 8,
     borderBottomWidth: 1,
-    borderBottomColor: "#e0e0e0",
+    borderBottomColor: '#e0e0e0',
   },
   col1: { flex: 2 },
-  col2: { width: 60, textAlign: "right" },
-  col3: { width: 80, textAlign: "right" },
-  col4: { width: 80, textAlign: "right" },
+  col2: { width: 60, textAlign: 'right' },
+  col3: { width: 80, textAlign: 'right' },
+  col4: { width: 80, textAlign: 'right' },
   totals: {
     marginTop: 20,
-    alignItems: "flex-end",
+    alignItems: 'flex-end',
   },
   totalRow: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginBottom: 5,
   },
   totalLabel: {
     width: 100,
-    textAlign: "right",
+    textAlign: 'right',
     marginRight: 10,
   },
   totalValue: {
     width: 80,
-    textAlign: "right",
+    textAlign: 'right',
   },
   finalTotal: {
     fontSize: 16,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginTop: 10,
     paddingTop: 10,
     borderTopWidth: 2,
-    borderTopColor: "#000",
+    borderTopColor: '#000',
   },
   notes: {
     marginTop: 30,
     padding: 10,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: '#f9f9f9',
   },
   notesTitle: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 5,
   },
 });
@@ -120,14 +114,14 @@ interface Profile {
 
 interface Invoice {
   invoiceNumber: string;
-  status: "draft" | "sent" | "paid" | "overdue";
+  status: 'draft' | 'sent' | 'paid' | 'overdue';
   issueDate: number;
   dueDate: number;
   currency: string;
   subtotal: number;
   taxRate: number;
   taxAmount: number;
-  discountType?: "percentage" | "fixed";
+  discountType?: 'percentage' | 'fixed';
   discountValue?: number;
   discountAmount: number;
   total: number;
@@ -142,10 +136,10 @@ interface InvoicePDFProps {
   profile: Profile;
 }
 
-function formatCurrency(cents: number, currency = "USD") {
+function formatCurrency(cents: number, currency = 'USD') {
   try {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
       currency,
       minimumFractionDigits: 2,
     }).format(cents / 100);
@@ -156,13 +150,13 @@ function formatCurrency(cents: number, currency = "USD") {
 
 function formatDate(timestamp: number) {
   try {
-    return new Date(timestamp).toLocaleDateString("en-US", {
-      month: "long",
-      day: "numeric", 
-      year: "numeric",
+    return new Date(timestamp).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
     });
   } catch {
-    return "N/A";
+    return 'N/A';
   }
 }
 
@@ -173,17 +167,17 @@ export function InvoicePDF({ invoice, profile }: InvoicePDFProps) {
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.title}>INVOICE</Text>
-          <Text>{invoice.invoiceNumber || "N/A"}</Text>
+          <Text>{invoice.invoiceNumber || 'N/A'}</Text>
         </View>
 
         {/* From/To */}
         <View style={styles.row}>
           <Text style={styles.label}>From:</Text>
-          <Text style={styles.value}>{profile.displayName || "N/A"}</Text>
+          <Text style={styles.value}>{profile.displayName || 'N/A'}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.label}>To:</Text>
-          <Text style={styles.value}>{invoice.client?.name || "N/A"}</Text>
+          <Text style={styles.value}>{invoice.client?.name || 'N/A'}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.label}>Issue Date:</Text>
@@ -204,7 +198,7 @@ export function InvoicePDF({ invoice, profile }: InvoicePDFProps) {
           </View>
           {(invoice.lineItems || []).map((item, index) => (
             <View key={item._id || index} style={styles.tableRow}>
-              <Text style={styles.col1}>{item.description || "Item"}</Text>
+              <Text style={styles.col1}>{item.description || 'Item'}</Text>
               <Text style={styles.col2}>{item.quantity}</Text>
               <Text style={styles.col3}>{formatCurrency(item.unitPrice, invoice.currency)}</Text>
               <Text style={styles.col4}>{formatCurrency(item.total, invoice.currency)}</Text>
@@ -216,18 +210,24 @@ export function InvoicePDF({ invoice, profile }: InvoicePDFProps) {
         <View style={styles.totals}>
           <View style={styles.totalRow}>
             <Text style={styles.totalLabel}>Subtotal:</Text>
-            <Text style={styles.totalValue}>{formatCurrency(invoice.subtotal, invoice.currency)}</Text>
+            <Text style={styles.totalValue}>
+              {formatCurrency(invoice.subtotal, invoice.currency)}
+            </Text>
           </View>
           {invoice.taxRate > 0 && (
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Tax ({invoice.taxRate}%):</Text>
-              <Text style={styles.totalValue}>{formatCurrency(invoice.taxAmount, invoice.currency)}</Text>
+              <Text style={styles.totalValue}>
+                {formatCurrency(invoice.taxAmount, invoice.currency)}
+              </Text>
             </View>
           )}
           {invoice.discountAmount > 0 && (
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Discount:</Text>
-              <Text style={styles.totalValue}>-{formatCurrency(invoice.discountAmount, invoice.currency)}</Text>
+              <Text style={styles.totalValue}>
+                -{formatCurrency(invoice.discountAmount, invoice.currency)}
+              </Text>
             </View>
           )}
           <View style={[styles.totalRow, styles.finalTotal]}>

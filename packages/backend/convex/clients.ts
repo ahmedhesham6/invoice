@@ -1,6 +1,7 @@
-import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
-import { authComponent } from "./auth";
+import { v } from 'convex/values';
+
+import { mutation, query } from './_generated/server';
+import { authComponent } from './auth';
 
 // List all clients for the current user
 export const list = query({
@@ -12,16 +13,16 @@ export const list = query({
     }
 
     return await ctx.db
-      .query("clients")
-      .withIndex("by_userId", (q) => q.eq("userId", authUser._id))
-      .order("desc")
+      .query('clients')
+      .withIndex('by_userId', (q) => q.eq('userId', authUser._id))
+      .order('desc')
       .collect();
   },
 });
 
 // Get a single client by ID
 export const get = query({
-  args: { id: v.id("clients") },
+  args: { id: v.id('clients') },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
@@ -47,8 +48,8 @@ export const search = query({
     }
 
     const clients = await ctx.db
-      .query("clients")
-      .withIndex("by_userId", (q) => q.eq("userId", authUser._id))
+      .query('clients')
+      .withIndex('by_userId', (q) => q.eq('userId', authUser._id))
       .collect();
 
     const searchLower = args.searchTerm.toLowerCase();
@@ -76,11 +77,11 @@ export const create = mutation({
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const now = Date.now();
-    const clientId = await ctx.db.insert("clients", {
+    const clientId = await ctx.db.insert('clients', {
       userId: authUser._id,
       name: args.name,
       email: args.email,
@@ -102,7 +103,7 @@ export const create = mutation({
 // Update a client
 export const update = mutation({
   args: {
-    id: v.id("clients"),
+    id: v.id('clients'),
     name: v.optional(v.string()),
     email: v.optional(v.string()),
     phone: v.optional(v.string()),
@@ -116,12 +117,12 @@ export const update = mutation({
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const client = await ctx.db.get(args.id);
     if (!client || client.userId !== authUser._id) {
-      throw new Error("Client not found");
+      throw new Error('Client not found');
     }
 
     const { id, ...updateFields } = args;
@@ -140,28 +141,26 @@ export const update = mutation({
 
 // Delete a client
 export const remove = mutation({
-  args: { id: v.id("clients") },
+  args: { id: v.id('clients') },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const client = await ctx.db.get(args.id);
     if (!client || client.userId !== authUser._id) {
-      throw new Error("Client not found");
+      throw new Error('Client not found');
     }
 
     // Check if client has invoices
     const invoices = await ctx.db
-      .query("invoices")
-      .withIndex("by_userId_clientId", (q) =>
-        q.eq("userId", authUser._id).eq("clientId", args.id)
-      )
+      .query('invoices')
+      .withIndex('by_userId_clientId', (q) => q.eq('userId', authUser._id).eq('clientId', args.id))
       .first();
 
     if (invoices) {
-      throw new Error("Cannot delete client with existing invoices");
+      throw new Error('Cannot delete client with existing invoices');
     }
 
     await ctx.db.delete(args.id);
@@ -178,8 +177,8 @@ export const count = query({
     }
 
     const clients = await ctx.db
-      .query("clients")
-      .withIndex("by_userId", (q) => q.eq("userId", authUser._id))
+      .query('clients')
+      .withIndex('by_userId', (q) => q.eq('userId', authUser._id))
       .collect();
 
     return clients.length;

@@ -1,17 +1,15 @@
-import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
-import { authComponent } from "./auth";
+import { v } from 'convex/values';
+
+import { mutation, query } from './_generated/server';
+import { authComponent } from './auth';
 
 // List all invoices for the current user with optional filters
 export const list = query({
   args: {
-    status: v.optional(v.union(
-      v.literal("draft"),
-      v.literal("sent"),
-      v.literal("paid"),
-      v.literal("overdue")
-    )),
-    clientId: v.optional(v.id("clients")),
+    status: v.optional(
+      v.union(v.literal('draft'), v.literal('sent'), v.literal('paid'), v.literal('overdue'))
+    ),
+    clientId: v.optional(v.id('clients')),
   },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
@@ -21,9 +19,9 @@ export const list = query({
 
     // Get all invoices for user and filter in memory for flexibility
     const allInvoices = await ctx.db
-      .query("invoices")
-      .withIndex("by_userId", (q) => q.eq("userId", authUser._id))
-      .order("desc")
+      .query('invoices')
+      .withIndex('by_userId', (q) => q.eq('userId', authUser._id))
+      .order('desc')
       .collect();
 
     // Apply filters
@@ -49,7 +47,7 @@ export const list = query({
 
 // Get a single invoice by ID with line items
 export const get = query({
-  args: { id: v.id("invoices") },
+  args: { id: v.id('invoices') },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
@@ -63,8 +61,8 @@ export const get = query({
 
     const client = await ctx.db.get(invoice.clientId);
     const lineItems = await ctx.db
-      .query("lineItems")
-      .withIndex("by_invoiceId", (q) => q.eq("invoiceId", args.id))
+      .query('lineItems')
+      .withIndex('by_invoiceId', (q) => q.eq('invoiceId', args.id))
       .collect();
 
     // Sort by order
@@ -79,8 +77,8 @@ export const getByToken = query({
   args: { token: v.string() },
   handler: async (ctx, args) => {
     const invoice = await ctx.db
-      .query("invoices")
-      .withIndex("by_publicToken", (q) => q.eq("publicToken", args.token))
+      .query('invoices')
+      .withIndex('by_publicToken', (q) => q.eq('publicToken', args.token))
       .first();
 
     if (!invoice) {
@@ -89,16 +87,16 @@ export const getByToken = query({
 
     const client = await ctx.db.get(invoice.clientId);
     const lineItems = await ctx.db
-      .query("lineItems")
-      .withIndex("by_invoiceId", (q) => q.eq("invoiceId", invoice._id))
+      .query('lineItems')
+      .withIndex('by_invoiceId', (q) => q.eq('invoiceId', invoice._id))
       .collect();
 
     lineItems.sort((a, b) => a.order - b.order);
 
     // Get profile for business info
     const profile = await ctx.db
-      .query("profiles")
-      .withIndex("by_userId", (q) => q.eq("userId", invoice.userId))
+      .query('profiles')
+      .withIndex('by_userId', (q) => q.eq('userId', invoice.userId))
       .first();
 
     let profileWithLogo: (typeof profile & { logoUrl?: string | null }) | null = profile;
@@ -114,33 +112,35 @@ export const getByToken = query({
 // Create a new invoice
 export const create = mutation({
   args: {
-    clientId: v.id("clients"),
+    clientId: v.id('clients'),
     invoiceNumber: v.string(),
     issueDate: v.number(),
     dueDate: v.number(),
     currency: v.string(),
     taxRate: v.number(),
-    discountType: v.optional(v.union(v.literal("percentage"), v.literal("fixed"))),
+    discountType: v.optional(v.union(v.literal('percentage'), v.literal('fixed'))),
     discountValue: v.optional(v.number()),
     notes: v.optional(v.string()),
     paymentDetails: v.optional(v.string()),
-    lineItems: v.array(v.object({
-      description: v.string(),
-      quantity: v.number(),
-      unit: v.optional(v.string()),
-      unitPrice: v.number(),
-    })),
+    lineItems: v.array(
+      v.object({
+        description: v.string(),
+        quantity: v.number(),
+        unit: v.optional(v.string()),
+        unitPrice: v.number(),
+      })
+    ),
   },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     // Verify client belongs to user
     const client = await ctx.db.get(args.clientId);
     if (!client || client.userId !== authUser._id) {
-      throw new Error("Client not found");
+      throw new Error('Client not found');
     }
 
     // Calculate totals
@@ -153,7 +153,7 @@ export const create = mutation({
 
     let discountAmount = 0;
     if (args.discountType && args.discountValue) {
-      if (args.discountType === "percentage") {
+      if (args.discountType === 'percentage') {
         discountAmount = Math.round(subtotal * (args.discountValue / 100));
       } else {
         discountAmount = args.discountValue;
@@ -166,14 +166,14 @@ export const create = mutation({
     const publicToken = crypto.randomUUID();
 
     const now = Date.now();
-    const invoiceId = await ctx.db.insert("invoices", {
+    const invoiceId = await ctx.db.insert('invoices', {
       userId: authUser._id,
       clientId: args.clientId,
       invoiceNumber: args.invoiceNumber,
       publicToken,
       issueDate: args.issueDate,
       dueDate: args.dueDate,
-      status: "draft",
+      status: 'draft',
       currency: args.currency,
       subtotal,
       taxRate: args.taxRate,
@@ -191,7 +191,7 @@ export const create = mutation({
     // Create line items
     for (let i = 0; i < args.lineItems.length; i++) {
       const item = args.lineItems[i];
-      await ctx.db.insert("lineItems", {
+      await ctx.db.insert('lineItems', {
         invoiceId,
         description: item.description,
         quantity: item.quantity,
@@ -211,13 +211,13 @@ export const create = mutation({
 // Update an invoice (draft only) - basic fields
 export const update = mutation({
   args: {
-    id: v.id("invoices"),
-    clientId: v.optional(v.id("clients")),
+    id: v.id('invoices'),
+    clientId: v.optional(v.id('clients')),
     issueDate: v.optional(v.number()),
     dueDate: v.optional(v.number()),
     currency: v.optional(v.string()),
     taxRate: v.optional(v.number()),
-    discountType: v.optional(v.union(v.literal("percentage"), v.literal("fixed"))),
+    discountType: v.optional(v.union(v.literal('percentage'), v.literal('fixed'))),
     discountValue: v.optional(v.number()),
     notes: v.optional(v.string()),
     paymentDetails: v.optional(v.string()),
@@ -225,23 +225,23 @@ export const update = mutation({
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const invoice = await ctx.db.get(args.id);
     if (!invoice || invoice.userId !== authUser._id) {
-      throw new Error("Invoice not found");
+      throw new Error('Invoice not found');
     }
 
-    if (invoice.status !== "draft") {
-      throw new Error("Can only edit draft invoices");
+    if (invoice.status !== 'draft') {
+      throw new Error('Can only edit draft invoices');
     }
 
     // If changing client, verify it belongs to user
     if (args.clientId) {
       const client = await ctx.db.get(args.clientId);
       if (!client || client.userId !== authUser._id) {
-        throw new Error("Client not found");
+        throw new Error('Client not found');
       }
     }
 
@@ -262,42 +262,44 @@ export const update = mutation({
 // Full update an invoice with line items (draft only)
 export const fullUpdate = mutation({
   args: {
-    id: v.id("invoices"),
-    clientId: v.id("clients"),
+    id: v.id('invoices'),
+    clientId: v.id('clients'),
     issueDate: v.number(),
     dueDate: v.number(),
     currency: v.string(),
     taxRate: v.number(),
-    discountType: v.optional(v.union(v.literal("percentage"), v.literal("fixed"))),
+    discountType: v.optional(v.union(v.literal('percentage'), v.literal('fixed'))),
     discountValue: v.optional(v.number()),
     notes: v.optional(v.string()),
     paymentDetails: v.optional(v.string()),
-    lineItems: v.array(v.object({
-      description: v.string(),
-      quantity: v.number(),
-      unit: v.optional(v.string()),
-      unitPrice: v.number(),
-    })),
+    lineItems: v.array(
+      v.object({
+        description: v.string(),
+        quantity: v.number(),
+        unit: v.optional(v.string()),
+        unitPrice: v.number(),
+      })
+    ),
   },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const invoice = await ctx.db.get(args.id);
     if (!invoice || invoice.userId !== authUser._id) {
-      throw new Error("Invoice not found");
+      throw new Error('Invoice not found');
     }
 
-    if (invoice.status !== "draft") {
-      throw new Error("Can only edit draft invoices");
+    if (invoice.status !== 'draft') {
+      throw new Error('Can only edit draft invoices');
     }
 
     // Verify client belongs to user
     const client = await ctx.db.get(args.clientId);
     if (!client || client.userId !== authUser._id) {
-      throw new Error("Client not found");
+      throw new Error('Client not found');
     }
 
     // Calculate totals
@@ -310,7 +312,7 @@ export const fullUpdate = mutation({
 
     let discountAmount = 0;
     if (args.discountType && args.discountValue) {
-      if (args.discountType === "percentage") {
+      if (args.discountType === 'percentage') {
         discountAmount = Math.round(subtotal * (args.discountValue / 100));
       } else {
         discountAmount = args.discountValue;
@@ -340,8 +342,8 @@ export const fullUpdate = mutation({
 
     // Delete existing line items
     const existingLineItems = await ctx.db
-      .query("lineItems")
-      .withIndex("by_invoiceId", (q) => q.eq("invoiceId", args.id))
+      .query('lineItems')
+      .withIndex('by_invoiceId', (q) => q.eq('invoiceId', args.id))
       .collect();
 
     for (const item of existingLineItems) {
@@ -351,7 +353,7 @@ export const fullUpdate = mutation({
     // Create new line items
     for (let i = 0; i < args.lineItems.length; i++) {
       const item = args.lineItems[i];
-      await ctx.db.insert("lineItems", {
+      await ctx.db.insert('lineItems', {
         invoiceId: args.id,
         description: item.description,
         quantity: item.quantity,
@@ -370,21 +372,21 @@ export const fullUpdate = mutation({
 
 // Recalculate invoice totals (call after updating line items)
 export const recalculateTotals = mutation({
-  args: { id: v.id("invoices") },
+  args: { id: v.id('invoices') },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const invoice = await ctx.db.get(args.id);
     if (!invoice || invoice.userId !== authUser._id) {
-      throw new Error("Invoice not found");
+      throw new Error('Invoice not found');
     }
 
     const lineItems = await ctx.db
-      .query("lineItems")
-      .withIndex("by_invoiceId", (q) => q.eq("invoiceId", args.id))
+      .query('lineItems')
+      .withIndex('by_invoiceId', (q) => q.eq('invoiceId', args.id))
       .collect();
 
     let subtotal = 0;
@@ -396,7 +398,7 @@ export const recalculateTotals = mutation({
 
     let discountAmount = 0;
     if (invoice.discountType && invoice.discountValue) {
-      if (invoice.discountType === "percentage") {
+      if (invoice.discountType === 'percentage') {
         discountAmount = Math.round(subtotal * (invoice.discountValue / 100));
       } else {
         discountAmount = invoice.discountValue;
@@ -417,26 +419,26 @@ export const recalculateTotals = mutation({
 
 // Delete an invoice (draft only)
 export const remove = mutation({
-  args: { id: v.id("invoices") },
+  args: { id: v.id('invoices') },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const invoice = await ctx.db.get(args.id);
     if (!invoice || invoice.userId !== authUser._id) {
-      throw new Error("Invoice not found");
+      throw new Error('Invoice not found');
     }
 
-    if (invoice.status !== "draft") {
-      throw new Error("Can only delete draft invoices");
+    if (invoice.status !== 'draft') {
+      throw new Error('Can only delete draft invoices');
     }
 
     // Delete line items first
     const lineItems = await ctx.db
-      .query("lineItems")
-      .withIndex("by_invoiceId", (q) => q.eq("invoiceId", args.id))
+      .query('lineItems')
+      .withIndex('by_invoiceId', (q) => q.eq('invoiceId', args.id))
       .collect();
 
     for (const item of lineItems) {
@@ -449,35 +451,35 @@ export const remove = mutation({
 
 // Duplicate an invoice
 export const duplicate = mutation({
-  args: { id: v.id("invoices"), newInvoiceNumber: v.string() },
+  args: { id: v.id('invoices'), newInvoiceNumber: v.string() },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const invoice = await ctx.db.get(args.id);
     if (!invoice || invoice.userId !== authUser._id) {
-      throw new Error("Invoice not found");
+      throw new Error('Invoice not found');
     }
 
     const lineItems = await ctx.db
-      .query("lineItems")
-      .withIndex("by_invoiceId", (q) => q.eq("invoiceId", args.id))
+      .query('lineItems')
+      .withIndex('by_invoiceId', (q) => q.eq('invoiceId', args.id))
       .collect();
 
     const now = Date.now();
     const publicToken = crypto.randomUUID();
 
     // Create new invoice
-    const newInvoiceId = await ctx.db.insert("invoices", {
+    const newInvoiceId = await ctx.db.insert('invoices', {
       userId: authUser._id,
       clientId: invoice.clientId,
       invoiceNumber: args.newInvoiceNumber,
       publicToken,
       issueDate: now,
-      dueDate: now + (30 * 24 * 60 * 60 * 1000), // 30 days from now
-      status: "draft",
+      dueDate: now + 30 * 24 * 60 * 60 * 1000, // 30 days from now
+      status: 'draft',
       currency: invoice.currency,
       subtotal: invoice.subtotal,
       taxRate: invoice.taxRate,
@@ -494,7 +496,7 @@ export const duplicate = mutation({
 
     // Duplicate line items
     for (const item of lineItems) {
-      await ctx.db.insert("lineItems", {
+      await ctx.db.insert('lineItems', {
         invoiceId: newInvoiceId,
         description: item.description,
         quantity: item.quantity,
@@ -513,24 +515,24 @@ export const duplicate = mutation({
 
 // Mark invoice as sent
 export const markSent = mutation({
-  args: { id: v.id("invoices") },
+  args: { id: v.id('invoices') },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const invoice = await ctx.db.get(args.id);
     if (!invoice || invoice.userId !== authUser._id) {
-      throw new Error("Invoice not found");
+      throw new Error('Invoice not found');
     }
 
-    if (invoice.status !== "draft") {
-      throw new Error("Invoice is already sent");
+    if (invoice.status !== 'draft') {
+      throw new Error('Invoice is already sent');
     }
 
     await ctx.db.patch(args.id, {
-      status: "sent",
+      status: 'sent',
       sentAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -539,28 +541,28 @@ export const markSent = mutation({
 
 // Mark invoice as paid
 export const markPaid = mutation({
-  args: { id: v.id("invoices") },
+  args: { id: v.id('invoices') },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const invoice = await ctx.db.get(args.id);
     if (!invoice || invoice.userId !== authUser._id) {
-      throw new Error("Invoice not found");
+      throw new Error('Invoice not found');
     }
 
-    if (invoice.status === "draft") {
-      throw new Error("Cannot mark draft invoice as paid");
+    if (invoice.status === 'draft') {
+      throw new Error('Cannot mark draft invoice as paid');
     }
 
-    if (invoice.status === "paid") {
-      throw new Error("Invoice is already paid");
+    if (invoice.status === 'paid') {
+      throw new Error('Invoice is already paid');
     }
 
     await ctx.db.patch(args.id, {
-      status: "paid",
+      status: 'paid',
       paidAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -573,22 +575,20 @@ export const checkOverdue = mutation({
   handler: async (ctx) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
     if (!authUser) {
-      throw new Error("Not authenticated");
+      throw new Error('Not authenticated');
     }
 
     const now = Date.now();
     const sentInvoices = await ctx.db
-      .query("invoices")
-      .withIndex("by_userId_status", (q) =>
-        q.eq("userId", authUser._id).eq("status", "sent")
-      )
+      .query('invoices')
+      .withIndex('by_userId_status', (q) => q.eq('userId', authUser._id).eq('status', 'sent'))
       .collect();
 
     let markedCount = 0;
     for (const invoice of sentInvoices) {
       if (invoice.dueDate < now) {
         await ctx.db.patch(invoice._id, {
-          status: "overdue",
+          status: 'overdue',
           updatedAt: now,
         });
         markedCount++;
@@ -611,9 +611,9 @@ export const recent = query({
     const limit = args.limit ?? 5;
 
     const invoices = await ctx.db
-      .query("invoices")
-      .withIndex("by_userId", (q) => q.eq("userId", authUser._id))
-      .order("desc")
+      .query('invoices')
+      .withIndex('by_userId', (q) => q.eq('userId', authUser._id))
+      .order('desc')
       .take(limit);
 
     const invoicesWithClients = await Promise.all(

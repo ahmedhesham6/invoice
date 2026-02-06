@@ -1,5 +1,5 @@
-import { defineSchema, defineTable } from "convex/server";
-import { v } from "convex/values";
+import { defineSchema, defineTable } from 'convex/server';
+import { v } from 'convex/values';
 
 export default defineSchema({
   // User profiles (extends WorkOS user)
@@ -21,7 +21,7 @@ export default defineSchema({
 
     // Business info
     taxId: v.optional(v.string()),
-    logoId: v.optional(v.id("_storage")), // Convex file storage
+    logoId: v.optional(v.id('_storage')), // Convex file storage
 
     // Invoice defaults
     defaultCurrency: v.string(), // Default: "USD"
@@ -34,8 +34,7 @@ export default defineSchema({
     // Timestamps
     createdAt: v.number(),
     updatedAt: v.number(),
-  })
-    .index("by_userId", ["userId"]),
+  }).index('by_userId', ['userId']),
 
   // Clients
   clients: defineTable({
@@ -56,13 +55,13 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.number(),
   })
-    .index("by_userId", ["userId"])
-    .index("by_userId_name", ["userId", "name"]),
+    .index('by_userId', ['userId'])
+    .index('by_userId_name', ['userId', 'name']),
 
   // Invoices
   invoices: defineTable({
     userId: v.string(), // Owner
-    clientId: v.id("clients"),
+    clientId: v.id('clients'),
 
     // Identity
     invoiceNumber: v.string(), // "INV-001"
@@ -73,12 +72,7 @@ export default defineSchema({
     dueDate: v.number(), // Unix timestamp
 
     // Status
-    status: v.union(
-      v.literal("draft"),
-      v.literal("sent"),
-      v.literal("paid"),
-      v.literal("overdue")
-    ),
+    status: v.union(v.literal('draft'), v.literal('sent'), v.literal('paid'), v.literal('overdue')),
     sentAt: v.optional(v.number()),
     paidAt: v.optional(v.number()),
 
@@ -87,7 +81,7 @@ export default defineSchema({
     subtotal: v.number(), // Sum of line items
     taxRate: v.number(), // Percentage (e.g., 10 for 10%)
     taxAmount: v.number(), // Calculated
-    discountType: v.optional(v.union(v.literal("percentage"), v.literal("fixed"))),
+    discountType: v.optional(v.union(v.literal('percentage'), v.literal('fixed'))),
     discountValue: v.optional(v.number()),
     discountAmount: v.number(), // Calculated
     total: v.number(), // Final amount
@@ -99,14 +93,14 @@ export default defineSchema({
     createdAt: v.number(),
     updatedAt: v.number(),
   })
-    .index("by_userId", ["userId"])
-    .index("by_userId_status", ["userId", "status"])
-    .index("by_userId_clientId", ["userId", "clientId"])
-    .index("by_publicToken", ["publicToken"]),
+    .index('by_userId', ['userId'])
+    .index('by_userId_status', ['userId', 'status'])
+    .index('by_userId_clientId', ['userId', 'clientId'])
+    .index('by_publicToken', ['publicToken']),
 
   // Line Items
   lineItems: defineTable({
-    invoiceId: v.id("invoices"),
+    invoiceId: v.id('invoices'),
 
     description: v.string(),
     quantity: v.number(), // Supports decimals
@@ -118,6 +112,5 @@ export default defineSchema({
 
     createdAt: v.number(),
     updatedAt: v.number(),
-  })
-    .index("by_invoiceId", ["invoiceId"]),
+  }).index('by_invoiceId', ['invoiceId']),
 });

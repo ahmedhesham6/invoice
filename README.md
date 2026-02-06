@@ -34,19 +34,19 @@
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| **Framework** | [TanStack Start](https://tanstack.com/start) (React 19, Vite, file-based routing) |
-| **Backend** | [Convex](https://convex.dev) (real-time database & serverless functions) |
-| **Auth** | [Better Auth](https://www.better-auth.com/) via `@convex-dev/better-auth` |
-| **Styling** | [Tailwind CSS v4](https://tailwindcss.com/) |
-| **UI Components** | [shadcn/ui](https://ui.shadcn.com/) + [Base UI](https://base-ui.com/) |
-| **Forms** | [TanStack Form](https://tanstack.com/form) |
-| **Data Fetching** | [TanStack Query](https://tanstack.com/query) + Convex React Query adapter |
-| **PDF** | [@react-pdf/renderer](https://react-pdf.org/) (client-side) |
-| **Monorepo** | [Turborepo](https://turbo.build/) + [pnpm](https://pnpm.io/) workspaces |
-| **Linting** | [oxlint](https://oxc.rs/) + [oxfmt](https://oxc.rs/) |
-| **Language** | TypeScript 5 |
+| Layer             | Technology                                                                        |
+| ----------------- | --------------------------------------------------------------------------------- |
+| **Framework**     | [TanStack Start](https://tanstack.com/start) (React 19, Vite, file-based routing) |
+| **Backend**       | [Convex](https://convex.dev) (real-time database & serverless functions)          |
+| **Auth**          | [Better Auth](https://www.better-auth.com/) via `@convex-dev/better-auth`         |
+| **Styling**       | [Tailwind CSS v4](https://tailwindcss.com/)                                       |
+| **UI Components** | [shadcn/ui](https://ui.shadcn.com/) + [Base UI](https://base-ui.com/)             |
+| **Forms**         | [TanStack Form](https://tanstack.com/form)                                        |
+| **Data Fetching** | [TanStack Query](https://tanstack.com/query) + Convex React Query adapter         |
+| **PDF**           | [@react-pdf/renderer](https://react-pdf.org/) (client-side)                       |
+| **Monorepo**      | [Turborepo](https://turbo.build/) + [pnpm](https://pnpm.io/) workspaces           |
+| **Linting**       | [oxlint](https://oxc.rs/) + [oxfmt](https://oxc.rs/)                              |
+| **Language**      | TypeScript 5                                                                      |
 
 ## Getting Started
 
@@ -144,31 +144,31 @@ invoice/
 
 ## Scripts
 
-| Command | Description |
-|---|---|
-| `pnpm dev` | Start all apps and backend in development mode |
-| `pnpm build` | Build all packages and apps for production |
-| `pnpm dev:web` | Start only the web frontend |
-| `pnpm dev:server` | Start only the Convex backend |
-| `pnpm dev:setup` | Initialize and configure Convex project |
+| Command            | Description                                      |
+| ------------------ | ------------------------------------------------ |
+| `pnpm dev`         | Start all apps and backend in development mode   |
+| `pnpm build`       | Build all packages and apps for production       |
+| `pnpm dev:web`     | Start only the web frontend                      |
+| `pnpm dev:server`  | Start only the Convex backend                    |
+| `pnpm dev:setup`   | Initialize and configure Convex project          |
 | `pnpm check-types` | Run TypeScript type checking across all packages |
-| `pnpm check` | Run oxlint and oxfmt (lint + format) |
+| `pnpm check`       | Run oxlint and oxfmt (lint + format)             |
 
 ## Environment Variables
 
 ### Web App (`apps/web/.env.local`)
 
-| Variable | Description |
-|---|---|
-| `VITE_CONVEX_URL` | Convex WebSocket endpoint (e.g., `http://127.0.0.1:3210`) |
+| Variable               | Description                                                   |
+| ---------------------- | ------------------------------------------------------------- |
+| `VITE_CONVEX_URL`      | Convex WebSocket endpoint (e.g., `http://127.0.0.1:3210`)     |
 | `VITE_CONVEX_SITE_URL` | Convex HTTP endpoint for auth (e.g., `http://127.0.0.1:3211`) |
 
 ### Convex Environment (set via `npx convex env set`)
 
-| Variable | Description |
-|---|---|
-| `SITE_URL` | Your app URL (e.g., `http://localhost:3001`) |
-| `BETTER_AUTH_SECRET` | Secret key for Better Auth session signing |
+| Variable             | Description                                  |
+| -------------------- | -------------------------------------------- |
+| `SITE_URL`           | Your app URL (e.g., `http://localhost:3001`) |
+| `BETTER_AUTH_SECRET` | Secret key for Better Auth session signing   |
 
 ## Database Schema
 

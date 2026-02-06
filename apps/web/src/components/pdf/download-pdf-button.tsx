@@ -1,5 +1,5 @@
-import { Button } from "@invoice/ui/components/button";
-import { Printer } from "lucide-react";
+import { Button } from '@invoice/ui/components/button';
+import { Printer } from 'lucide-react';
 
 interface LineItem {
   _id: string;
@@ -35,14 +35,14 @@ interface Profile {
 
 interface Invoice {
   invoiceNumber: string;
-  status: "draft" | "sent" | "paid" | "overdue";
+  status: 'draft' | 'sent' | 'paid' | 'overdue';
   issueDate: number;
   dueDate: number;
   currency: string;
   subtotal: number;
   taxRate: number;
   taxAmount: number;
-  discountType?: "percentage" | "fixed";
+  discountType?: 'percentage' | 'fixed';
   discountValue?: number;
   discountAmount: number;
   total: number;
@@ -55,39 +55,39 @@ interface Invoice {
 interface DownloadPDFButtonProps {
   invoice: Invoice;
   profile: Profile;
-  variant?: "default" | "outline" | "ghost" | "secondary" | "destructive" | "link";
-  size?: "default" | "sm" | "lg" | "icon";
+  variant?: 'default' | 'outline' | 'ghost' | 'secondary' | 'destructive' | 'link';
+  size?: 'default' | 'sm' | 'lg' | 'icon';
   className?: string;
 }
 
-function formatCurrency(cents: number, currency = "USD") {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
+function formatCurrency(cents: number, currency = 'USD') {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
     currency,
     minimumFractionDigits: 2,
   }).format(cents / 100);
 }
 
 function formatDate(timestamp: number) {
-  return new Date(timestamp).toLocaleDateString("en-US", {
-    month: "long",
-    day: "numeric",
-    year: "numeric",
+  return new Date(timestamp).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
   });
 }
 
 export function DownloadPDFButton({
   invoice,
   profile,
-  variant = "outline",
-  size = "default",
+  variant = 'outline',
+  size = 'default',
   className,
 }: DownloadPDFButtonProps) {
   const handlePrint = () => {
     // Create a printable HTML document
-    const printWindow = window.open("", "_blank");
+    const printWindow = window.open('', '_blank');
     if (!printWindow) {
-      alert("Please allow popups to print the invoice");
+      alert('Please allow popups to print the invoice');
       return;
     }
 
@@ -245,13 +245,17 @@ export function DownloadPDFButton({
     </div>
     <div class="address-block">
       <div class="address-label">Bill To</div>
-      ${invoice.client ? `
+      ${
+        invoice.client
+          ? `
         <div class="address-name">${invoice.client.name}</div>
         ${invoice.client.address ? `<div class="address-text">${invoice.client.address}</div>` : ''}
         ${invoice.client.city || invoice.client.country ? `<div class="address-text">${[invoice.client.city, invoice.client.postalCode, invoice.client.country].filter(Boolean).join(', ')}</div>` : ''}
         <div class="address-text">${invoice.client.email}</div>
         ${invoice.client.phone ? `<div class="address-text">${invoice.client.phone}</div>` : ''}
-      ` : ''}
+      `
+          : ''
+      }
     </div>
   </div>
 
@@ -285,7 +289,9 @@ export function DownloadPDFButton({
       </tr>
     </thead>
     <tbody>
-      ${(invoice.lineItems || []).map(item => `
+      ${(invoice.lineItems || [])
+        .map(
+          (item) => `
         <tr>
           <td>${item.description}</td>
           <td>${item.quantity}</td>
@@ -293,7 +299,9 @@ export function DownloadPDFButton({
           <td>${formatCurrency(item.unitPrice, invoice.currency)}</td>
           <td>${formatCurrency(item.total, invoice.currency)}</td>
         </tr>
-      `).join('')}
+      `
+        )
+        .join('')}
     </tbody>
   </table>
 
@@ -303,18 +311,26 @@ export function DownloadPDFButton({
         <span class="total-label">Subtotal</span>
         <span class="total-value">${formatCurrency(invoice.subtotal, invoice.currency)}</span>
       </div>
-      ${invoice.taxRate > 0 ? `
+      ${
+        invoice.taxRate > 0
+          ? `
         <div class="total-row">
           <span class="total-label">Tax (${invoice.taxRate}%)</span>
           <span class="total-value">${formatCurrency(invoice.taxAmount, invoice.currency)}</span>
         </div>
-      ` : ''}
-      ${invoice.discountAmount > 0 ? `
+      `
+          : ''
+      }
+      ${
+        invoice.discountAmount > 0
+          ? `
         <div class="total-row">
           <span class="total-label">Discount</span>
           <span class="total-value" style="color: #dc2626;">-${formatCurrency(invoice.discountAmount, invoice.currency)}</span>
         </div>
-      ` : ''}
+      `
+          : ''
+      }
       <div class="total-row total-final">
         <span class="total-label">Total Due</span>
         <span class="total-value">${formatCurrency(invoice.total, invoice.currency)}</span>
@@ -322,19 +338,27 @@ export function DownloadPDFButton({
     </div>
   </div>
 
-  ${invoice.notes ? `
+  ${
+    invoice.notes
+      ? `
     <div class="section">
       <div class="section-title">Notes</div>
       <div class="section-content">${invoice.notes}</div>
     </div>
-  ` : ''}
+  `
+      : ''
+  }
 
-  ${(invoice.paymentDetails || profile.paymentDetails) ? `
+  ${
+    invoice.paymentDetails || profile.paymentDetails
+      ? `
     <div class="section">
       <div class="section-title">Payment Details</div>
       <div class="payment-box">${invoice.paymentDetails || profile.paymentDetails}</div>
     </div>
-  ` : ''}
+  `
+      : ''
+  }
 
   <div class="no-print" style="position:fixed;top:0;left:0;right:0;background:#fef3c7;padding:12px 20px;font-size:13px;border-bottom:1px solid #f59e0b;z-index:1000;">
     <strong>Tip:</strong> In the print dialog, go to "More settings" and uncheck "Headers and footers" to remove the URL and date.
@@ -353,12 +377,7 @@ export function DownloadPDFButton({
   };
 
   return (
-    <Button
-      variant={variant}
-      size={size}
-      onClick={handlePrint}
-      className={className}
-    >
+    <Button variant={variant} size={size} onClick={handlePrint} className={className}>
       <Printer className="h-4 w-4" />
       Print / Save PDF
     </Button>
