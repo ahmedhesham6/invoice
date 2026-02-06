@@ -1,11 +1,10 @@
-import { convexClient } from '@convex-dev/better-auth/client/plugins';
+import { convexClient, crossDomainClient } from '@convex-dev/better-auth/client/plugins';
+import { env } from '@invoice/env/web';
 import { createAuthClient } from 'better-auth/react';
 
-// Use local proxy (same origin) to avoid cross-site cookie issues
-// The proxy forwards to Convex and properly handles Set-Cookie headers
 export const authClient = createAuthClient({
-  baseURL: typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3001',
-  plugins: [convexClient()],
+  baseURL: env.VITE_CONVEX_SITE_URL,
+  plugins: [convexClient(), crossDomainClient()],
 });
 
 export const { signIn, signUp, signOut, useSession } = authClient;
