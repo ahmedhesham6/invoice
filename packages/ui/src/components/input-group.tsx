@@ -79,20 +79,26 @@ function InputGroupButton({
   type = 'button',
   variant = 'ghost',
   size = 'xs',
+  render,
   ...props
 }: Omit<React.ComponentProps<typeof Button>, 'size' | 'type'> &
   VariantProps<typeof inputGroupButtonVariants> & {
     type?: 'button' | 'submit' | 'reset';
+    render?: React.ReactElement;
   }) {
-  return (
-    <Button
-      type={type}
-      data-size={size}
-      variant={variant}
-      className={cn(inputGroupButtonVariants({ size }), className)}
-      {...props}
-    />
-  );
+  const classes = cn(inputGroupButtonVariants({ size }), className);
+
+  if (render && React.isValidElement(render)) {
+    return React.cloneElement(render as React.ReactElement<Record<string, unknown>>, {
+      type,
+      'data-size': size,
+      variant,
+      className: classes,
+      ...props,
+    });
+  }
+
+  return <Button type={type} data-size={size} variant={variant} className={classes} {...props} />;
 }
 
 function InputGroupText({ className, ...props }: React.ComponentProps<'span'>) {

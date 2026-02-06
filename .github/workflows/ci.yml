@@ -51,8 +51,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Type check web app
-        run: pnpm tsc --noEmit -p apps/web/tsconfig.json
+      - name: Type check all packages
+        run: pnpm check-types
 
   build:
     name: Build
