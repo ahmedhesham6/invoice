@@ -26,7 +26,8 @@
     "oxfmt": "^0.26.0",
     "oxlint": "^1.41.0",
     "turbo": "^2.6.3",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "wrangler": "^4.63.0"
   },
   "packageManager": "pnpm@10.28.1",
   "pnpm": {}
