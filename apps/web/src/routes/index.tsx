@@ -239,11 +239,12 @@ function OpenSourceBanner() {
               </p>
             </div>
             <h3 className="font-display text-2xl sm:text-3xl tracking-tight mb-3">
-              Built in the open,<br className="hidden sm:block" /> for everyone.
+              Built in the open,
+              <br className="hidden sm:block" /> for everyone.
             </h3>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Invoice is fully open source. Inspect the code, self-host it, or contribute. 
-              No hidden fees, no vendor lock-in — your data stays yours.
+              Invoice is fully open source. Inspect the code, self-host it, or contribute. No hidden
+              fees, no vendor lock-in — your data stays yours.
             </p>
           </div>
 
@@ -253,7 +254,9 @@ function OpenSourceBanner() {
               <div className="text-center">
                 <div className="flex items-center gap-1.5 text-muted-foreground mb-1">
                   <GitHubIcon className="h-3.5 w-3.5" />
-                  <span className="text-[10px] uppercase tracking-[0.15em] font-medium">GitHub</span>
+                  <span className="text-[10px] uppercase tracking-[0.15em] font-medium">
+                    GitHub
+                  </span>
                 </div>
                 <p className="text-xs text-muted-foreground/60">MIT License</p>
               </div>
@@ -261,7 +264,9 @@ function OpenSourceBanner() {
               <div className="text-center">
                 <div className="flex items-center gap-1.5 text-muted-foreground mb-1">
                   <GitFork className="h-3.5 w-3.5" />
-                  <span className="text-[10px] uppercase tracking-[0.15em] font-medium">Fork & Deploy</span>
+                  <span className="text-[10px] uppercase tracking-[0.15em] font-medium">
+                    Fork & Deploy
+                  </span>
                 </div>
                 <p className="text-xs text-muted-foreground/60">Self-hostable</p>
               </div>
@@ -269,14 +274,19 @@ function OpenSourceBanner() {
               <div className="text-center">
                 <div className="flex items-center gap-1.5 text-muted-foreground mb-1">
                   <Heart className="h-3.5 w-3.5" />
-                  <span className="text-[10px] uppercase tracking-[0.15em] font-medium">Community</span>
+                  <span className="text-[10px] uppercase tracking-[0.15em] font-medium">
+                    Community
+                  </span>
                 </div>
                 <p className="text-xs text-muted-foreground/60">Contributions welcome</p>
               </div>
             </div>
 
             <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" className="h-10 gap-2.5 border-border/60 hover:border-primary/30 hover:bg-primary/5 transition-all">
+              <Button
+                variant="outline"
+                className="h-10 gap-2.5 border-border/60 hover:border-primary/30 hover:bg-primary/5 transition-all"
+              >
                 <GitHubIcon className="h-4 w-4" />
                 <span className="font-medium text-sm">View on GitHub</span>
                 <ArrowRight className="h-3.5 w-3.5 text-muted-foreground" />

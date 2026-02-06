@@ -40,10 +40,7 @@ export default function Header() {
       <div className="container mx-auto flex h-[60px] max-w-6xl items-center justify-between px-6">
         {/* Logo & Nav */}
         <div className="flex items-center gap-10">
-          <Link
-            to={isAuthenticated ? '/dashboard' : '/'}
-            className="group flex items-center gap-3"
-          >
+          <Link to={isAuthenticated ? '/dashboard' : '/'} className="group flex items-center gap-3">
             <div className="relative flex h-9 w-9 items-center justify-center overflow-hidden bg-primary text-primary-foreground transition-all duration-300 group-hover:shadow-lg group-hover:shadow-primary/20">
               <span className="font-display text-lg">I</span>
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />

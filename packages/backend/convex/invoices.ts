@@ -245,7 +245,7 @@ export const update = mutation({
       }
     }
 
-    const { id, ...updateFields } = args;
+    const { id: _id, ...updateFields } = args;
     const updates: Record<string, unknown> = { updatedAt: Date.now() };
 
     for (const [key, value] of Object.entries(updateFields)) {

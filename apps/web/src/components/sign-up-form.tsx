@@ -32,7 +32,7 @@ export default function SignUpForm() {
 
       toast.success('Account created successfully!');
       navigate({ to: '/dashboard' });
-    } catch (error) {
+    } catch (_error) {
       toast.error('An unexpected error occurred');
     } finally {
       setIsLoading(false);

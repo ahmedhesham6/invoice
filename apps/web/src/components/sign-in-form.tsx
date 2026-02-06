@@ -30,7 +30,7 @@ export default function SignInForm() {
 
       toast.success('Welcome back!');
       navigate({ to: '/dashboard' });
-    } catch (error) {
+    } catch (_error) {
       toast.error('An unexpected error occurred');
     } finally {
       setIsLoading(false);

@@ -7,7 +7,7 @@
   "routes": [
     {
       "pattern": "invoice.ahmedhesham.dev",
-      "custom_domain": true
-    }
-  ]
+      "custom_domain": true,
+    },
+  ],
 }
