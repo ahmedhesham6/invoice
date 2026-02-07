@@ -2,22 +2,28 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useEffect } from 'react';
 
 import SignInForm from '@/components/sign-in-form';
-import { useAuth } from '@/lib/use-auth';
 import { SITE_URL, SITE_NAME } from '@/lib/seo';
+import { useAuth } from '@/lib/use-auth';
 
-export const Route = createFileRoute('/login')({
+export const Route = createFileRoute('/_app/login')({
   head: () => ({
     meta: [
       { title: `Sign In | ${SITE_NAME}` },
-      { name: 'description', content: 'Sign in to your Invoice account to manage invoices, track payments, and get paid faster.' },
+      {
+        name: 'description',
+        content:
+          'Sign in to your Invoice account to manage invoices, track payments, and get paid faster.',
+      },
       { property: 'og:title', content: `Sign In | ${SITE_NAME}` },
-      { property: 'og:description', content: 'Sign in to your Invoice account to manage invoices, track payments, and get paid faster.' },
+      {
+        property: 'og:description',
+        content:
+          'Sign in to your Invoice account to manage invoices, track payments, and get paid faster.',
+      },
       { property: 'og:url', content: `${SITE_URL}/login` },
       { name: 'robots', content: 'noindex, follow' },
     ],
-    links: [
-      { rel: 'canonical', href: `${SITE_URL}/login` },
-    ],
+    links: [{ rel: 'canonical', href: `${SITE_URL}/login` }],
   }),
   component: LoginPage,
 });

@@ -20,11 +20,15 @@ import { useEffect, useRef } from 'react';
 import { ProtectedRoute } from '@/components/protected-route';
 import { SITE_NAME } from '@/lib/seo';
 
-export const Route = createFileRoute('/dashboard')({
+export const Route = createFileRoute('/_app/dashboard')({
   head: () => ({
     meta: [
       { title: `Dashboard | ${SITE_NAME}` },
-      { name: 'description', content: 'Your invoicing dashboard — track outstanding payments, revenue, overdue invoices, and recent activity.' },
+      {
+        name: 'description',
+        content:
+          'Your invoicing dashboard — track outstanding payments, revenue, overdue invoices, and recent activity.',
+      },
       { name: 'robots', content: 'noindex, nofollow' },
     ],
   }),

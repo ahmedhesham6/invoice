@@ -28,12 +28,9 @@ import { toast } from 'sonner';
 
 import { ProtectedRoute } from '@/components/protected-route';
 
-export const Route = createFileRoute('/settings')({
+export const Route = createFileRoute('/_app/settings')({
   head: () => ({
-    meta: [
-      { title: 'Settings | Invoice' },
-      { name: 'robots', content: 'noindex, nofollow' },
-    ],
+    meta: [{ title: 'Settings | Invoice' }, { name: 'robots', content: 'noindex, nofollow' }],
   }),
   component: SettingsPage,
 });

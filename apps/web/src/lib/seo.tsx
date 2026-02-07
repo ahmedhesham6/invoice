@@ -47,9 +47,8 @@ export function getPageMeta({
   type = 'website',
 }: PageSeoOptions) {
   const canonicalUrl = `${SITE_URL}${path}`;
-  const fullTitle = path === '' || path === '/'
-    ? `${SITE_NAME} — ${SITE_TAGLINE}`
-    : `${title} | ${SITE_NAME}`;
+  const fullTitle =
+    path === '' || path === '/' ? `${SITE_NAME} — ${SITE_TAGLINE}` : `${title} | ${SITE_NAME}`;
 
   const meta: Array<Record<string, string>> = [
     { title: fullTitle },
@@ -75,7 +74,12 @@ export function getPageMeta({
     { name: 'twitter:site', content: TWITTER_HANDLE },
 
     // Additional SEO
-    { name: 'robots', content: noindex ? 'noindex, nofollow' : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1' },
+    {
+      name: 'robots',
+      content: noindex
+        ? 'noindex, nofollow'
+        : 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+    },
     { name: 'theme-color', content: '#1a9a8a' },
     { name: 'application-name', content: SITE_NAME },
     { name: 'apple-mobile-web-app-title', content: SITE_NAME },
@@ -173,9 +177,7 @@ export function getBreadcrumbSchema(items: Array<{ name: string; url: string }>)
   };
 }
 
-export function getFaqSchema(
-  faqs: Array<{ question: string; answer: string }>
-) {
+export function getFaqSchema(faqs: Array<{ question: string; answer: string }>) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
