@@ -1,6 +1,19 @@
 import { defineSchema, defineTable } from 'convex/server';
 import { v } from 'convex/values';
 
+// Invoice template IDs
+const invoiceTemplateValidator = v.union(
+  v.literal('classic'),
+  v.literal('minimal'),
+  v.literal('bold'),
+  v.literal('elegant'),
+  v.literal('retro'),
+  v.literal('neon'),
+  v.literal('mono'),
+  v.literal('ocean'),
+  v.literal('sunset')
+);
+
 export default defineSchema({
   // User profiles (extends WorkOS user)
   profiles: defineTable({
@@ -30,6 +43,7 @@ export default defineSchema({
     defaultPaymentTerms: v.number(), // Days, default: 30
     paymentDetails: v.optional(v.string()), // Bank info, PayPal, etc.
     defaultNotes: v.optional(v.string()), // Default invoice footer
+    defaultInvoiceTemplate: v.optional(invoiceTemplateValidator), // Default template
 
     // Timestamps
     createdAt: v.number(),
@@ -51,6 +65,7 @@ export default defineSchema({
 
     taxId: v.optional(v.string()),
     notes: v.optional(v.string()), // Internal notes
+    invoiceTemplate: v.optional(invoiceTemplateValidator), // Per-client template override
 
     createdAt: v.number(),
     updatedAt: v.number(),
@@ -89,6 +104,7 @@ export default defineSchema({
     // Content
     notes: v.optional(v.string()),
     paymentDetails: v.optional(v.string()), // Per-invoice payment instructions
+    invoiceTemplate: v.optional(invoiceTemplateValidator), // Per-invoice template override
 
     createdAt: v.number(),
     updatedAt: v.number(),

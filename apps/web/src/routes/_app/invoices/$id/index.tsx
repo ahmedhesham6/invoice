@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { resolveTemplate } from '@/components/invoice-templates';
 import { ProtectedRoute } from '@/components/protected-route';
 
 import { DownloadPDFButton } from '../../../../components/pdf/download-pdf-button';
@@ -174,6 +175,11 @@ function InvoiceDetailContent() {
   }
 
   const inv = invoice.data;
+  const templateId = resolveTemplate(
+    inv.invoiceTemplate,
+    inv.client?.invoiceTemplate,
+    (profile.data as any)?.defaultInvoiceTemplate
+  );
 
   return (
     <div className="min-h-full">
@@ -231,6 +237,7 @@ function InvoiceDetailContent() {
                     website: profile.data.website ?? undefined,
                     paymentDetails: profile.data.paymentDetails ?? undefined,
                   }}
+                  templateId={templateId}
                   className="gap-2 h-8 text-xs"
                 />
               )}

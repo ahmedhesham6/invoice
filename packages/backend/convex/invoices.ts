@@ -105,7 +105,14 @@ export const getByToken = query({
       profileWithLogo = { ...profile, logoUrl };
     }
 
-    return { ...invoice, client, lineItems, profile: profileWithLogo };
+    // Resolve template: invoice > client > profile default > 'classic'
+    const resolvedTemplate =
+      invoice.invoiceTemplate ||
+      client?.invoiceTemplate ||
+      profile?.defaultInvoiceTemplate ||
+      'classic';
+
+    return { ...invoice, client, lineItems, profile: profileWithLogo, resolvedTemplate };
   },
 });
 
@@ -122,6 +129,19 @@ export const create = mutation({
     discountValue: v.optional(v.number()),
     notes: v.optional(v.string()),
     paymentDetails: v.optional(v.string()),
+    invoiceTemplate: v.optional(
+      v.union(
+        v.literal('classic'),
+        v.literal('minimal'),
+        v.literal('bold'),
+        v.literal('elegant'),
+        v.literal('retro'),
+        v.literal('neon'),
+        v.literal('mono'),
+        v.literal('ocean'),
+        v.literal('sunset')
+      )
+    ),
     lineItems: v.array(
       v.object({
         description: v.string(),
@@ -184,6 +204,7 @@ export const create = mutation({
       total,
       notes: args.notes,
       paymentDetails: args.paymentDetails,
+      invoiceTemplate: args.invoiceTemplate,
       createdAt: now,
       updatedAt: now,
     });
@@ -272,6 +293,19 @@ export const fullUpdate = mutation({
     discountValue: v.optional(v.number()),
     notes: v.optional(v.string()),
     paymentDetails: v.optional(v.string()),
+    invoiceTemplate: v.optional(
+      v.union(
+        v.literal('classic'),
+        v.literal('minimal'),
+        v.literal('bold'),
+        v.literal('elegant'),
+        v.literal('retro'),
+        v.literal('neon'),
+        v.literal('mono'),
+        v.literal('ocean'),
+        v.literal('sunset')
+      )
+    ),
     lineItems: v.array(
       v.object({
         description: v.string(),
@@ -337,6 +371,7 @@ export const fullUpdate = mutation({
       total,
       notes: args.notes,
       paymentDetails: args.paymentDetails,
+      invoiceTemplate: args.invoiceTemplate,
       updatedAt: now,
     });
 
@@ -490,6 +525,7 @@ export const duplicate = mutation({
       total: invoice.total,
       notes: invoice.notes,
       paymentDetails: invoice.paymentDetails,
+      invoiceTemplate: invoice.invoiceTemplate,
       createdAt: now,
       updatedAt: now,
     });

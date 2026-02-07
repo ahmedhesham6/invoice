@@ -1,3 +1,4 @@
+import type { InvoiceTemplateId } from '@/components/invoice-templates';
 import { convexQuery, useConvexMutation } from '@convex-dev/react-query';
 import { api } from '@invoice/backend/convex/_generated/api';
 import { Button } from '@invoice/ui/components/button';
@@ -22,10 +23,11 @@ import { Textarea } from '@invoice/ui/components/textarea';
 import { useForm } from '@tanstack/react-form';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { Upload, X, User, MapPin, FileText, CreditCard, Save } from 'lucide-react';
+import { Upload, X, User, MapPin, FileText, CreditCard, Save, Palette } from 'lucide-react';
 import { useRef, useState } from 'react';
 import { toast } from 'sonner';
 
+import { TemplatePicker } from '@/components/invoice-templates/template-picker';
 import { ProtectedRoute } from '@/components/protected-route';
 
 export const Route = createFileRoute('/_app/settings')({
@@ -79,6 +81,7 @@ function SettingsContent() {
       defaultPaymentTerms: 30,
       paymentDetails: '',
       defaultNotes: '',
+      defaultInvoiceTemplate: 'classic' as InvoiceTemplateId,
     },
     onSubmit: async ({ value }) => {
       try {
@@ -106,6 +109,10 @@ function SettingsContent() {
     form.setFieldValue('defaultPaymentTerms', p.defaultPaymentTerms || 30);
     form.setFieldValue('paymentDetails', p.paymentDetails || '');
     form.setFieldValue('defaultNotes', p.defaultNotes || '');
+    form.setFieldValue(
+      'defaultInvoiceTemplate',
+      ((p as any).defaultInvoiceTemplate || 'classic') as InvoiceTemplateId
+    );
   }
 
   const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -525,6 +532,33 @@ function SettingsContent() {
                       className="bg-background/50 border-border/60 resize-none"
                     />
                   </div>
+                )}
+              </form.Field>
+            </CardContent>
+          </Card>
+
+          {/* Invoice Template */}
+          <Card className="border-border/60 bg-card">
+            <CardHeader className="border-b border-border/40 bg-muted/20 py-4 px-5">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-pink-500/10 border border-pink-500/10">
+                  <Palette className="h-4 w-4 text-pink-500" />
+                </div>
+                <div>
+                  <CardTitle className="text-sm">Invoice Template</CardTitle>
+                  <CardDescription className="text-xs">
+                    Default template for all new invoices. Clients and invoices can override.
+                  </CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="p-5">
+              <form.Field name="defaultInvoiceTemplate">
+                {(field) => (
+                  <TemplatePicker
+                    value={field.state.value}
+                    onChange={(id) => field.handleChange(id)}
+                  />
                 )}
               </form.Field>
             </CardContent>

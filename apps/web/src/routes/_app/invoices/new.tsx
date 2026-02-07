@@ -1,3 +1,4 @@
+import type { InvoiceTemplateId } from '@/components/invoice-templates';
 import { convexQuery, useConvexMutation } from '@convex-dev/react-query';
 import { api } from '@invoice/backend/convex/_generated/api';
 import { Button } from '@invoice/ui/components/button';
@@ -21,10 +22,21 @@ import { Separator } from '@invoice/ui/components/separator';
 import { Textarea } from '@invoice/ui/components/textarea';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { ArrowLeft, Plus, Trash2, Receipt, Calculator, FileText, User } from 'lucide-react';
+import {
+  ArrowLeft,
+  Plus,
+  Trash2,
+  Receipt,
+  Calculator,
+  FileText,
+  User,
+  Palette,
+} from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
+import { resolveTemplate } from '@/components/invoice-templates';
+import { TemplatePicker } from '@/components/invoice-templates/template-picker';
 import { ProtectedRoute } from '@/components/protected-route';
 
 export const Route = createFileRoute('/_app/invoices/new')({
@@ -98,6 +110,7 @@ function NewInvoiceContent() {
   const [lineItems, setLineItems] = useState<LineItem[]>([
     { id: crypto.randomUUID(), description: '', quantity: 1, unit: 'hours', unitPrice: 0 },
   ]);
+  const [invoiceTemplate, setInvoiceTemplate] = useState<InvoiceTemplateId | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const invoiceNumberFetched = useRef(false);
 
@@ -175,6 +188,7 @@ function NewInvoiceContent() {
             : undefined,
         notes: notes || undefined,
         paymentDetails: paymentDetails || undefined,
+        invoiceTemplate: invoiceTemplate || undefined,
         lineItems: lineItems.map((item) => ({
           description: item.description,
           quantity: item.quantity,
@@ -652,6 +666,39 @@ function NewInvoiceContent() {
                 value={paymentDetails}
                 onChange={(e) => setPaymentDetails(e.target.value)}
                 className="bg-background/50 border-border/60 resize-none font-mono text-xs"
+              />
+            </CardContent>
+          </Card>
+
+          {/* Invoice Template */}
+          <Card className="border-border/60 bg-card overflow-hidden">
+            <CardHeader className="border-b border-border/40 bg-muted/20 py-3.5 px-5">
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 items-center justify-center bg-pink-500/10 border border-pink-500/10 text-pink-500">
+                  <Palette className="h-3.5 w-3.5" />
+                </div>
+                <div>
+                  <CardTitle className="text-sm">Template</CardTitle>
+                  <CardDescription className="text-xs">
+                    Choose a look for this invoice. Leave empty to use the default.
+                  </CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="p-5">
+              <TemplatePicker
+                value={
+                  invoiceTemplate ||
+                  resolveTemplate(
+                    undefined,
+                    selectedClient?.invoiceTemplate,
+                    profile.data?.defaultInvoiceTemplate
+                  )
+                }
+                onChange={(id) => setInvoiceTemplate(id)}
+                showDefault
+                isOverridden={!!invoiceTemplate}
+                onClearOverride={() => setInvoiceTemplate(undefined)}
               />
             </CardContent>
           </Card>

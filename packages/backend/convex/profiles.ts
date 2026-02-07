@@ -82,6 +82,19 @@ export const update = mutation({
     defaultPaymentTerms: v.optional(v.number()),
     paymentDetails: v.optional(v.string()),
     defaultNotes: v.optional(v.string()),
+    defaultInvoiceTemplate: v.optional(
+      v.union(
+        v.literal('classic'),
+        v.literal('minimal'),
+        v.literal('bold'),
+        v.literal('elegant'),
+        v.literal('retro'),
+        v.literal('neon'),
+        v.literal('mono'),
+        v.literal('ocean'),
+        v.literal('sunset')
+      )
+    ),
   },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
