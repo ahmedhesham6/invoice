@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0a0a0b"/>
+  <rect x="60" y="60" width="60" height="60" fill="#1a9a8a"/>
+  <text x="90" y="100" font-family="Georgia, serif" font-size="36" font-weight="700" fill="#042626" text-anchor="middle" dominant-baseline="middle">I</text>
+  <text x="140" y="100" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="600" fill="#fafafa" dominant-baseline="middle">Invoice</text>
+  <text x="60" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="700" fill="#fafafa" letter-spacing="-2">Get paid</text>
+  <text x="60" y="370" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#1a9a8a" letter-spacing="-2" font-style="italic">effortlessly.</text>
+  <text x="60" y="440" font-family="system-ui, -apple-system, sans-serif" font-size="24" fill="#a1a1aa">The free, open-source invoicing platform for freelancers.</text>
+  <text x="60" y="480" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#71717a">Create professional invoices · Share via unique links · Get paid faster</text>
+  <rect x="60" y="530" width="180" height="48" fill="#1a9a8a"/>
+  <text x="150" y="560" font-family="system-ui, -apple-system, sans-serif" font-size="16" font-weight="600" fill="#042626" text-anchor="middle" dominant-baseline="middle">Start for free</text>
+  <text x="280" y="560" font-family="system-ui, -apple-system, sans-serif" font-size="14" fill="#71717a" dominant-baseline="middle">invoice.ahmedhesham.dev</text>
+</svg>

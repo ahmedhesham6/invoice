@@ -16,8 +16,16 @@ import {
 } from 'lucide-react';
 
 import { DownloadPDFButton } from '../../components/pdf/download-pdf-button';
+import { SITE_NAME } from '@/lib/seo';
 
 export const Route = createFileRoute('/i/$token')({
+  head: () => ({
+    meta: [
+      { title: `Invoice | ${SITE_NAME}` },
+      { name: 'description', content: 'View and download this professional invoice. Powered by Invoice — the open-source invoicing platform for freelancers.' },
+      { name: 'robots', content: 'noindex, nofollow' },
+    ],
+  }),
   component: PublicInvoicePage,
 });
 

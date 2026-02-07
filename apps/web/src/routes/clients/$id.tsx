@@ -20,6 +20,12 @@ import { toast } from 'sonner';
 import { ProtectedRoute } from '@/components/protected-route';
 
 export const Route = createFileRoute('/clients/$id')({
+  head: () => ({
+    meta: [
+      { title: 'Edit Client | Invoice' },
+      { name: 'robots', content: 'noindex, nofollow' },
+    ],
+  }),
   component: EditClientPage,
 });
 

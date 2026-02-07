@@ -28,8 +28,16 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 
 import { ProtectedRoute } from '@/components/protected-route';
+import { SITE_NAME } from '@/lib/seo';
 
 export const Route = createFileRoute('/invoices/')({
+  head: () => ({
+    meta: [
+      { title: `Invoices | ${SITE_NAME}` },
+      { name: 'description', content: 'Manage all your invoices — create, track, and filter by status.' },
+      { name: 'robots', content: 'noindex, nofollow' },
+    ],
+  }),
   component: InvoicesPage,
 });
 

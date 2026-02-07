@@ -28,6 +28,12 @@ import { ProtectedRoute } from '@/components/protected-route';
 import { DownloadPDFButton } from '../../../components/pdf/download-pdf-button';
 
 export const Route = createFileRoute('/invoices/$id/')({
+  head: () => ({
+    meta: [
+      { title: 'Invoice Details | Invoice' },
+      { name: 'robots', content: 'noindex, nofollow' },
+    ],
+  }),
   component: InvoiceDetailPage,
 });
 

@@ -19,8 +19,39 @@ import {
 import { useEffect } from 'react';
 
 import { useAuth } from '@/lib/use-auth';
+import {
+  SITE_URL,
+  SITE_NAME,
+  SITE_DESCRIPTION,
+  OG_IMAGE,
+  TWITTER_HANDLE,
+  JsonLd,
+  getFaqSchema,
+  getHowToSchema,
+  getWebPageSchema,
+  getBreadcrumbSchema,
+} from '@/lib/seo';
 
 export const Route = createFileRoute('/')({
+  head: () => ({
+    meta: [
+      { title: `${SITE_NAME} — Free Open-Source Invoicing for Freelancers` },
+      { name: 'description', content: SITE_DESCRIPTION },
+      { property: 'og:title', content: `${SITE_NAME} — Free Open-Source Invoicing for Freelancers` },
+      { property: 'og:description', content: SITE_DESCRIPTION },
+      { property: 'og:url', content: SITE_URL },
+      { property: 'og:image', content: OG_IMAGE },
+      { property: 'og:type', content: 'website' },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: `${SITE_NAME} — Free Open-Source Invoicing for Freelancers` },
+      { name: 'twitter:description', content: SITE_DESCRIPTION },
+      { name: 'twitter:image', content: OG_IMAGE },
+      { name: 'twitter:site', content: TWITTER_HANDLE },
+    ],
+    links: [
+      { rel: 'canonical', href: SITE_URL },
+    ],
+  }),
   component: LandingPage,
 });
 
@@ -34,6 +65,40 @@ function GitHubIcon({ className }: { className?: string }) {
   );
 }
 
+// FAQ data for schema + rendering
+const LANDING_FAQS = [
+  {
+    question: 'Is Invoice really free?',
+    answer:
+      'Yes. Invoice is 100% free and open source under the MIT license. There are no hidden fees, no usage limits, and no premium tiers. You can use the hosted version at no cost or self-host on your own infrastructure.',
+  },
+  {
+    question: 'Can I self-host Invoice on my own server?',
+    answer:
+      'Absolutely. Invoice is fully open source and self-hostable. Clone the GitHub repository, configure your environment variables, and deploy on any infrastructure that supports Node.js. The frontend deploys to Cloudflare Workers and the backend runs on Convex.',
+  },
+  {
+    question: 'How do I share an invoice with my client?',
+    answer:
+      'Every invoice gets a unique shareable link. Copy the link and send it to your client via email, Slack, or any messaging platform. Your client can view the invoice in their browser without creating an account or signing up.',
+  },
+  {
+    question: 'Does Invoice support PDF exports?',
+    answer:
+      'Yes. You can download any invoice as a professional PDF directly from the invoice detail page. PDFs include your branding, line items, totals, tax calculations, and payment details.',
+  },
+  {
+    question: 'What currencies does Invoice support?',
+    answer:
+      'Invoice supports multiple currencies including USD, EUR, GBP, CAD, AUD, JPY, CHF, and INR. You can set a default currency in your business profile settings.',
+  },
+  {
+    question: 'Is my data secure?',
+    answer:
+      'Invoice uses HTTPS encryption, secure authentication via Better Auth with session tokens, and all data is stored on Convex — a secure, real-time serverless database. Since Invoice is open source, you can audit the code yourself.',
+  },
+];
+
 function LandingPage() {
   const { isAuthenticated, isLoading } = useAuth();
   const navigate = useNavigate();
@@ -46,12 +111,23 @@ function LandingPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
+      {/* Structured Data for AI Search & Rich Results */}
+      <JsonLd data={getWebPageSchema('Invoice — Free Open-Source Invoicing for Freelancers', SITE_DESCRIPTION, '/')} />
+      <JsonLd data={getHowToSchema()} />
+      <JsonLd data={getFaqSchema(LANDING_FAQS)} />
+      <JsonLd
+        data={getBreadcrumbSchema([
+          { name: 'Home', url: SITE_URL },
+        ])}
+      />
+
       <HeroSection />
       <OpenSourceBanner />
       <FeaturesSection />
       <HowItWorks />
       <Testimonials />
       <PricingSection />
+      <FAQSection />
       <FinalCTA />
       <Footer />
     </div>
@@ -62,7 +138,7 @@ function LandingPage() {
 
 function HeroSection() {
   return (
-    <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden" aria-labelledby="hero-heading">
       {/* Background Effects */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-[15%] left-[10%] w-[500px] h-[500px] bg-primary/20 blur-[160px] rounded-full" />
@@ -97,17 +173,19 @@ function HeroSection() {
           </a>
 
           {/* Headline */}
-          <h1 className="animate-in-up font-display text-6xl sm:text-7xl md:text-8xl lg:text-[112px] leading-[0.9] tracking-tight mb-8">
+          <h1 id="hero-heading" className="animate-in-up font-display text-6xl sm:text-7xl md:text-8xl lg:text-[112px] leading-[0.9] tracking-tight mb-8">
             <span className="block">Get paid</span>
             <span className="block font-display-italic text-gradient">effortlessly.</span>
           </h1>
 
-          {/* Subheadline */}
+          {/* Subheadline — rich description for AI search extraction */}
           <p
             className="animate-in-up text-lg sm:text-xl text-muted-foreground max-w-xl mb-14 leading-relaxed"
             style={{ animationDelay: '0.1s' }}
           >
-            The open-source invoicing platform for freelancers.
+            The{' '}
+            <strong className="text-foreground font-medium">free, open-source invoicing platform</strong>{' '}
+            for freelancers.
             <span className="text-foreground font-medium"> Create. Share. Get paid. </span>
             No vendor lock-in, ever.
           </p>
@@ -342,14 +420,14 @@ function FeaturesSection() {
   ];
 
   return (
-    <section className="py-28 relative">
+    <section className="py-28 relative" aria-labelledby="features-heading">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/3 blur-[200px] rounded-full" />
       <div className="container mx-auto max-w-6xl px-6 relative">
         <div className="text-center mb-20">
           <p className="text-[11px] uppercase tracking-[0.2em] text-primary/80 font-medium mb-4">
             Features
           </p>
-          <h2 className="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight mb-5">
+          <h2 id="features-heading" className="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight mb-5">
             Everything you need,
             <br />
             <span className="font-display-italic text-muted-foreground">nothing you don't.</span>
@@ -405,13 +483,13 @@ function HowItWorks() {
   ];
 
   return (
-    <section className="py-28 border-y border-border/40 bg-muted/20">
+    <section className="py-28 border-y border-border/40 bg-muted/20" aria-labelledby="how-it-works-heading">
       <div className="container mx-auto max-w-6xl px-6">
         <div className="text-center mb-20">
           <p className="text-[11px] uppercase tracking-[0.2em] text-primary/80 font-medium mb-4">
             How it works
           </p>
-          <h2 className="font-display text-4xl sm:text-5xl tracking-tight">
+          <h2 id="how-it-works-heading" className="font-display text-4xl sm:text-5xl tracking-tight">
             Three steps to getting paid.
           </h2>
         </div>
@@ -634,39 +712,159 @@ function FinalCTA() {
   );
 }
 
+/* ── FAQ Section ───────────────────────────────────────────── */
+
+function FAQSection() {
+  return (
+    <section className="py-28 border-y border-border/40 bg-muted/20" aria-labelledby="faq-heading">
+      <div className="container mx-auto max-w-4xl px-6">
+        <div className="text-center mb-16">
+          <p className="text-[11px] uppercase tracking-[0.2em] text-primary/80 font-medium mb-4">
+            FAQ
+          </p>
+          <h2 id="faq-heading" className="font-display text-4xl sm:text-5xl tracking-tight mb-4">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-muted-foreground text-lg">
+            Everything you need to know about Invoice.
+          </p>
+        </div>
+
+        <div className="space-y-4 max-w-3xl mx-auto">
+          {LANDING_FAQS.map(({ question, answer }) => (
+            <details
+              key={question}
+              className="group bg-card border border-border/60 hover:border-primary/20 transition-colors"
+            >
+              <summary className="flex items-center justify-between cursor-pointer px-6 py-5 text-[15px] font-medium select-none list-none">
+                {question}
+                <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0 ml-4 transition-transform group-open:rotate-90" />
+              </summary>
+              <div className="px-6 pb-5 text-sm text-muted-foreground leading-relaxed">
+                {answer}
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ── Footer ───────────────────────────────────────────────── */
 
 function Footer() {
   return (
-    <footer className="py-8 border-t border-border/40">
+    <footer className="py-12 border-t border-border/40" role="contentinfo">
       <div className="container mx-auto max-w-6xl px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 bg-primary flex items-center justify-center text-primary-foreground">
-              <span className="font-display text-sm">I</span>
+        <div className="grid md:grid-cols-3 gap-8 mb-10">
+          {/* Brand */}
+          <div>
+            <div className="flex items-center gap-2.5 mb-3">
+              <div className="w-7 h-7 bg-primary flex items-center justify-center text-primary-foreground">
+                <span className="font-display text-sm">I</span>
+              </div>
+              <span className="text-sm font-semibold tracking-tight">Invoice</span>
             </div>
-            <span className="text-sm font-semibold tracking-tight">Invoice</span>
+            <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
+              The open-source invoicing platform for freelancers. Create, share, and get paid
+              — with no vendor lock-in, ever.
+            </p>
           </div>
-          <div className="flex items-center gap-8 text-xs text-muted-foreground">
+
+          {/* Product Links */}
+          <nav aria-label="Product links">
+            <h3 className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground/60 mb-4">
+              Product
+            </h3>
+            <ul className="space-y-2.5 text-xs">
+              <li>
+                <Link to="/signup" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Get started free
+                </Link>
+              </li>
+              <li>
+                <Link to="/login" className="text-muted-foreground hover:text-foreground transition-colors">
+                  Sign in
+                </Link>
+              </li>
+              <li>
+                <a
+                  href={GITHUB_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1.5"
+                >
+                  <GitHubIcon className="h-3 w-3" />
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          {/* Resources */}
+          <nav aria-label="Resources">
+            <h3 className="text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground/60 mb-4">
+              Resources
+            </h3>
+            <ul className="space-y-2.5 text-xs">
+              <li>
+                <a
+                  href={`${GITHUB_URL}#readme`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Documentation
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`${GITHUB_URL}/issues`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Report an Issue
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`${GITHUB_URL}/blob/main/LICENSE`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  MIT License
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <div className="border-t border-border/30 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
+          <p className="text-[11px] text-muted-foreground/50">
+            © {new Date().getFullYear()} Invoice · Open source under MIT · Built by{' '}
+            <a
+              href="https://ahmedhesham.dev"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Ahmed Hesham
+            </a>
+          </p>
+          <div className="flex items-center gap-4 text-[11px] text-muted-foreground/50">
             <a
               href={GITHUB_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-foreground transition-colors inline-flex items-center gap-1.5"
+              className="hover:text-foreground transition-colors inline-flex items-center gap-1"
             >
-              <GitHubIcon className="h-3.5 w-3.5" />
-              GitHub
+              <GitHubIcon className="h-3 w-3" />
+              Star on GitHub
             </a>
-            <Link to="/login" className="hover:text-foreground transition-colors">
-              Sign in
-            </Link>
-            <Link to="/signup" className="hover:text-foreground transition-colors">
-              Get started
-            </Link>
           </div>
-          <p className="text-xs text-muted-foreground/60">
-            © {new Date().getFullYear()} Invoice · Open source under MIT
-          </p>
         </div>
       </div>
     </footer>

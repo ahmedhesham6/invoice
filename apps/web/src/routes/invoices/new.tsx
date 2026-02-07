@@ -28,6 +28,12 @@ import { toast } from 'sonner';
 import { ProtectedRoute } from '@/components/protected-route';
 
 export const Route = createFileRoute('/invoices/new')({
+  head: () => ({
+    meta: [
+      { title: 'New Invoice | Invoice' },
+      { name: 'robots', content: 'noindex, nofollow' },
+    ],
+  }),
   component: NewInvoicePage,
 });
 

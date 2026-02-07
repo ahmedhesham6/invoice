@@ -37,6 +37,12 @@ import { toast } from 'sonner';
 import { ProtectedRoute } from '@/components/protected-route';
 
 export const Route = createFileRoute('/invoices/$id/edit')({
+  head: () => ({
+    meta: [
+      { title: 'Edit Invoice | Invoice' },
+      { name: 'robots', content: 'noindex, nofollow' },
+    ],
+  }),
   component: EditInvoicePage,
 });
 

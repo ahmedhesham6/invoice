@@ -3,8 +3,21 @@ import { useEffect } from 'react';
 
 import SignUpForm from '@/components/sign-up-form';
 import { useAuth } from '@/lib/use-auth';
+import { SITE_URL, SITE_NAME } from '@/lib/seo';
 
 export const Route = createFileRoute('/signup')({
+  head: () => ({
+    meta: [
+      { title: `Get Started Free | ${SITE_NAME}` },
+      { name: 'description', content: 'Create your free Invoice account. Professional invoicing for freelancers — create invoices, share with clients, and get paid. No credit card required.' },
+      { property: 'og:title', content: `Get Started Free | ${SITE_NAME}` },
+      { property: 'og:description', content: 'Create your free Invoice account. Professional invoicing for freelancers — create invoices, share with clients, and get paid. No credit card required.' },
+      { property: 'og:url', content: `${SITE_URL}/signup` },
+    ],
+    links: [
+      { rel: 'canonical', href: `${SITE_URL}/signup` },
+    ],
+  }),
   component: SignUpPage,
 });
 
