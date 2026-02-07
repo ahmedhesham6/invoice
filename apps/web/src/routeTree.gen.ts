@@ -9,131 +9,137 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SignupRouteImport } from './routes/signup'
-import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as InvoicesIndexRouteImport } from './routes/invoices/index'
-import { Route as ClientsIndexRouteImport } from './routes/clients/index'
-import { Route as InvoicesNewRouteImport } from './routes/invoices/new'
+import { Route as AppRouteImport } from './routes/_app'
+import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as ITokenRouteImport } from './routes/i/$token'
-import { Route as ClientsNewRouteImport } from './routes/clients/new'
-import { Route as ClientsIdRouteImport } from './routes/clients/$id'
-import { Route as InvoicesIdIndexRouteImport } from './routes/invoices/$id/index'
-import { Route as InvoicesIdEditRouteImport } from './routes/invoices/$id/edit'
+import { Route as AppSignupRouteImport } from './routes/_app/signup'
+import { Route as AppSettingsRouteImport } from './routes/_app/settings'
+import { Route as AppLoginRouteImport } from './routes/_app/login'
+import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
+import { Route as AppInvoicesIndexRouteImport } from './routes/_app/invoices/index'
+import { Route as AppClientsIndexRouteImport } from './routes/_app/clients/index'
+import { Route as AppInvoicesNewRouteImport } from './routes/_app/invoices/new'
+import { Route as AppClientsNewRouteImport } from './routes/_app/clients/new'
+import { Route as AppClientsIdRouteImport } from './routes/_app/clients/$id'
+import { Route as AppInvoicesIdIndexRouteImport } from './routes/_app/invoices/$id/index'
+import { Route as AppInvoicesIdEditRouteImport } from './routes/_app/invoices/$id/edit'
 
-const SignupRoute = SignupRouteImport.update({
-  id: '/signup',
-  path: '/signup',
+const AppRoute = AppRouteImport.update({
+  id: '/_app',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
+const AppIndexRoute = AppIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InvoicesIndexRoute = InvoicesIndexRouteImport.update({
-  id: '/invoices/',
-  path: '/invoices/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ClientsIndexRoute = ClientsIndexRouteImport.update({
-  id: '/clients/',
-  path: '/clients/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InvoicesNewRoute = InvoicesNewRouteImport.update({
-  id: '/invoices/new',
-  path: '/invoices/new',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
 const ITokenRoute = ITokenRouteImport.update({
   id: '/i/$token',
   path: '/i/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ClientsNewRoute = ClientsNewRouteImport.update({
+const AppSignupRoute = AppSignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSettingsRoute = AppSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppLoginRoute = AppLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppDashboardRoute = AppDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppInvoicesIndexRoute = AppInvoicesIndexRouteImport.update({
+  id: '/invoices/',
+  path: '/invoices/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClientsIndexRoute = AppClientsIndexRouteImport.update({
+  id: '/clients/',
+  path: '/clients/',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppInvoicesNewRoute = AppInvoicesNewRouteImport.update({
+  id: '/invoices/new',
+  path: '/invoices/new',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppClientsNewRoute = AppClientsNewRouteImport.update({
   id: '/clients/new',
   path: '/clients/new',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const ClientsIdRoute = ClientsIdRouteImport.update({
+const AppClientsIdRoute = AppClientsIdRouteImport.update({
   id: '/clients/$id',
   path: '/clients/$id',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const InvoicesIdIndexRoute = InvoicesIdIndexRouteImport.update({
+const AppInvoicesIdIndexRoute = AppInvoicesIdIndexRouteImport.update({
   id: '/invoices/$id/',
   path: '/invoices/$id/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
-const InvoicesIdEditRoute = InvoicesIdEditRouteImport.update({
+const AppInvoicesIdEditRoute = AppInvoicesIdEditRouteImport.update({
   id: '/invoices/$id/edit',
   path: '/invoices/$id/edit',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AppRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/login': typeof LoginRoute
-  '/settings': typeof SettingsRoute
-  '/signup': typeof SignupRoute
-  '/clients/$id': typeof ClientsIdRoute
-  '/clients/new': typeof ClientsNewRoute
+  '/': typeof AppIndexRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/login': typeof AppLoginRoute
+  '/settings': typeof AppSettingsRoute
+  '/signup': typeof AppSignupRoute
   '/i/$token': typeof ITokenRoute
-  '/invoices/new': typeof InvoicesNewRoute
-  '/clients/': typeof ClientsIndexRoute
-  '/invoices/': typeof InvoicesIndexRoute
-  '/invoices/$id/edit': typeof InvoicesIdEditRoute
-  '/invoices/$id/': typeof InvoicesIdIndexRoute
+  '/clients/$id': typeof AppClientsIdRoute
+  '/clients/new': typeof AppClientsNewRoute
+  '/invoices/new': typeof AppInvoicesNewRoute
+  '/clients/': typeof AppClientsIndexRoute
+  '/invoices/': typeof AppInvoicesIndexRoute
+  '/invoices/$id/edit': typeof AppInvoicesIdEditRoute
+  '/invoices/$id/': typeof AppInvoicesIdIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/login': typeof LoginRoute
-  '/settings': typeof SettingsRoute
-  '/signup': typeof SignupRoute
-  '/clients/$id': typeof ClientsIdRoute
-  '/clients/new': typeof ClientsNewRoute
+  '/dashboard': typeof AppDashboardRoute
+  '/login': typeof AppLoginRoute
+  '/settings': typeof AppSettingsRoute
+  '/signup': typeof AppSignupRoute
   '/i/$token': typeof ITokenRoute
-  '/invoices/new': typeof InvoicesNewRoute
-  '/clients': typeof ClientsIndexRoute
-  '/invoices': typeof InvoicesIndexRoute
-  '/invoices/$id/edit': typeof InvoicesIdEditRoute
-  '/invoices/$id': typeof InvoicesIdIndexRoute
+  '/': typeof AppIndexRoute
+  '/clients/$id': typeof AppClientsIdRoute
+  '/clients/new': typeof AppClientsNewRoute
+  '/invoices/new': typeof AppInvoicesNewRoute
+  '/clients': typeof AppClientsIndexRoute
+  '/invoices': typeof AppInvoicesIndexRoute
+  '/invoices/$id/edit': typeof AppInvoicesIdEditRoute
+  '/invoices/$id': typeof AppInvoicesIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/login': typeof LoginRoute
-  '/settings': typeof SettingsRoute
-  '/signup': typeof SignupRoute
-  '/clients/$id': typeof ClientsIdRoute
-  '/clients/new': typeof ClientsNewRoute
+  '/_app': typeof AppRouteWithChildren
+  '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/login': typeof AppLoginRoute
+  '/_app/settings': typeof AppSettingsRoute
+  '/_app/signup': typeof AppSignupRoute
   '/i/$token': typeof ITokenRoute
-  '/invoices/new': typeof InvoicesNewRoute
-  '/clients/': typeof ClientsIndexRoute
-  '/invoices/': typeof InvoicesIndexRoute
-  '/invoices/$id/edit': typeof InvoicesIdEditRoute
-  '/invoices/$id/': typeof InvoicesIdIndexRoute
+  '/_app/': typeof AppIndexRoute
+  '/_app/clients/$id': typeof AppClientsIdRoute
+  '/_app/clients/new': typeof AppClientsNewRoute
+  '/_app/invoices/new': typeof AppInvoicesNewRoute
+  '/_app/clients/': typeof AppClientsIndexRoute
+  '/_app/invoices/': typeof AppInvoicesIndexRoute
+  '/_app/invoices/$id/edit': typeof AppInvoicesIdEditRoute
+  '/_app/invoices/$id/': typeof AppInvoicesIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -143,9 +149,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/settings'
     | '/signup'
+    | '/i/$token'
     | '/clients/$id'
     | '/clients/new'
-    | '/i/$token'
     | '/invoices/new'
     | '/clients/'
     | '/invoices/'
@@ -153,14 +159,14 @@ export interface FileRouteTypes {
     | '/invoices/$id/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | '/dashboard'
     | '/login'
     | '/settings'
     | '/signup'
+    | '/i/$token'
+    | '/'
     | '/clients/$id'
     | '/clients/new'
-    | '/i/$token'
     | '/invoices/new'
     | '/clients'
     | '/invoices'
@@ -168,94 +174,42 @@ export interface FileRouteTypes {
     | '/invoices/$id'
   id:
     | '__root__'
-    | '/'
-    | '/dashboard'
-    | '/login'
-    | '/settings'
-    | '/signup'
-    | '/clients/$id'
-    | '/clients/new'
+    | '/_app'
+    | '/_app/dashboard'
+    | '/_app/login'
+    | '/_app/settings'
+    | '/_app/signup'
     | '/i/$token'
-    | '/invoices/new'
-    | '/clients/'
-    | '/invoices/'
-    | '/invoices/$id/edit'
-    | '/invoices/$id/'
+    | '/_app/'
+    | '/_app/clients/$id'
+    | '/_app/clients/new'
+    | '/_app/invoices/new'
+    | '/_app/clients/'
+    | '/_app/invoices/'
+    | '/_app/invoices/$id/edit'
+    | '/_app/invoices/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
-  LoginRoute: typeof LoginRoute
-  SettingsRoute: typeof SettingsRoute
-  SignupRoute: typeof SignupRoute
-  ClientsIdRoute: typeof ClientsIdRoute
-  ClientsNewRoute: typeof ClientsNewRoute
+  AppRoute: typeof AppRouteWithChildren
   ITokenRoute: typeof ITokenRoute
-  InvoicesNewRoute: typeof InvoicesNewRoute
-  ClientsIndexRoute: typeof ClientsIndexRoute
-  InvoicesIndexRoute: typeof InvoicesIndexRoute
-  InvoicesIdEditRoute: typeof InvoicesIdEditRoute
-  InvoicesIdIndexRoute: typeof InvoicesIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/signup': {
-      id: '/signup'
-      path: '/signup'
-      fullPath: '/signup'
-      preLoaderRoute: typeof SignupRouteImport
+    '/_app': {
+      id: '/_app'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
+    '/_app/': {
+      id: '/_app/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/invoices/': {
-      id: '/invoices/'
-      path: '/invoices'
-      fullPath: '/invoices/'
-      preLoaderRoute: typeof InvoicesIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/clients/': {
-      id: '/clients/'
-      path: '/clients'
-      fullPath: '/clients/'
-      preLoaderRoute: typeof ClientsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/invoices/new': {
-      id: '/invoices/new'
-      path: '/invoices/new'
-      fullPath: '/invoices/new'
-      preLoaderRoute: typeof InvoicesNewRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof AppRoute
     }
     '/i/$token': {
       id: '/i/$token'
@@ -264,51 +218,121 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ITokenRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/clients/new': {
-      id: '/clients/new'
+    '/_app/signup': {
+      id: '/_app/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof AppSignupRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/settings': {
+      id: '/_app/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/login': {
+      id: '/_app/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof AppLoginRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/dashboard': {
+      id: '/_app/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AppDashboardRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/invoices/': {
+      id: '/_app/invoices/'
+      path: '/invoices'
+      fullPath: '/invoices/'
+      preLoaderRoute: typeof AppInvoicesIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/clients/': {
+      id: '/_app/clients/'
+      path: '/clients'
+      fullPath: '/clients/'
+      preLoaderRoute: typeof AppClientsIndexRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/invoices/new': {
+      id: '/_app/invoices/new'
+      path: '/invoices/new'
+      fullPath: '/invoices/new'
+      preLoaderRoute: typeof AppInvoicesNewRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/clients/new': {
+      id: '/_app/clients/new'
       path: '/clients/new'
       fullPath: '/clients/new'
-      preLoaderRoute: typeof ClientsNewRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppClientsNewRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/clients/$id': {
-      id: '/clients/$id'
+    '/_app/clients/$id': {
+      id: '/_app/clients/$id'
       path: '/clients/$id'
       fullPath: '/clients/$id'
-      preLoaderRoute: typeof ClientsIdRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppClientsIdRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/invoices/$id/': {
-      id: '/invoices/$id/'
+    '/_app/invoices/$id/': {
+      id: '/_app/invoices/$id/'
       path: '/invoices/$id'
       fullPath: '/invoices/$id/'
-      preLoaderRoute: typeof InvoicesIdIndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppInvoicesIdIndexRouteImport
+      parentRoute: typeof AppRoute
     }
-    '/invoices/$id/edit': {
-      id: '/invoices/$id/edit'
+    '/_app/invoices/$id/edit': {
+      id: '/_app/invoices/$id/edit'
       path: '/invoices/$id/edit'
       fullPath: '/invoices/$id/edit'
-      preLoaderRoute: typeof InvoicesIdEditRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AppInvoicesIdEditRouteImport
+      parentRoute: typeof AppRoute
     }
   }
 }
 
+interface AppRouteChildren {
+  AppDashboardRoute: typeof AppDashboardRoute
+  AppLoginRoute: typeof AppLoginRoute
+  AppSettingsRoute: typeof AppSettingsRoute
+  AppSignupRoute: typeof AppSignupRoute
+  AppIndexRoute: typeof AppIndexRoute
+  AppClientsIdRoute: typeof AppClientsIdRoute
+  AppClientsNewRoute: typeof AppClientsNewRoute
+  AppInvoicesNewRoute: typeof AppInvoicesNewRoute
+  AppClientsIndexRoute: typeof AppClientsIndexRoute
+  AppInvoicesIndexRoute: typeof AppInvoicesIndexRoute
+  AppInvoicesIdEditRoute: typeof AppInvoicesIdEditRoute
+  AppInvoicesIdIndexRoute: typeof AppInvoicesIdIndexRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppDashboardRoute: AppDashboardRoute,
+  AppLoginRoute: AppLoginRoute,
+  AppSettingsRoute: AppSettingsRoute,
+  AppSignupRoute: AppSignupRoute,
+  AppIndexRoute: AppIndexRoute,
+  AppClientsIdRoute: AppClientsIdRoute,
+  AppClientsNewRoute: AppClientsNewRoute,
+  AppInvoicesNewRoute: AppInvoicesNewRoute,
+  AppClientsIndexRoute: AppClientsIndexRoute,
+  AppInvoicesIndexRoute: AppInvoicesIndexRoute,
+  AppInvoicesIdEditRoute: AppInvoicesIdEditRoute,
+  AppInvoicesIdIndexRoute: AppInvoicesIdIndexRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
-  LoginRoute: LoginRoute,
-  SettingsRoute: SettingsRoute,
-  SignupRoute: SignupRoute,
-  ClientsIdRoute: ClientsIdRoute,
-  ClientsNewRoute: ClientsNewRoute,
+  AppRoute: AppRouteWithChildren,
   ITokenRoute: ITokenRoute,
-  InvoicesNewRoute: InvoicesNewRoute,
-  ClientsIndexRoute: ClientsIndexRoute,
-  InvoicesIndexRoute: InvoicesIndexRoute,
-  InvoicesIdEditRoute: InvoicesIdEditRoute,
-  InvoicesIdIndexRoute: InvoicesIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

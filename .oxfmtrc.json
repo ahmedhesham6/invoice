@@ -13,7 +13,9 @@
     "**/build/**",
     "apps/sails/api/**/*.js",
     "apps/sails/database/migrations/**",
-    "packages/database/migrations/**"
+    "packages/database/migrations/**",
+    "**/_generated/**",
+    "**/routeTree.gen.ts"
   ],
   "experimentalSortImports": {
     "groups": [

@@ -19,7 +19,6 @@ import {
   getSoftwareApplicationSchema,
 } from '@/lib/seo';
 
-import Header from '../components/header';
 import appCss from '../index.css?url';
 
 export interface RouterAppContext {
@@ -55,13 +54,20 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
       { name: 'twitter:site', content: TWITTER_HANDLE },
 
       // SEO & AI search
-      { name: 'robots', content: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1' },
+      {
+        name: 'robots',
+        content: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
+      },
       { name: 'theme-color', content: '#1a9a8a' },
       { name: 'application-name', content: SITE_NAME },
       { name: 'apple-mobile-web-app-title', content: SITE_NAME },
       { name: 'generator', content: 'TanStack Start' },
       { name: 'author', content: 'Ahmed Hesham' },
-      { name: 'keywords', content: 'invoice, invoicing, freelancer, freelance invoice, open source invoice, free invoice generator, invoice software, invoice app, send invoice, create invoice, professional invoice, PDF invoice' },
+      {
+        name: 'keywords',
+        content:
+          'invoice, invoicing, freelancer, freelance invoice, open source invoice, free invoice generator, invoice software, invoice app, send invoice, create invoice, professional invoice, PDF invoice',
+      },
     ],
     links: [
       // Canonical
@@ -97,7 +103,6 @@ function RootComponent() {
       <RootDocument>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <div className="min-h-svh flex flex-col grain">
-            <Header />
             <main className="flex-1">
               <Outlet />
             </main>

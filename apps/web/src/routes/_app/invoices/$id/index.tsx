@@ -25,9 +25,9 @@ import { toast } from 'sonner';
 
 import { ProtectedRoute } from '@/components/protected-route';
 
-import { DownloadPDFButton } from '../../../components/pdf/download-pdf-button';
+import { DownloadPDFButton } from '../../../../components/pdf/download-pdf-button';
 
-export const Route = createFileRoute('/invoices/$id/')({
+export const Route = createFileRoute('/_app/invoices/$id/')({
   head: () => ({
     meta: [
       { title: 'Invoice Details | Invoice' },

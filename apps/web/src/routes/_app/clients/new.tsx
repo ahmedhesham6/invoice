@@ -1,4 +1,4 @@
-import { convexQuery, useConvexMutation } from '@convex-dev/react-query';
+import { useConvexMutation } from '@convex-dev/react-query';
 import { api } from '@invoice/backend/convex/_generated/api';
 import { Button } from '@invoice/ui/components/button';
 import {
@@ -12,85 +12,53 @@ import { Input } from '@invoice/ui/components/input';
 import { Label } from '@invoice/ui/components/label';
 import { Textarea } from '@invoice/ui/components/textarea';
 import { useForm } from '@tanstack/react-form';
-import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { ArrowLeft, User, MapPin, FileText, Save } from 'lucide-react';
+import { ArrowLeft, User, MapPin, FileText, UserPlus } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { ProtectedRoute } from '@/components/protected-route';
 
-export const Route = createFileRoute('/clients/$id')({
+export const Route = createFileRoute('/_app/clients/new')({
   head: () => ({
-    meta: [
-      { title: 'Edit Client | Invoice' },
-      { name: 'robots', content: 'noindex, nofollow' },
-    ],
+    meta: [{ title: 'New Client | Invoice' }, { name: 'robots', content: 'noindex, nofollow' }],
   }),
-  component: EditClientPage,
+  component: NewClientPage,
 });
 
-function EditClientPage() {
+function NewClientPage() {
   return (
     <ProtectedRoute>
-      <EditClientContent />
+      <NewClientContent />
     </ProtectedRoute>
   );
 }
 
-function EditClientContent() {
-  const { id } = Route.useParams();
+function NewClientContent() {
   const navigate = useNavigate();
-  const client = useQuery(convexQuery(api.clients.get, { id: id as any }));
-  const updateClient = useConvexMutation(api.clients.update);
+  const createClient = useConvexMutation(api.clients.create);
 
   const form = useForm({
     defaultValues: {
-      name: client.data?.name ?? '',
-      email: client.data?.email ?? '',
-      phone: client.data?.phone ?? '',
-      address: client.data?.address ?? '',
-      city: client.data?.city ?? '',
-      country: client.data?.country ?? '',
-      postalCode: client.data?.postalCode ?? '',
-      taxId: client.data?.taxId ?? '',
-      notes: client.data?.notes ?? '',
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      city: '',
+      country: '',
+      postalCode: '',
+      taxId: '',
+      notes: '',
     },
     onSubmit: async ({ value }) => {
       try {
-        await updateClient({ id: id as any, ...value });
-        toast.success('Client updated successfully');
+        await createClient(value);
+        toast.success('Client created successfully');
         navigate({ to: '/clients' });
       } catch {
-        toast.error('Failed to update client');
+        toast.error('Failed to create client');
       }
     },
   });
-
-  if (client.isLoading) {
-    return (
-      <div className="min-h-full bg-background">
-        <div className="container mx-auto max-w-2xl px-6 py-10">
-          <div className="animate-pulse space-y-5">
-            <div className="h-8 bg-muted w-48" />
-            <div className="h-64 bg-muted" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (!client.data) {
-    return (
-      <div className="min-h-full bg-background flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="font-display text-xl mb-2">Client not found</h2>
-          <Button onClick={() => navigate({ to: '/clients' })} variant="outline" className="h-10">
-            Back to Clients
-          </Button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-full bg-background">
@@ -106,8 +74,8 @@ function EditClientContent() {
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
-            <h1 className="font-display text-3xl tracking-tight">Edit Client</h1>
-            <p className="text-sm text-muted-foreground">Update client information</p>
+            <h1 className="font-display text-3xl tracking-tight">New Client</h1>
+            <p className="text-sm text-muted-foreground">Add a new client to your list</p>
           </div>
         </div>
 
@@ -144,7 +112,7 @@ function EditClientContent() {
                       id="name"
                       value={field.state.value}
                       onChange={(e) => field.handleChange(e.target.value)}
-                      placeholder="Client name"
+                      placeholder="Client or company name"
                       required
                       className="h-10 bg-background/50 border-border/60"
                     />
@@ -338,8 +306,8 @@ function EditClientContent() {
               Cancel
             </Button>
             <Button type="submit" className="h-10 gap-2 shadow-lg shadow-primary/15">
-              <Save className="h-3.5 w-3.5" />
-              Save Changes
+              <UserPlus className="h-3.5 w-3.5" />
+              Create Client
             </Button>
           </div>
         </form>

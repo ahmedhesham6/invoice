@@ -18,12 +18,9 @@ import { toast } from 'sonner';
 
 import { ProtectedRoute } from '@/components/protected-route';
 
-export const Route = createFileRoute('/clients/')({
+export const Route = createFileRoute('/_app/clients/')({
   head: () => ({
-    meta: [
-      { title: 'Clients | Invoice' },
-      { name: 'robots', content: 'noindex, nofollow' },
-    ],
+    meta: [{ title: 'Clients | Invoice' }, { name: 'robots', content: 'noindex, nofollow' }],
   }),
   component: ClientsPage,
 });

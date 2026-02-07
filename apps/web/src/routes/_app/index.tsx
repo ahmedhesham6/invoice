@@ -18,7 +18,6 @@ import {
 } from 'lucide-react';
 import { useEffect } from 'react';
 
-import { useAuth } from '@/lib/use-auth';
 import {
   SITE_URL,
   SITE_NAME,
@@ -31,26 +30,31 @@ import {
   getWebPageSchema,
   getBreadcrumbSchema,
 } from '@/lib/seo';
+import { useAuth } from '@/lib/use-auth';
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/_app/')({
   head: () => ({
     meta: [
       { title: `${SITE_NAME} — Free Open-Source Invoicing for Freelancers` },
       { name: 'description', content: SITE_DESCRIPTION },
-      { property: 'og:title', content: `${SITE_NAME} — Free Open-Source Invoicing for Freelancers` },
+      {
+        property: 'og:title',
+        content: `${SITE_NAME} — Free Open-Source Invoicing for Freelancers`,
+      },
       { property: 'og:description', content: SITE_DESCRIPTION },
       { property: 'og:url', content: SITE_URL },
       { property: 'og:image', content: OG_IMAGE },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: `${SITE_NAME} — Free Open-Source Invoicing for Freelancers` },
+      {
+        name: 'twitter:title',
+        content: `${SITE_NAME} — Free Open-Source Invoicing for Freelancers`,
+      },
       { name: 'twitter:description', content: SITE_DESCRIPTION },
       { name: 'twitter:image', content: OG_IMAGE },
       { name: 'twitter:site', content: TWITTER_HANDLE },
     ],
-    links: [
-      { rel: 'canonical', href: SITE_URL },
-    ],
+    links: [{ rel: 'canonical', href: SITE_URL }],
   }),
   component: LandingPage,
 });
@@ -112,14 +116,16 @@ function LandingPage() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-hidden">
       {/* Structured Data for AI Search & Rich Results */}
-      <JsonLd data={getWebPageSchema('Invoice — Free Open-Source Invoicing for Freelancers', SITE_DESCRIPTION, '/')} />
+      <JsonLd
+        data={getWebPageSchema(
+          'Invoice — Free Open-Source Invoicing for Freelancers',
+          SITE_DESCRIPTION,
+          '/'
+        )}
+      />
       <JsonLd data={getHowToSchema()} />
       <JsonLd data={getFaqSchema(LANDING_FAQS)} />
-      <JsonLd
-        data={getBreadcrumbSchema([
-          { name: 'Home', url: SITE_URL },
-        ])}
-      />
+      <JsonLd data={getBreadcrumbSchema([{ name: 'Home', url: SITE_URL }])} />
 
       <HeroSection />
       <OpenSourceBanner />
@@ -138,7 +144,10 @@ function LandingPage() {
 
 function HeroSection() {
   return (
-    <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden" aria-labelledby="hero-heading">
+    <section
+      className="relative min-h-[92vh] flex items-center justify-center overflow-hidden"
+      aria-labelledby="hero-heading"
+    >
       {/* Background Effects */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-[15%] left-[10%] w-[500px] h-[500px] bg-primary/20 blur-[160px] rounded-full" />
@@ -173,7 +182,10 @@ function HeroSection() {
           </a>
 
           {/* Headline */}
-          <h1 id="hero-heading" className="animate-in-up font-display text-6xl sm:text-7xl md:text-8xl lg:text-[112px] leading-[0.9] tracking-tight mb-8">
+          <h1
+            id="hero-heading"
+            className="animate-in-up font-display text-6xl sm:text-7xl md:text-8xl lg:text-[112px] leading-[0.9] tracking-tight mb-8"
+          >
             <span className="block">Get paid</span>
             <span className="block font-display-italic text-gradient">effortlessly.</span>
           </h1>
@@ -184,7 +196,9 @@ function HeroSection() {
             style={{ animationDelay: '0.1s' }}
           >
             The{' '}
-            <strong className="text-foreground font-medium">free, open-source invoicing platform</strong>{' '}
+            <strong className="text-foreground font-medium">
+              free, open-source invoicing platform
+            </strong>{' '}
             for freelancers.
             <span className="text-foreground font-medium"> Create. Share. Get paid. </span>
             No vendor lock-in, ever.
@@ -427,7 +441,10 @@ function FeaturesSection() {
           <p className="text-[11px] uppercase tracking-[0.2em] text-primary/80 font-medium mb-4">
             Features
           </p>
-          <h2 id="features-heading" className="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight mb-5">
+          <h2
+            id="features-heading"
+            className="font-display text-4xl sm:text-5xl md:text-6xl tracking-tight mb-5"
+          >
             Everything you need,
             <br />
             <span className="font-display-italic text-muted-foreground">nothing you don't.</span>
@@ -483,13 +500,19 @@ function HowItWorks() {
   ];
 
   return (
-    <section className="py-28 border-y border-border/40 bg-muted/20" aria-labelledby="how-it-works-heading">
+    <section
+      className="py-28 border-y border-border/40 bg-muted/20"
+      aria-labelledby="how-it-works-heading"
+    >
       <div className="container mx-auto max-w-6xl px-6">
         <div className="text-center mb-20">
           <p className="text-[11px] uppercase tracking-[0.2em] text-primary/80 font-medium mb-4">
             How it works
           </p>
-          <h2 id="how-it-works-heading" className="font-display text-4xl sm:text-5xl tracking-tight">
+          <h2
+            id="how-it-works-heading"
+            className="font-display text-4xl sm:text-5xl tracking-tight"
+          >
             Three steps to getting paid.
           </h2>
         </div>
@@ -767,8 +790,8 @@ function Footer() {
               <span className="text-sm font-semibold tracking-tight">Invoice</span>
             </div>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
-              The open-source invoicing platform for freelancers. Create, share, and get paid
-              — with no vendor lock-in, ever.
+              The open-source invoicing platform for freelancers. Create, share, and get paid — with
+              no vendor lock-in, ever.
             </p>
           </div>
 
@@ -779,12 +802,18 @@ function Footer() {
             </h3>
             <ul className="space-y-2.5 text-xs">
               <li>
-                <Link to="/signup" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link
+                  to="/signup"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Get started free
                 </Link>
               </li>
               <li>
-                <Link to="/login" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Link
+                  to="/login"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
                   Sign in
                 </Link>
               </li>
