@@ -9,8 +9,6 @@ import {
   CreditCard,
   Shield,
   Clock,
-  Star,
-  Quote,
   ChevronRight,
   Code2,
   GitFork,
@@ -131,7 +129,7 @@ function LandingPage() {
       <OpenSourceBanner />
       <FeaturesSection />
       <HowItWorks />
-      <Testimonials />
+      <BuiltForFreelancers />
       <PricingSection />
       <FAQSection />
       <FinalCTA />
@@ -184,10 +182,11 @@ function HeroSection() {
           {/* Headline */}
           <h1
             id="hero-heading"
-            className="animate-in-up font-display text-6xl sm:text-7xl md:text-8xl lg:text-[112px] leading-[0.9] tracking-tight mb-8"
+            className="animate-in-up font-display text-5xl sm:text-6xl md:text-7xl lg:text-[96px] leading-[0.9] tracking-tight mb-8"
           >
-            <span className="block">Get paid</span>
-            <span className="block font-display-italic text-gradient">effortlessly.</span>
+            <span className="block">Free Invoice</span>
+            <span className="block">Generator for</span>
+            <span className="block font-display-italic text-gradient">Freelancers.</span>
           </h1>
 
           {/* Subheadline — rich description for AI search extraction */}
@@ -537,27 +536,24 @@ function HowItWorks() {
   );
 }
 
-/* ── Testimonials ─────────────────────────────────────────── */
+/* ── Built For Freelancers ─────────────────────────────────── */
 
-function Testimonials() {
-  const testimonials = [
+function BuiltForFreelancers() {
+  const benefits = [
     {
-      quote: 'I was spending hours on invoicing every week. Now it takes me 2 minutes flat.',
-      name: 'Sarah Chen',
-      role: 'UI Designer',
-      initial: 'S',
+      icon: Zap,
+      title: 'Invoice in under 60 seconds',
+      desc: 'No bloated forms. Add your client, line items, and hit send. Your first invoice is ready before your coffee gets cold.',
     },
     {
-      quote: 'The shareable links are genius. My clients love the clean invoice page.',
-      name: 'Marcus Johnson',
-      role: 'Full-Stack Developer',
-      initial: 'M',
+      icon: Globe,
+      title: 'No client signup required',
+      desc: 'Share a unique link — your clients see a beautiful, professional invoice page instantly. No accounts, no friction.',
     },
     {
-      quote: "Finally, invoicing that doesn't feel like a chore. It's actually enjoyable.",
-      name: 'Emma Williams',
-      role: 'Brand Consultant',
-      initial: 'E',
+      icon: Shield,
+      title: 'Own your data forever',
+      desc: 'Fully open source under MIT. Self-host on your infra, export anytime, fork the code. Zero vendor lock-in.',
     },
   ];
 
@@ -566,36 +562,28 @@ function Testimonials() {
       <div className="container mx-auto max-w-6xl px-6">
         <div className="text-center mb-16">
           <p className="text-[11px] uppercase tracking-[0.2em] text-primary/80 font-medium mb-4">
-            Testimonials
+            Built for freelancers
           </p>
           <h2 className="font-display text-4xl sm:text-5xl tracking-tight mb-5">
-            Loved by freelancers
+            Why freelancers choose Invoice
           </h2>
-          <div className="flex items-center justify-center gap-0.5 mb-3">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
-            ))}
-          </div>
-          <p className="text-sm text-muted-foreground">4.9/5 from 500+ reviews</p>
+          <p className="text-muted-foreground text-lg max-w-md mx-auto">
+            Designed for solo professionals who want to spend less time invoicing and more time
+            doing great work.
+          </p>
         </div>
         <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map(({ quote, name, role, initial }) => (
+          {benefits.map(({ icon: Icon, title, desc }) => (
             <div
-              key={name}
+              key={title}
               className="group p-7 bg-card border border-border/60 hover:border-primary/20 transition-all duration-300 relative"
             >
               <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <Quote className="h-6 w-6 text-primary/20 mb-5" />
-              <p className="text-[15px] leading-relaxed mb-7">&ldquo;{quote}&rdquo;</p>
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 bg-muted border border-border/50 flex items-center justify-center text-sm font-medium text-muted-foreground">
-                  {initial}
-                </div>
-                <div>
-                  <div className="text-sm font-medium">{name}</div>
-                  <div className="text-xs text-muted-foreground">{role}</div>
-                </div>
+              <div className="w-10 h-10 bg-primary/10 border border-primary/15 flex items-center justify-center mb-5">
+                <Icon className="h-4.5 w-4.5 text-primary" />
               </div>
+              <h3 className="text-[15px] font-semibold mb-2 tracking-tight">{title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>

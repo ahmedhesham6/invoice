@@ -122,13 +122,6 @@ export function getSoftwareApplicationSchema() {
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
     },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: '4.9',
-      reviewCount: '500',
-      bestRating: '5',
-      worstRating: '1',
-    },
     featureList: [
       'Create professional invoices',
       'Share invoices via unique links',

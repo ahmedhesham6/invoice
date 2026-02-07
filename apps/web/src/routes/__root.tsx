@@ -31,6 +31,7 @@ export const Route = createRootRouteWithContext<RouterAppContext>()({
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'google-site-verification', content: 'Zm0y4okFLGnKewx10V2sn1ELf7mhelsQh-EnsCefriQ' },
       { title: `${SITE_NAME} — ${SITE_TAGLINE}` },
       { name: 'description', content: SITE_DESCRIPTION },
 
