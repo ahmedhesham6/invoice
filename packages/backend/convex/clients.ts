@@ -73,6 +73,19 @@ export const create = mutation({
     postalCode: v.optional(v.string()),
     taxId: v.optional(v.string()),
     notes: v.optional(v.string()),
+    invoiceTemplate: v.optional(
+      v.union(
+        v.literal('classic'),
+        v.literal('minimal'),
+        v.literal('bold'),
+        v.literal('elegant'),
+        v.literal('retro'),
+        v.literal('neon'),
+        v.literal('mono'),
+        v.literal('ocean'),
+        v.literal('sunset')
+      )
+    ),
   },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);
@@ -92,6 +105,7 @@ export const create = mutation({
       postalCode: args.postalCode,
       taxId: args.taxId,
       notes: args.notes,
+      invoiceTemplate: args.invoiceTemplate,
       createdAt: now,
       updatedAt: now,
     });
@@ -113,6 +127,19 @@ export const update = mutation({
     postalCode: v.optional(v.string()),
     taxId: v.optional(v.string()),
     notes: v.optional(v.string()),
+    invoiceTemplate: v.optional(
+      v.union(
+        v.literal('classic'),
+        v.literal('minimal'),
+        v.literal('bold'),
+        v.literal('elegant'),
+        v.literal('retro'),
+        v.literal('neon'),
+        v.literal('mono'),
+        v.literal('ocean'),
+        v.literal('sunset')
+      )
+    ),
   },
   handler: async (ctx, args) => {
     const authUser = await authComponent.safeGetAuthUser(ctx);

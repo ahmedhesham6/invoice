@@ -1,3 +1,4 @@
+import type { InvoiceTemplateId } from '@/components/invoice-templates';
 import { convexQuery, useConvexMutation } from '@convex-dev/react-query';
 import { api } from '@invoice/backend/convex/_generated/api';
 import { Button } from '@invoice/ui/components/button';
@@ -30,10 +31,13 @@ import {
   FileText,
   User,
   Loader2,
+  Palette,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
+import { resolveTemplate } from '@/components/invoice-templates';
+import { TemplatePicker } from '@/components/invoice-templates/template-picker';
 import { ProtectedRoute } from '@/components/protected-route';
 
 export const Route = createFileRoute('/_app/invoices/$id/edit')({
@@ -110,6 +114,7 @@ function EditInvoiceContent() {
   const [notes, setNotes] = useState('');
   const [paymentDetails, setPaymentDetails] = useState('');
   const [lineItems, setLineItems] = useState<LineItem[]>([]);
+  const [invoiceTemplate, setInvoiceTemplate] = useState<InvoiceTemplateId | undefined>(undefined);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -127,6 +132,7 @@ function EditInvoiceContent() {
       );
       setNotes(inv.notes || '');
       setPaymentDetails(inv.paymentDetails || '');
+      setInvoiceTemplate((inv as any).invoiceTemplate || undefined);
       setLineItems(
         inv.lineItems?.map((item) => ({
           id: item._id,
@@ -198,6 +204,7 @@ function EditInvoiceContent() {
             : undefined,
         notes: notes || undefined,
         paymentDetails: paymentDetails || undefined,
+        invoiceTemplate: invoiceTemplate || undefined,
         lineItems: lineItems.map((item) => ({
           description: item.description,
           quantity: item.quantity,
@@ -709,6 +716,35 @@ function EditInvoiceContent() {
                 value={paymentDetails}
                 onChange={(e) => setPaymentDetails(e.target.value)}
                 className="bg-background/50 border-border/60 resize-none font-mono text-xs"
+              />
+            </CardContent>
+          </Card>
+
+          {/* Invoice Template */}
+          <Card className="border-border/60 bg-card overflow-hidden">
+            <CardHeader className="border-b border-border/40 bg-muted/20 py-3.5 px-5">
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 items-center justify-center bg-pink-500/10 border border-pink-500/10 text-pink-500">
+                  <Palette className="h-3.5 w-3.5" />
+                </div>
+                <div>
+                  <CardTitle className="text-sm">Template</CardTitle>
+                  <CardDescription className="text-xs">
+                    Choose a look for this invoice. Leave empty to use the default.
+                  </CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="p-5">
+              <TemplatePicker
+                value={
+                  invoiceTemplate ||
+                  resolveTemplate(undefined, selectedClient?.invoiceTemplate, undefined)
+                }
+                onChange={(tid) => setInvoiceTemplate(tid)}
+                showDefault
+                isOverridden={!!invoiceTemplate}
+                onClearOverride={() => setInvoiceTemplate(undefined)}
               />
             </CardContent>
           </Card>

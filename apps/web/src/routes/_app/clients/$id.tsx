@@ -1,3 +1,4 @@
+import type { InvoiceTemplateId } from '@/components/invoice-templates';
 import { convexQuery, useConvexMutation } from '@convex-dev/react-query';
 import { api } from '@invoice/backend/convex/_generated/api';
 import { Button } from '@invoice/ui/components/button';
@@ -14,9 +15,11 @@ import { Textarea } from '@invoice/ui/components/textarea';
 import { useForm } from '@tanstack/react-form';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
-import { ArrowLeft, User, MapPin, FileText, Save } from 'lucide-react';
+import { ArrowLeft, User, MapPin, FileText, Save, Palette } from 'lucide-react';
 import { toast } from 'sonner';
 
+import { resolveTemplate } from '@/components/invoice-templates';
+import { TemplatePicker } from '@/components/invoice-templates/template-picker';
 import { ProtectedRoute } from '@/components/protected-route';
 
 export const Route = createFileRoute('/_app/clients/$id')({
@@ -51,10 +54,16 @@ function EditClientContent() {
       postalCode: client.data?.postalCode ?? '',
       taxId: client.data?.taxId ?? '',
       notes: client.data?.notes ?? '',
+      invoiceTemplate: ((client.data as any)?.invoiceTemplate ?? '') as InvoiceTemplateId | '',
     },
     onSubmit: async ({ value }) => {
       try {
-        await updateClient({ id: id as any, ...value });
+        const { invoiceTemplate, ...rest } = value;
+        await updateClient({
+          id: id as any,
+          ...rest,
+          invoiceTemplate: invoiceTemplate || undefined,
+        } as any);
         toast.success('Client updated successfully');
         navigate({ to: '/clients' });
       } catch {
@@ -319,6 +328,36 @@ function EditClientContent() {
                       className="bg-background/50 border-border/60 resize-none"
                     />
                   </div>
+                )}
+              </form.Field>
+            </CardContent>
+          </Card>
+
+          {/* Invoice Template Override */}
+          <Card className="border-border/60 bg-card">
+            <CardHeader className="border-b border-border/40 bg-muted/20 py-4 px-5">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-pink-500/10 border border-pink-500/10">
+                  <Palette className="h-4 w-4 text-pink-500" />
+                </div>
+                <div>
+                  <CardTitle className="text-sm">Invoice Template</CardTitle>
+                  <CardDescription className="text-xs">
+                    Override the default template for this client's invoices
+                  </CardDescription>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className="p-5">
+              <form.Field name="invoiceTemplate">
+                {(field) => (
+                  <TemplatePicker
+                    value={resolveTemplate(field.state.value || undefined)}
+                    onChange={(id) => field.handleChange(id)}
+                    showDefault
+                    isOverridden={!!field.state.value}
+                    onClearOverride={() => field.handleChange('' as any)}
+                  />
                 )}
               </form.Field>
             </CardContent>
