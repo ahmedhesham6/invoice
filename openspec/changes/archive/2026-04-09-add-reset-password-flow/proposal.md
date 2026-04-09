@@ -12,6 +12,7 @@ Users who forget their password have no way to regain access to their account. T
 ## Capabilities
 
 ### New Capabilities
+
 - `password-reset`: End-to-end forgot/reset password flow using Better Auth's `forgetPassword` plugin, including email delivery, token validation, and password update
 
 ### Modified Capabilities

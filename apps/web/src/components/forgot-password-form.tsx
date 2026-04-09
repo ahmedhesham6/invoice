@@ -23,7 +23,7 @@ export default function ForgotPasswordForm() {
       });
 
       setSubmitted(true);
-    } catch (_error) {
+    } catch {
       toast.error('An unexpected error occurred');
     } finally {
       setIsLoading(false);

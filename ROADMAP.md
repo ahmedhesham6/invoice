@@ -43,38 +43,38 @@ Invoice is a fully open-source invoicing platform for freelancers. Every feature
 
 ### ✅ What's Built & Working
 
-| Feature | Status | Notes |
-|---------|--------|-------|
-| Auth (email/password) | ✅ Complete | Better Auth + Convex, server-side sessions |
-| Dashboard | ✅ Complete | 5 stat cards, recent invoices, status breakdown |
-| Invoice CRUD | ✅ Complete | Create, edit (draft only), delete, duplicate |
-| Invoice status workflow | ✅ Complete | Draft → Sent → Paid/Overdue |
-| Client management | ✅ Complete | CRUD, per-client template override |
-| 9 invoice templates | ✅ Complete | Visual picker, preview dialog, template resolution chain |
-| PDF/Print export | ✅ Complete | Browser-based via `window.print()` + `@react-pdf/renderer` |
-| Public invoice links | ✅ Complete | `/i/{token}`, no auth required |
-| Business profile & settings | ✅ Complete | Logo upload, address, defaults, payment details |
-| Multi-currency | ✅ Complete | 8 currencies (USD, EUR, GBP, CAD, AUD, JPY, CHF, INR) |
-| Tax & discount calculations | ✅ Complete | Percentage tax, percentage/fixed discount |
-| Landing page + SEO | ✅ Complete | JSON-LD, Open Graph, sitemap, robots.txt, FAQ schema |
+| Feature                     | Status      | Notes                                                      |
+| --------------------------- | ----------- | ---------------------------------------------------------- |
+| Auth (email/password)       | ✅ Complete | Better Auth + Convex, server-side sessions                 |
+| Dashboard                   | ✅ Complete | 5 stat cards, recent invoices, status breakdown            |
+| Invoice CRUD                | ✅ Complete | Create, edit (draft only), delete, duplicate               |
+| Invoice status workflow     | ✅ Complete | Draft → Sent → Paid/Overdue                                |
+| Client management           | ✅ Complete | CRUD, per-client template override                         |
+| 9 invoice templates         | ✅ Complete | Visual picker, preview dialog, template resolution chain   |
+| PDF/Print export            | ✅ Complete | Browser-based via `window.print()` + `@react-pdf/renderer` |
+| Public invoice links        | ✅ Complete | `/i/{token}`, no auth required                             |
+| Business profile & settings | ✅ Complete | Logo upload, address, defaults, payment details            |
+| Multi-currency              | ✅ Complete | 8 currencies (USD, EUR, GBP, CAD, AUD, JPY, CHF, INR)      |
+| Tax & discount calculations | ✅ Complete | Percentage tax, percentage/fixed discount                  |
+| Landing page + SEO          | ✅ Complete | JSON-LD, Open Graph, sitemap, robots.txt, FAQ schema       |
 
 ### ❌ What's Missing
 
-| Feature | Current State | Impact |
-|---------|--------------|--------|
-| Auto-overdue detection | ⚠️ Only runs on dashboard load | Invoices sit un-marked for weeks if user doesn't log in |
-| Data export | ❌ Missing | Landing page promises "no vendor lock-in" — currently a lie |
-| Online payments | ❌ Missing | No "Pay Now" button on public invoices |
-| Email delivery | ❌ Missing | Users must copy/paste links manually |
-| Automated reminders | ❌ Missing | Landing page claims "Auto Reminders" — doesn't exist |
-| Recurring invoices | ❌ Missing | No schema support, no automation |
-| Estimates/quotes | ❌ Missing | No estimate entity or workflow |
-| Expense tracking | ❌ Missing | Not in schema |
-| Reporting | ❌ Minimal | Basic dashboard stats only |
-| Client archive | ❌ Missing | Can't delete or hide clients with invoices |
-| Per-client currency | ❌ Missing | Must set currency manually per invoice |
-| Data import | ❌ Missing | No way to migrate from other tools |
-| Partial payments | ❌ Missing | All-or-nothing payments only |
+| Feature                | Current State                  | Impact                                                      |
+| ---------------------- | ------------------------------ | ----------------------------------------------------------- |
+| Auto-overdue detection | ⚠️ Only runs on dashboard load | Invoices sit un-marked for weeks if user doesn't log in     |
+| Data export            | ❌ Missing                     | Landing page promises "no vendor lock-in" — currently a lie |
+| Online payments        | ❌ Missing                     | No "Pay Now" button on public invoices                      |
+| Email delivery         | ❌ Missing                     | Users must copy/paste links manually                        |
+| Automated reminders    | ❌ Missing                     | Landing page claims "Auto Reminders" — doesn't exist        |
+| Recurring invoices     | ❌ Missing                     | No schema support, no automation                            |
+| Estimates/quotes       | ❌ Missing                     | No estimate entity or workflow                              |
+| Expense tracking       | ❌ Missing                     | Not in schema                                               |
+| Reporting              | ❌ Minimal                     | Basic dashboard stats only                                  |
+| Client archive         | ❌ Missing                     | Can't delete or hide clients with invoices                  |
+| Per-client currency    | ❌ Missing                     | Must set currency manually per invoice                      |
+| Data import            | ❌ Missing                     | No way to migrate from other tools                          |
+| Partial payments       | ❌ Missing                     | All-or-nothing payments only                                |
 
 ### Known UX Gaps
 
@@ -90,19 +90,19 @@ Invoice is a fully open-source invoicing platform for freelancers. Every feature
 
 ### Direct Competitors — Freelancer Invoicing Tools
 
-| Tool | Pricing | Payments | Recurring | Estimates | Expenses | Reminders | Open Source |
-|------|---------|----------|-----------|-----------|----------|-----------|-------------|
-| **FreshBooks** | $17–55/mo | ✅ Stripe, PayPal, bank | ✅ | ✅ | ✅ | ✅ Auto | ❌ |
-| **Wave** | Free (2.9% on payments) | ✅ Stripe, bank | ✅ | ✅ | ✅ | ✅ Auto | ❌ |
-| **Invoice Ninja** | Free / $10/mo Pro | ✅ Stripe, PayPal, 15+ | ✅ | ✅ Proposals | ✅ | ✅ Auto | ✅ |
-| **Zoho Invoice** | Free (≤5 clients) | ✅ Stripe, PayPal | ✅ | ✅ | ❌ | ✅ Auto | ❌ |
-| **Bonsai** | $21–52/mo | ✅ Stripe, PayPal | ✅ | ✅ Proposals | ✅ | ✅ Auto | ❌ |
-| **HoneyBook** | $16–66/mo | ✅ Built-in | ✅ | ✅ | ❌ | ✅ Auto | ❌ |
-| **Hiveage** | Free / $16/mo | ✅ Stripe, PayPal | ✅ | ✅ | ✅ | ✅ Auto | ❌ |
-| **Stripe Invoicing** | 0.4%/invoice | ✅ Native | ✅ | ❌ | ❌ | ✅ Auto | ❌ |
-| **PayPal Invoicing** | Free (2.99% on pay) | ✅ Native | ✅ | ❌ | ❌ | ✅ Auto | ❌ |
-| **AND CO / Fiverr** | Free | ✅ Stripe, PayPal | ✅ | ✅ Proposals | ✅ | ✅ Auto | ❌ |
-| **Invoice (us)** | Free / $5/mo cloud | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+| Tool                 | Pricing                 | Payments                | Recurring | Estimates    | Expenses | Reminders | Open Source |
+| -------------------- | ----------------------- | ----------------------- | --------- | ------------ | -------- | --------- | ----------- |
+| **FreshBooks**       | $17–55/mo               | ✅ Stripe, PayPal, bank | ✅        | ✅           | ✅       | ✅ Auto   | ❌          |
+| **Wave**             | Free (2.9% on payments) | ✅ Stripe, bank         | ✅        | ✅           | ✅       | ✅ Auto   | ❌          |
+| **Invoice Ninja**    | Free / $10/mo Pro       | ✅ Stripe, PayPal, 15+  | ✅        | ✅ Proposals | ✅       | ✅ Auto   | ✅          |
+| **Zoho Invoice**     | Free (≤5 clients)       | ✅ Stripe, PayPal       | ✅        | ✅           | ❌       | ✅ Auto   | ❌          |
+| **Bonsai**           | $21–52/mo               | ✅ Stripe, PayPal       | ✅        | ✅ Proposals | ✅       | ✅ Auto   | ❌          |
+| **HoneyBook**        | $16–66/mo               | ✅ Built-in             | ✅        | ✅           | ❌       | ✅ Auto   | ❌          |
+| **Hiveage**          | Free / $16/mo           | ✅ Stripe, PayPal       | ✅        | ✅           | ✅       | ✅ Auto   | ❌          |
+| **Stripe Invoicing** | 0.4%/invoice            | ✅ Native               | ✅        | ❌           | ❌       | ✅ Auto   | ❌          |
+| **PayPal Invoicing** | Free (2.99% on pay)     | ✅ Native               | ✅        | ❌           | ❌       | ✅ Auto   | ❌          |
+| **AND CO / Fiverr**  | Free                    | ✅ Stripe, PayPal       | ✅        | ✅ Proposals | ✅       | ✅ Auto   | ❌          |
+| **Invoice (us)**     | Free / $5/mo cloud      | ❌                      | ❌        | ❌           | ❌       | ❌        | ✅          |
 
 ### Key Competitive Insights
 
@@ -122,16 +122,16 @@ Invoice is a fully open-source invoicing platform for freelancers. Every feature
 
 ### What Every Competitor Has That We Don't (Yet)
 
-| Capability | Who Has It | Our Priority |
-|------------|-----------|--------------|
-| Online payment collection | Everyone | Phase 2 — Week 2 |
-| Email invoice delivery | Everyone | Phase 3 — Week 4 |
-| Automated overdue reminders | Everyone | Phase 3 — Week 5 |
-| Recurring invoices | FreshBooks, Wave, Invoice Ninja, Zoho, Bonsai, HoneyBook | Phase 4 — Week 6 |
-| Estimates/quotes | FreshBooks, Invoice Ninja, Bonsai, HoneyBook | Phase 4 — Week 7 |
-| Expense tracking | FreshBooks, Wave, Invoice Ninja, Bonsai | Phase 4 — Week 8 |
-| Revenue/aging reports | FreshBooks, Wave, Zoho, Invoice Ninja | Phase 4 — Week 8 |
-| Data export | Wave, Invoice Ninja, FreshBooks | Phase 1 — Week 1 |
+| Capability                  | Who Has It                                               | Our Priority     |
+| --------------------------- | -------------------------------------------------------- | ---------------- |
+| Online payment collection   | Everyone                                                 | Phase 2 — Week 2 |
+| Email invoice delivery      | Everyone                                                 | Phase 3 — Week 4 |
+| Automated overdue reminders | Everyone                                                 | Phase 3 — Week 5 |
+| Recurring invoices          | FreshBooks, Wave, Invoice Ninja, Zoho, Bonsai, HoneyBook | Phase 4 — Week 6 |
+| Estimates/quotes            | FreshBooks, Invoice Ninja, Bonsai, HoneyBook             | Phase 4 — Week 7 |
+| Expense tracking            | FreshBooks, Wave, Invoice Ninja, Bonsai                  | Phase 4 — Week 8 |
+| Revenue/aging reports       | FreshBooks, Wave, Zoho, Invoice Ninja                    | Phase 4 — Week 8 |
+| Data export                 | Wave, Invoice Ninja, FreshBooks                          | Phase 1 — Week 1 |
 
 ---
 
@@ -153,18 +153,19 @@ Since all features are open source, revenue comes from **convenience, not lock-i
 
 #### Model 1: Managed Cloud Hosting ($5/mo)
 
-| | Self-Hosted | Cloud ($5/mo) |
-|--|-------------|---------------|
-| All features | ✅ | ✅ |
-| You manage infra | ✅ You | ✅ We handle it |
-| Automatic updates | ❌ Manual | ✅ Automatic |
-| Backups | ❌ Your responsibility | ✅ Daily automated |
-| Custom domain | ✅ | ✅ |
-| Uptime SLA | ❌ | ✅ 99.9% |
-| Email delivery (Resend) | ❌ Bring your own API key | ✅ Included |
-| Support | Community (GitHub Issues) | Priority email support |
+|                         | Self-Hosted               | Cloud ($5/mo)          |
+| ----------------------- | ------------------------- | ---------------------- |
+| All features            | ✅                        | ✅                     |
+| You manage infra        | ✅ You                    | ✅ We handle it        |
+| Automatic updates       | ❌ Manual                 | ✅ Automatic           |
+| Backups                 | ❌ Your responsibility    | ✅ Daily automated     |
+| Custom domain           | ✅                        | ✅                     |
+| Uptime SLA              | ❌                        | ✅ 99.9%               |
+| Email delivery (Resend) | ❌ Bring your own API key | ✅ Included            |
+| Support                 | Community (GitHub Issues) | Priority email support |
 
 **Why this works:**
+
 - Most freelancers don't want to manage servers — $5/mo is cheaper than their time
 - Self-hosters are power users who contribute back (bug reports, PRs, docs)
 - $5/mo is impulse pricing — cheaper than every hosted competitor
@@ -178,6 +179,7 @@ Since all features are open source, revenue comes from **convenience, not lock-i
 - Revenue scales with user success: we only earn when freelancers get paid
 
 **Why this works:**
+
 - Perfectly aligned incentives — we make money only when users make money
 - No upfront cost barrier — easier to acquire users
 - Wave built a $400M+ company on this exact model
@@ -191,6 +193,7 @@ Since all features are open source, revenue comes from **convenience, not lock-i
 - **Payment processing fee:** Optional 0.5% platform fee on cloud (waived for paid tier)
 
 **This is the recommended model** because it:
+
 - Keeps the open-source promise intact (self-host = full product)
 - Gives a free entry point for cloud users (try before you buy)
 - Creates a clear reason to pay ($5/mo removes limits + included email infra)
@@ -199,16 +202,16 @@ Since all features are open source, revenue comes from **convenience, not lock-i
 
 ### Competitive Pricing Comparison
 
-| Tool | Price for Unlimited Invoices + Payments + Reminders |
-|------|-----------------------------------------------------|
-| FreshBooks | $17/mo (minimum) |
-| Bonsai | $21/mo (minimum) |
-| HoneyBook | $16/mo (minimum) |
-| Invoice Ninja Pro | $10/mo |
-| Zoho Invoice | Free (≤5 clients), then $9/mo |
-| Wave | Free (2.9% + $0.60 per payment) |
-| **Invoice (cloud)** | **$5/mo** (all features) |
-| **Invoice (self-hosted)** | **$0** (all features, forever) |
+| Tool                      | Price for Unlimited Invoices + Payments + Reminders |
+| ------------------------- | --------------------------------------------------- |
+| FreshBooks                | $17/mo (minimum)                                    |
+| Bonsai                    | $21/mo (minimum)                                    |
+| HoneyBook                 | $16/mo (minimum)                                    |
+| Invoice Ninja Pro         | $10/mo                                              |
+| Zoho Invoice              | Free (≤5 clients), then $9/mo                       |
+| Wave                      | Free (2.9% + $0.60 per payment)                     |
+| **Invoice (cloud)**       | **$5/mo** (all features)                            |
+| **Invoice (self-hosted)** | **$0** (all features, forever)                      |
 
 At $5/mo for the hosted version — with all features included and no feature gating — Invoice is the cheapest hosted invoicing solution with online payments, and the only one where you can walk away with the full codebase at any time.
 
@@ -218,36 +221,36 @@ At $5/mo for the hosted version — with all features included and no feature ga
 
 Every feature is scored on four dimensions:
 
-| Dimension | Weight | Question |
-|-----------|--------|----------|
-| **Product Completeness** | 35% | Does this close a critical gap vs. competitors? |
-| **User Value** | 30% | How much time/friction does this save freelancers daily? |
-| **Retention Impact** | 20% | Does this keep users coming back weekly? |
-| **Build Effort** | 15% | Can we ship it quickly with Convex + TanStack Start? |
+| Dimension                | Weight | Question                                                 |
+| ------------------------ | ------ | -------------------------------------------------------- |
+| **Product Completeness** | 35%    | Does this close a critical gap vs. competitors?          |
+| **User Value**           | 30%    | How much time/friction does this save freelancers daily? |
+| **Retention Impact**     | 20%    | Does this keep users coming back weekly?                 |
+| **Build Effort**         | 15%    | Can we ship it quickly with Convex + TanStack Start?     |
 
 ### Scored Feature Matrix
 
-| # | Feature | Completeness | User Value | Retention | Effort (inverse) | **Score** | **Phase** |
-|---|---------|-------------|------------|-----------|-------------------|-----------|-----------|
-| 1 | Stripe Payment Integration | 10 | 10 | 8 | 5 | **8.85** | **2** |
-| 3b | Automated Email Reminders | 9 | 9 | 8 | 6 | **8.35** | **3** |
-| 4 | Recurring Invoices | 9 | 9 | 10 | 4 | **8.35** | **4** |
-| 2 | Email Delivery (Resend) | 9 | 9 | 7 | 7 | **8.30** | **3** |
-| 5 | Estimates / Quotes | 8 | 8 | 8 | 5 | **7.55** | **4** |
-| 7 | Reporting Improvements | 7 | 7 | 7 | 6 | **6.90** | **4** |
-| 6 | Expense Tracking | 6 | 6 | 9 | 4 | **6.35** | **4** |
-| 3a | Overdue Cron Job | 7 | 6 | 6 | 10 | **6.85** | **1** |
-| 10 | PayPal Integration | 6 | 6 | 5 | 4 | **5.55** | **5** |
-| 18 | Partial Payments | 5 | 5 | 5 | 4 | **4.85** | **5** |
-| 9 | Data Export (JSON + CSV) | 5 | 4 | 3 | 9 | **4.70** | **1** |
-| 11 | Client Portal | 5 | 5 | 6 | 3 | **4.95** | **6** |
-| 8 | Data Import (CSV) | 4 | 5 | 4 | 4 | **4.25** | **5** |
-| 16 | Client Archive | 3 | 5 | 5 | 9 | **4.70** | **1** |
-| 17 | Per-Client Currency Default | 3 | 4 | 4 | 9 | **4.20** | **1** |
-| 12 | Multi-language Invoices | 4 | 4 | 5 | 5 | **4.35** | **6** |
-| 13 | Webhook Support | 3 | 3 | 3 | 7 | **3.50** | **6** |
-| 14 | Zapier Integration | 3 | 3 | 4 | 3 | **3.25** | **6** |
-| 15 | 2FA (TOTP) | 3 | 2 | 2 | 6 | **2.85** | **6** |
+| #   | Feature                     | Completeness | User Value | Retention | Effort (inverse) | **Score** | **Phase** |
+| --- | --------------------------- | ------------ | ---------- | --------- | ---------------- | --------- | --------- |
+| 1   | Stripe Payment Integration  | 10           | 10         | 8         | 5                | **8.85**  | **2**     |
+| 3b  | Automated Email Reminders   | 9            | 9          | 8         | 6                | **8.35**  | **3**     |
+| 4   | Recurring Invoices          | 9            | 9          | 10        | 4                | **8.35**  | **4**     |
+| 2   | Email Delivery (Resend)     | 9            | 9          | 7         | 7                | **8.30**  | **3**     |
+| 5   | Estimates / Quotes          | 8            | 8          | 8         | 5                | **7.55**  | **4**     |
+| 7   | Reporting Improvements      | 7            | 7          | 7         | 6                | **6.90**  | **4**     |
+| 6   | Expense Tracking            | 6            | 6          | 9         | 4                | **6.35**  | **4**     |
+| 3a  | Overdue Cron Job            | 7            | 6          | 6         | 10               | **6.85**  | **1**     |
+| 10  | PayPal Integration          | 6            | 6          | 5         | 4                | **5.55**  | **5**     |
+| 18  | Partial Payments            | 5            | 5          | 5         | 4                | **4.85**  | **5**     |
+| 9   | Data Export (JSON + CSV)    | 5            | 4          | 3         | 9                | **4.70**  | **1**     |
+| 11  | Client Portal               | 5            | 5          | 6         | 3                | **4.95**  | **6**     |
+| 8   | Data Import (CSV)           | 4            | 5          | 4         | 4                | **4.25**  | **5**     |
+| 16  | Client Archive              | 3            | 5          | 5         | 9                | **4.70**  | **1**     |
+| 17  | Per-Client Currency Default | 3            | 4          | 4         | 9                | **4.20**  | **1**     |
+| 12  | Multi-language Invoices     | 4            | 4          | 5         | 5                | **4.35**  | **6**     |
+| 13  | Webhook Support             | 3            | 3          | 3         | 7                | **3.50**  | **6**     |
+| 14  | Zapier Integration          | 3            | 3          | 4         | 3                | **3.25**  | **6**     |
+| 15  | 2FA (TOTP)                  | 3            | 2          | 2         | 6                | **2.85**  | **6**     |
 
 ---
 
@@ -260,6 +263,7 @@ Every feature is scored on four dimensions:
 **Why now:** The landing page promises "no vendor lock-in" and "own your data forever." Without export, that's broken trust. For an open-source project, data portability isn't a nice-to-have — it's a core principle.
 
 **Scope:**
+
 - New Convex query: `export.fullExport` — returns all user data (profile, clients, invoices + line items)
 - Settings page: "Export Data" section with two buttons
   - **Export JSON** — full structured data dump, single file
@@ -274,6 +278,7 @@ Every feature is scored on four dimensions:
 **Why now:** Current auto-overdue detection only runs when the user opens the dashboard. Invoices can sit in "sent" status for weeks after their due date. For an open-source tool that people will self-host, this must work without user interaction.
 
 **Scope:**
+
 - New file: `packages/backend/convex/crons.ts`
 - Convex cron job: runs every hour
 - Internal mutation: queries ALL sent invoices across all users where `dueDate < Date.now()`
@@ -288,6 +293,7 @@ Every feature is scored on four dimensions:
 **Why now:** The app throws an error when you try to delete a client with invoices. Users hit this within the first week. Archive is the correct pattern — hide from active use, preserve for historical records.
 
 **Scope:**
+
 - Schema: add `archived: v.optional(v.boolean())` to `clients` table
 - `clients.list` — filter out archived by default, add `includeArchived` arg
 - New mutations: `clients.archive` and `clients.unarchive`
@@ -303,6 +309,7 @@ Every feature is scored on four dimensions:
 **Why now:** Quick win that eliminates daily friction for freelancers billing international clients. We already have multi-currency — this just saves the preference.
 
 **Scope:**
+
 - Schema: add `defaultCurrency: v.optional(v.string())` to `clients` table
 - Client create/edit form: currency selector (reuse from invoice form)
 - New invoice form: when client is selected, pre-fill currency from `client.defaultCurrency ?? profile.defaultCurrency`
@@ -322,12 +329,14 @@ Every feature is scored on four dimensions:
 **Why this is the #1 feature:** Every competitor has online payments. Without a "Pay Now" button on `/i/{token}`, the public invoice page is just a pretty picture. With it, the entire invoicing loop closes: create → send → collect → reconcile — all automated.
 
 **The freelancer's current workflow without this:**
+
 1. Create invoice in Invoice
 2. Copy the link, paste it in Gmail
 3. Client views invoice, sees bank details, maybe pays eventually
 4. Freelancer checks bank manually, comes back to Invoice, clicks "Mark as Paid"
 
 **The workflow WITH Stripe:**
+
 1. Create invoice in Invoice
 2. Share link (or email — Phase 3)
 3. Client clicks "Pay Now" on the invoice page
@@ -358,6 +367,7 @@ Freelancer                    Invoice (platform)              Client
 ```
 
 **Why Connect Express:**
+
 - Payments go directly to the freelancer's Stripe account — we never hold funds
 - Express accounts handle disputes, refunds, and compliance on the freelancer's side
 - Simplest integration path, least regulatory burden for us
@@ -367,6 +377,7 @@ Freelancer                    Invoice (platform)              Client
 **Scope:**
 
 #### Schema Changes
+
 ```
 profiles: add
   - stripeAccountId: v.optional(v.string())     // Stripe Connect account ID
@@ -379,6 +390,7 @@ invoices: add
 ```
 
 #### Backend (Convex)
+
 ```
 New file: stripe.ts
   Mutations:
@@ -400,6 +412,7 @@ HTTP routes (http.ts additions):
 ```
 
 #### Frontend
+
 - **Settings page:** "Payments" section
   - "Connect Stripe" button → redirects to Stripe Connect onboarding
   - Connected state: shows Stripe account email, green badge, disconnect option
@@ -430,6 +443,7 @@ HTTP routes (http.ts additions):
 ### 3.1 Email Delivery via Resend
 
 **Why Resend:**
+
 - Modern API with excellent DX
 - React Email for building templates in JSX (matches our stack)
 - Generous free tier (100 emails/day — enough for most freelancers)
@@ -463,6 +477,7 @@ HTTP routes (http.ts additions):
 **Scope:**
 
 #### New Monorepo Package
+
 ```
 packages/email/
   - src/templates/invoice-delivery.tsx    (React Email template)
@@ -473,6 +488,7 @@ packages/email/
 ```
 
 #### Backend (Convex)
+
 ```
 New file: email.ts
   Actions (external — calls Resend API):
@@ -493,6 +509,7 @@ Schema changes:
 ```
 
 #### Frontend
+
 - **Invoice detail page:**
   - "Send Invoice" button replaces current "Mark as Sent"
   - Opens dialog: shows recipient (client email), optional personal message textarea
@@ -514,6 +531,7 @@ Schema changes:
 **Why:** FreshBooks data shows auto-reminders cut average payment time from 21 days to 14 days. This is consistently cited as a top-3 reason freelancers pay for invoicing tools. We're shipping it free.
 
 **Default Reminder Schedule:**
+
 - **Day 1 overdue** — Friendly: "Just a reminder — Invoice {INV-001} was due yesterday"
 - **Day 7 overdue** — Firm: "Invoice {INV-001} is now 7 days past due"
 - **Day 14 overdue** — Urgent: "Second reminder — Invoice {INV-001} is 14 days overdue"
@@ -524,6 +542,7 @@ Fully configurable per user. Can add/remove days, enable/disable entirely.
 **Scope:**
 
 #### Schema Changes
+
 ```
 profiles: add
   - remindersEnabled: v.optional(v.boolean())         // default: true
@@ -535,6 +554,7 @@ invoices: add
 ```
 
 #### Backend (Convex)
+
 ```
 Extend crons.ts:
   - New cron: runs every 6 hours
@@ -548,6 +568,7 @@ Extend crons.ts:
 ```
 
 #### Frontend
+
 - **Settings page:** "Reminders" section
   - Toggle: enable/disable automatic reminders
   - Day selector: checkboxes for common intervals [1, 3, 7, 14, 21, 30, 45, 60, 90]
@@ -578,6 +599,7 @@ Extend crons.ts:
 **Scope:**
 
 #### Schema
+
 ```
 New table: recurringInvoices
   - userId: v.string()
@@ -599,6 +621,7 @@ Invoices table: add
 ```
 
 #### Backend
+
 ```
 New file: recurring.ts
   Mutations:
@@ -625,6 +648,7 @@ Extend crons.ts:
 ```
 
 #### Frontend
+
 - New route: `/recurring` — list of all recurring schedules
   - Shows: client name, frequency, next run date, status, generated count
   - Actions: pause, resume, cancel, edit
@@ -641,6 +665,7 @@ Extend crons.ts:
 **Why:** Project-based freelancers (designers, developers, consultants) need to quote before they invoice. Without estimates, they create quotes in Google Docs, get approval over email, then manually recreate everything in Invoice. One-click estimate → invoice conversion eliminates this entirely.
 
 **Status workflow:**
+
 ```
 Draft → Sent → Accepted → Converted to Invoice
                  ↓
@@ -652,6 +677,7 @@ Draft → Sent → Accepted → Converted to Invoice
 **Scope:**
 
 #### Schema
+
 ```
 New table: estimates
   - Same fields as invoices: userId, clientId, lineItems (reference), dates, amounts, currency
@@ -671,6 +697,7 @@ Profile: add
 ```
 
 #### Backend
+
 ```
 New file: estimates.ts
   - Full CRUD: create, get, list, update, remove
@@ -688,6 +715,7 @@ Extend crons.ts:
 ```
 
 #### Frontend
+
 - New routes: `/estimates`, `/estimates/new`, `/estimates/$id`, `/estimates/$id/edit`
 - Reuse invoice form component — same line items UI, same template picker
 - Public estimate page: `/e/{token}`
@@ -711,6 +739,7 @@ Extend crons.ts:
 **Scope:**
 
 #### Schema
+
 ```
 New table: expenses
   - userId: v.string()
@@ -726,6 +755,7 @@ New table: expenses
 ```
 
 #### Backend
+
 ```
 New file: expenses.ts
   - create, get, list (with date range + category + client filters), update, remove
@@ -736,6 +766,7 @@ New file: expenses.ts
 ```
 
 #### Frontend
+
 - New routes: `/expenses`, `/expenses/new`
 - Expense list: table with date, vendor, category, amount, receipt icon
   - Filterable by date range, category, client
@@ -782,6 +813,7 @@ New file: expenses.ts
 5. **All reports: CSV + PDF export buttons**
 
 #### Backend
+
 ```
 New file: reports.ts
   Queries:
@@ -806,6 +838,7 @@ Features that expand the addressable market and reduce barriers to switching.
 **Why:** Stripe operates in 47 countries. PayPal operates in 200+. Many freelancers in Africa, Southeast Asia, Eastern Europe, and Latin America rely on PayPal as their primary payment method. Adding PayPal as a second payment option significantly expands our addressable market.
 
 **Scope:**
+
 - PayPal Checkout SDK integration on public invoice page
 - Freelancer connects PayPal in Settings (OAuth)
 - `/i/{token}` shows both: "Pay with Card" (Stripe) and "Pay with PayPal"
@@ -819,6 +852,7 @@ Features that expand the addressable market and reduce barriers to switching.
 **Why:** Only matters once we have enough features to justify switching. Import removes the #1 barrier: "I have 3 years of invoices in FreshBooks, I can't re-enter them all."
 
 **Scope:**
+
 - **CSV import wizard:** upload → column mapping UI → preview → confirm → import
 - **Pre-built importers for:**
   - Invoice Ninja (JSON export format)
@@ -835,6 +869,7 @@ Features that expand the addressable market and reduce barriers to switching.
 **Why:** Freelancers billing large projects ($5K–$50K) often work with clients who pay in installments — 50% upfront, 50% on delivery. Without partial payments, the only option is to create separate invoices for each installment, which breaks the audit trail.
 
 **Scope:**
+
 - Schema: add `amountPaid` and `amountDue` to invoices, new `payments` table for individual payment records
 - Public invoice page: "Pay Custom Amount" option alongside "Pay Full Amount" in Stripe Checkout
 - Invoice detail: payment history timeline showing each partial payment
@@ -900,15 +935,15 @@ REST API for power users, integrators, and developers building on top of Invoice
 
 ## Features NOT Building (& Why)
 
-| Feature | Why Not |
-|---------|---------|
-| **Time tracking** | Different product. 80%+ of freelancers already use Toggl, Clockify, or Harvest. Building a worse time tracker doesn't help. Our line items support hourly billing already — freelancers enter hours manually. |
-| **Contract management** | Bonsai/HoneyBook territory. Adding contracts bloats the product into an "all-in-one" that does nothing well. Stay focused on invoicing. |
-| **Full accounting / bookkeeping** | Wave/QuickBooks territory. Double-entry bookkeeping, chart of accounts, bank reconciliation — different product entirely. Our expense tracking is intentionally simple. |
-| **Team / multi-user** | Invoice is for solo freelancers. Multi-user adds massive complexity (permissions, roles, shared clients, team billing). If teams need invoicing, they use FreshBooks or QuickBooks. |
-| **Inventory management** | Product-based businesses need this, service-based freelancers don't. Not our market. |
-| **CRM / Sales pipeline** | Client management is enough. Adding deals, pipelines, and lead tracking is scope creep into HubSpot territory. |
-| **Bank account linking** | Plaid integration for automatic payment detection. Cool but complex, expensive (Plaid costs), and solves a problem Stripe webhooks already solve for online payments. |
+| Feature                           | Why Not                                                                                                                                                                                                       |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Time tracking**                 | Different product. 80%+ of freelancers already use Toggl, Clockify, or Harvest. Building a worse time tracker doesn't help. Our line items support hourly billing already — freelancers enter hours manually. |
+| **Contract management**           | Bonsai/HoneyBook territory. Adding contracts bloats the product into an "all-in-one" that does nothing well. Stay focused on invoicing.                                                                       |
+| **Full accounting / bookkeeping** | Wave/QuickBooks territory. Double-entry bookkeeping, chart of accounts, bank reconciliation — different product entirely. Our expense tracking is intentionally simple.                                       |
+| **Team / multi-user**             | Invoice is for solo freelancers. Multi-user adds massive complexity (permissions, roles, shared clients, team billing). If teams need invoicing, they use FreshBooks or QuickBooks.                           |
+| **Inventory management**          | Product-based businesses need this, service-based freelancers don't. Not our market.                                                                                                                          |
+| **CRM / Sales pipeline**          | Client management is enough. Adding deals, pipelines, and lead tracking is scope creep into HubSpot territory.                                                                                                |
+| **Bank account linking**          | Plaid integration for automatic payment detection. Cool but complex, expensive (Plaid costs), and solves a problem Stripe webhooks already solve for online payments.                                         |
 
 ---
 
@@ -924,18 +959,10 @@ import { internal } from './_generated/api';
 const crons = cronJobs();
 
 // Phase 1: Mark overdue invoices (every hour)
-crons.interval(
-  'check overdue invoices',
-  { hours: 1 },
-  internal.invoices.autoCheckOverdue
-);
+crons.interval('check overdue invoices', { hours: 1 }, internal.invoices.autoCheckOverdue);
 
 // Phase 3: Send overdue reminders (every 6 hours)
-crons.interval(
-  'send overdue reminders',
-  { hours: 6 },
-  internal.email.processReminders
-);
+crons.interval('send overdue reminders', { hours: 6 }, internal.email.processReminders);
 
 // Phase 4: Generate recurring invoices (daily at 6 AM UTC)
 crons.daily(
@@ -945,11 +972,7 @@ crons.daily(
 );
 
 // Phase 4: Auto-expire estimates (daily at midnight UTC)
-crons.daily(
-  'expire old estimates',
-  { hourUTC: 0, minuteUTC: 0 },
-  internal.estimates.autoExpire
-);
+crons.daily('expire old estimates', { hourUTC: 0, minuteUTC: 0 }, internal.estimates.autoExpire);
 
 export default crons;
 ```
@@ -1021,28 +1044,28 @@ packages/email/
 
 ### Phase 1–3 (Pre-launch — Feature Completeness)
 
-| Metric | Target |
-|--------|--------|
-| All Phase 1–3 features shipped | ✅ |
-| Self-host documentation complete | ✅ |
-| Zero known critical bugs | ✅ |
-| Landing page accurately reflects features | ✅ |
-| Stripe payment flow tested end-to-end | ✅ |
-| Email delivery tested end-to-end | ✅ |
+| Metric                                    | Target |
+| ----------------------------------------- | ------ |
+| All Phase 1–3 features shipped            | ✅     |
+| Self-host documentation complete          | ✅     |
+| Zero known critical bugs                  | ✅     |
+| Landing page accurately reflects features | ✅     |
+| Stripe payment flow tested end-to-end     | ✅     |
+| Email delivery tested end-to-end          | ✅     |
 
 ### Post-Launch (Month 1–6)
 
-| Metric | Month 1 | Month 3 | Month 6 |
-|--------|---------|---------|---------|
-| GitHub stars | 200 | 1,000 | 3,000 |
-| Registered users (cloud) | 100 | 500 | 2,000 |
-| Monthly invoices created | 300 | 2,000 | 10,000 |
-| Stripe payments processed | 50 | 500 | 3,000 |
-| Payment volume (GMV) | $10K | $100K | $500K |
-| Cloud paid subscribers | 10 | 80 | 400 |
-| MRR | $50 | $400 | $2,000 |
-| Self-host Docker pulls | 50 | 300 | 1,000 |
-| Contributors (GitHub) | 3 | 10 | 25 |
+| Metric                    | Month 1 | Month 3 | Month 6 |
+| ------------------------- | ------- | ------- | ------- |
+| GitHub stars              | 200     | 1,000   | 3,000   |
+| Registered users (cloud)  | 100     | 500     | 2,000   |
+| Monthly invoices created  | 300     | 2,000   | 10,000  |
+| Stripe payments processed | 50      | 500     | 3,000   |
+| Payment volume (GMV)      | $10K    | $100K   | $500K   |
+| Cloud paid subscribers    | 10      | 80      | 400     |
+| MRR                       | $50     | $400    | $2,000  |
+| Self-host Docker pulls    | 50      | 300     | 1,000   |
+| Contributors (GitHub)     | 3       | 10      | 25      |
 
 ### North Star Metric
 
@@ -1055,6 +1078,7 @@ packages/email/
 ### Current SEO State — Audit
 
 **✅ What's working well:**
+
 - JSON-LD structured data (Organization, SoftwareApplication, HowTo, FAQ, BreadcrumbList)
 - Open Graph + Twitter Card meta tags on all public pages
 - Sitemap at `/sitemap.xml`
@@ -1095,6 +1119,7 @@ packages/email/
 ### Distribution Channels
 
 #### Open Source Channels (High Impact)
+
 1. **GitHub** — README optimization, topics (`invoicing`, `freelancer`, `open-source`), awesome-lists
 2. **Hacker News "Show HN"** — Time with major feature launch (Phase 2 or 3 completion)
 3. **Product Hunt** — Open-source category launch
@@ -1102,11 +1127,13 @@ packages/email/
 5. **r/opensource, r/webdev, r/freelance** — Targeted communities
 
 #### Content Marketing (Medium-term)
+
 6. **Dev.to / Hashnode** — Technical posts about the architecture (Convex + TanStack Start + React Email)
 7. **Blog on main site** — SEO-targeted content for invoice-related keywords
 8. **YouTube** — "Building an open-source SaaS" series, feature demos
 
 #### Community (Long-term)
+
 9. **Twitter/X** — Build-in-public thread, feature announcements, milestone celebrations
 10. **Indie Hackers** — Monthly updates on growth
 11. **Discord community** — User feedback, feature requests, self-hosting support
@@ -1165,4 +1192,4 @@ Months 6+     Phase 6 — Platform Play
 
 ---
 
-*This is a living document. Priorities shift based on community feedback, GitHub issues, and contributor interest. Updated monthly.*
+_This is a living document. Priorities shift based on community feedback, GitHub issues, and contributor interest. Updated monthly._

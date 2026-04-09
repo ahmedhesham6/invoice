@@ -73,7 +73,7 @@ export default function ResetPasswordForm({ token }: { token: string }) {
 
       toast.success('Password reset successfully!');
       navigate({ to: '/login' });
-    } catch (_error) {
+    } catch {
       setError('An unexpected error occurred');
     } finally {
       setIsLoading(false);

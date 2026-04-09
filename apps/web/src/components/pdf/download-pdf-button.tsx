@@ -100,7 +100,7 @@ export function DownloadPDFButton({
 <html>
 <head>
   <title>Invoice ${invoice.invoiceNumber}</title>
-  <script src="https://cdn.tailwindcss.com"><\/script>
+  <script src="https://cdn.tailwindcss.com"><${"/"}>script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@200;300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -128,7 +128,7 @@ export function DownloadPDFButton({
     window.onload = function() {
       setTimeout(function() { window.print(); }, 300);
     }
-  <\/script>
+  <${"/"}>script>
 </body>
 </html>
       `;

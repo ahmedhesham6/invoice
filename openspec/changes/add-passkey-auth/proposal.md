@@ -14,6 +14,7 @@ Passkeys provide phishing-resistant, passwordless authentication that's faster a
 ## Capabilities
 
 ### New Capabilities
+
 - `passkey-auth`: Passkey registration, sign-in, and management using Better Auth's passkey plugin and WebAuthn
 
 ### Modified Capabilities

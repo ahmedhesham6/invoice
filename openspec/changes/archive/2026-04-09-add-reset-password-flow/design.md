@@ -7,10 +7,12 @@ Better Auth has a built-in `forgetPassword` plugin that handles token generation
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Allow users to reset their password via email when they forget it
 - Leverage Better Auth's built-in `forgetPassword` plugin for the full flow (token generation, validation, password update, and email sending via its `sendResetPassword` callback)
 
 **Non-Goals:**
+
 - Email verification for signup (separate feature)
 - Password change from settings while logged in (separate feature)
 - Rate limiting beyond what Better Auth provides by default
@@ -39,7 +41,6 @@ Better Auth has a built-in `forgetPassword` plugin that handles token generation
 **Choice**: Two new routes — `/forgot-password` and `/reset-password`.
 
 **Rationale**: `/forgot-password` is the email input form. `/reset-password` is the token-based password entry form (token passed as URL query param by Better Auth). Both are public routes under the existing `_app` layout.
-
 
 ## Risks / Trade-offs
 

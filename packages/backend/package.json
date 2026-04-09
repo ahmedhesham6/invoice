@@ -9,6 +9,7 @@
     "dev:setup": "GITHUB_TOKEN=$(gh auth token) convex dev --configure --until-success"
   },
   "dependencies": {
+    "@better-auth/passkey": "^1.4.9",
     "@convex-dev/better-auth": "catalog:",
     "better-auth": "catalog:",
     "convex": "catalog:",

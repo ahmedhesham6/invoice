@@ -2,7 +2,8 @@ import { Button } from '@invoice/ui/components/button';
 import { Input } from '@invoice/ui/components/input';
 import { Label } from '@invoice/ui/components/label';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { useState } from 'react';
+import { Fingerprint } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 import { authClient } from '@/lib/auth-client';
@@ -10,8 +11,14 @@ import { authClient } from '@/lib/auth-client';
 export default function SignInForm() {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isPasskeyLoading, setIsPasskeyLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [supportsPasskey, setSupportsPasskey] = useState(false);
+
+  useEffect(() => {
+    setSupportsPasskey(typeof window !== 'undefined' && !!window.PublicKeyCredential);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +37,7 @@ export default function SignInForm() {
 
       toast.success('Welcome back!');
       navigate({ to: '/dashboard' });
-    } catch (_error) {
+    } catch {
       toast.error('An unexpected error occurred');
     } finally {
       setIsLoading(false);
@@ -110,13 +117,48 @@ export default function SignInForm() {
           </Button>
         </form>
 
+        {/* Passkey sign-in */}
+        {supportsPasskey && (
+          <>
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-border/40" />
+              </div>
+              <div className="relative flex justify-center text-xs">
+                <span className="bg-card px-3 text-muted-foreground">or</span>
+              </div>
+            </div>
+
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full h-11 gap-2 border-border/60"
+              disabled={isPasskeyLoading || isLoading}
+              onClick={async () => {
+                setIsPasskeyLoading(true);
+                try {
+                  const result = await authClient.signIn.passkey();
+                  if (result?.error) {
+                    toast.error(result.error.message || 'Passkey sign-in failed');
+                    return;
+                  }
+                  toast.success('Welcome back!');
+                  navigate({ to: '/dashboard' });
+                } catch {
+                  // User likely cancelled the WebAuthn prompt
+                } finally {
+                  setIsPasskeyLoading(false);
+                }
+              }}
+            >
+              <Fingerprint className="h-4 w-4" />
+              {isPasskeyLoading ? 'Verifying...' : 'Sign in with passkey'}
+            </Button>
+          </>
+        )}
+
         {/* Footer */}
         <div className="mt-8 text-center">
-          <div className="relative mb-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-border/40" />
-            </div>
-          </div>
           <p className="text-sm text-muted-foreground">
             Don't have an account?{' '}
             <Link

@@ -1,6 +1,17 @@
 import type { InvoiceTemplateId } from '@/components/invoice-templates';
 import { convexQuery, useConvexMutation } from '@convex-dev/react-query';
 import { api } from '@invoice/backend/convex/_generated/api';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@invoice/ui/components/alert-dialog';
 import { Button } from '@invoice/ui/components/button';
 import {
   Card,
@@ -23,12 +34,26 @@ import { Textarea } from '@invoice/ui/components/textarea';
 import { useForm } from '@tanstack/react-form';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { Upload, X, User, MapPin, FileText, CreditCard, Save, Palette } from 'lucide-react';
-import { useRef, useState } from 'react';
+import {
+  Upload,
+  X,
+  User,
+  MapPin,
+  FileText,
+  CreditCard,
+  Save,
+  Palette,
+  Fingerprint,
+  Plus,
+  Pencil,
+  Trash2,
+} from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'sonner';
 
 import { TemplatePicker } from '@/components/invoice-templates/template-picker';
 import { ProtectedRoute } from '@/components/protected-route';
+import { authClient } from '@/lib/auth-client';
 
 export const Route = createFileRoute('/_app/settings')({
   head: () => ({
@@ -602,7 +627,221 @@ function SettingsContent() {
             </Button>
           </div>
         </form>
+
+        {/* Passkeys — outside the profile form */}
+        <PasskeysCard />
       </div>
     </div>
+  );
+}
+
+interface Passkey {
+  id: string;
+  name?: string | undefined;
+  deviceType?: string | undefined;
+  createdAt: Date;
+}
+
+function PasskeysCard() {
+  const [passkeys, setPasskeys] = useState<Passkey[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isAdding, setIsAdding] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editName, setEditName] = useState('');
+
+  const fetchPasskeys = useCallback(async () => {
+    try {
+      const result = await authClient.passkey.listUserPasskeys();
+      setPasskeys(result.data ?? []);
+    } catch {
+      // silently fail
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPasskeys();
+  }, [fetchPasskeys]);
+
+  const handleAdd = async () => {
+    setIsAdding(true);
+    try {
+      const result = await authClient.passkey.addPasskey();
+      if (result?.error) {
+        toast.error(result.error.message || 'Failed to add passkey');
+        return;
+      }
+      toast.success('Passkey added');
+      await fetchPasskeys();
+    } catch {
+      // User likely cancelled the WebAuthn prompt
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
+  const handleRename = async (id: string) => {
+    if (!editName.trim()) return;
+    try {
+      await authClient.passkey.updatePasskey({ id, name: editName.trim() });
+      toast.success('Passkey renamed');
+      setEditingId(null);
+      await fetchPasskeys();
+    } catch {
+      toast.error('Failed to rename passkey');
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await authClient.passkey.deletePasskey({ id });
+      toast.success('Passkey deleted');
+      await fetchPasskeys();
+    } catch {
+      toast.error('Failed to delete passkey');
+    }
+  };
+
+  return (
+    <Card className="border-border/60 bg-card mt-5">
+      <CardHeader className="border-b border-border/40 bg-muted/20 py-4 px-5">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-emerald-500/10 border border-emerald-500/10">
+              <Fingerprint className="h-4 w-4 text-emerald-500" />
+            </div>
+            <div>
+              <CardTitle className="text-sm">Passkeys</CardTitle>
+              <CardDescription className="text-xs">
+                Sign in with biometrics or security keys
+              </CardDescription>
+            </div>
+          </div>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="h-8 gap-1.5 text-xs border-border/60"
+            disabled={isAdding}
+            onClick={handleAdd}
+          >
+            <Plus className="h-3.5 w-3.5" />
+            {isAdding ? 'Adding...' : 'Add passkey'}
+          </Button>
+        </div>
+      </CardHeader>
+      <CardContent className="p-5">
+        {isLoading ? (
+          <div className="animate-pulse space-y-3">
+            <div className="h-10 bg-muted" />
+            <div className="h-10 bg-muted" />
+          </div>
+        ) : passkeys.length === 0 ? (
+          <p className="text-sm text-muted-foreground text-center py-6">
+            No passkeys registered. Add one to enable passwordless sign-in.
+          </p>
+        ) : (
+          <div className="space-y-3">
+            {passkeys.map((pk) => (
+              <div
+                key={pk.id}
+                className="flex items-center justify-between gap-3 p-3 bg-background/50 border border-border/40"
+              >
+                <div className="min-w-0 flex-1">
+                  {editingId === pk.id ? (
+                    <div className="flex items-center gap-2">
+                      <Input
+                        value={editName}
+                        onChange={(e) => setEditName(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') handleRename(pk.id);
+                          if (e.key === 'Escape') setEditingId(null);
+                        }}
+                        className="h-8 text-sm bg-background border-border/60"
+                        autoFocus
+                      />
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="ghost"
+                        className="h-8 text-xs"
+                        onClick={() => handleRename(pk.id)}
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant="ghost"
+                        className="h-8 text-xs"
+                        onClick={() => setEditingId(null)}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  ) : (
+                    <>
+                      <p className="text-sm font-medium truncate">
+                        {pk.name || 'Unnamed passkey'}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {pk.deviceType && `${pk.deviceType} · `}
+                        Added {new Date(pk.createdAt).toLocaleDateString()}
+                      </p>
+                    </>
+                  )}
+                </div>
+                {editingId !== pk.id && (
+                  <div className="flex items-center gap-1">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0"
+                      onClick={() => {
+                        setEditingId(pk.id);
+                        setEditName(pk.name || '');
+                      }}
+                    >
+                      <Pencil className="h-3.5 w-3.5" />
+                    </Button>
+                    <AlertDialog>
+                      <AlertDialogTrigger
+                        render={
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+                          />
+                        }
+                      >
+                        <Trash2 className="h-3.5 w-3.5" />
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Delete passkey</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This passkey will be permanently removed and can no longer be used to
+                            sign in.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction onClick={() => handleDelete(pk.id)}>
+                            Delete
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }

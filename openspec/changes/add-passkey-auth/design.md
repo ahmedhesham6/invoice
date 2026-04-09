@@ -7,11 +7,13 @@ Better Auth provides a first-party `@better-auth/passkey` plugin that wraps Simp
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Allow users to register passkeys from their settings page
 - Allow users to sign in with a registered passkey from the login page
 - Allow users to manage (list, rename, delete) their passkeys in settings
 
 **Non-Goals:**
+
 - Passkey-first onboarding (registering a passkey during signup without a password) — users must first sign up with email/password, then add passkeys from settings
 - Conditional UI / autofill passkey prompts — keeping sign-in explicit with a button for v1
 - Removing password auth — passkeys are an additional option, not a replacement

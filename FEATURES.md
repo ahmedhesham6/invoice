@@ -30,13 +30,13 @@
 
 ## Dashboard
 
-| Stat | Description |
-|------|-------------|
-| **Outstanding** | Total amount across all `sent` + `overdue` invoices |
+| Stat                | Description                                            |
+| ------------------- | ------------------------------------------------------ |
+| **Outstanding**     | Total amount across all `sent` + `overdue` invoices    |
 | **Paid This Month** | Revenue from invoices marked paid in the current month |
-| **Overdue Count** | Number of invoices past their due date |
-| **Total Clients** | Number of clients in the directory |
-| **Total Invoices** | Lifetime invoice count |
+| **Overdue Count**   | Number of invoices past their due date                 |
+| **Total Clients**   | Number of clients in the directory                     |
+| **Total Invoices**  | Lifetime invoice count                                 |
 
 - **Recent Invoices** — Last 5 invoices with client name, amount, status badge, and quick links
 - **Status Breakdown** — Count of invoices per status (draft / sent / paid / overdue)
@@ -141,17 +141,17 @@ Draft → Sent → Paid
 
 9 distinct, production-grade invoice templates — each with a unique visual identity:
 
-| # | Template | Aesthetic | Colors |
-|---|----------|-----------|--------|
-| 1 | **Classic** | Clean corporate, dark header band, structured grid | Black / white / blue |
-| 2 | **Minimal** | Stark whitespace, Scandinavian simplicity, whisper-quiet | White / light gray |
-| 3 | **Bold** | Heavy type, vibrant orange accent, brutalist energy | Black / orange `#ff5722` |
-| 4 | **Elegant** | Serif typography, cream paper, gold accents | Cream `#faf8f3` / gold `#9c7c38` |
-| 5 | **Retro** | Typewriter mono, warm earth tones, receipt vibes | Warm `#fdf6ee` / rust `#c5632d` |
-| 6 | **Neon** | Dark background, glowing cyan/magenta, cyberpunk | Dark `#0a0a0f` / cyan `#00e5ff` |
-| 7 | **Mono** | Pure B&W, editorial magazine, dramatic contrast | Black `#000` / white `#fff` |
-| 8 | **Ocean** | Deep navy gradient, teal accents, calm & confident | Navy `#0c1f3f` / teal `#0ea5a0` |
-| 9 | **Sunset** | Coral-to-violet gradient, warm & vibrant | Coral `#f97068` → violet `#7c3aed` |
+| #   | Template    | Aesthetic                                                | Colors                             |
+| --- | ----------- | -------------------------------------------------------- | ---------------------------------- |
+| 1   | **Classic** | Clean corporate, dark header band, structured grid       | Black / white / blue               |
+| 2   | **Minimal** | Stark whitespace, Scandinavian simplicity, whisper-quiet | White / light gray                 |
+| 3   | **Bold**    | Heavy type, vibrant orange accent, brutalist energy      | Black / orange `#ff5722`           |
+| 4   | **Elegant** | Serif typography, cream paper, gold accents              | Cream `#faf8f3` / gold `#9c7c38`   |
+| 5   | **Retro**   | Typewriter mono, warm earth tones, receipt vibes         | Warm `#fdf6ee` / rust `#c5632d`    |
+| 6   | **Neon**    | Dark background, glowing cyan/magenta, cyberpunk         | Dark `#0a0a0f` / cyan `#00e5ff`    |
+| 7   | **Mono**    | Pure B&W, editorial magazine, dramatic contrast          | Black `#000` / white `#fff`        |
+| 8   | **Ocean**   | Deep navy gradient, teal accents, calm & confident       | Navy `#0c1f3f` / teal `#0ea5a0`    |
+| 9   | **Sunset**  | Coral-to-violet gradient, warm & vibrant                 | Coral `#f97068` → violet `#7c3aed` |
 
 ### Template Resolution (priority order)
 
@@ -255,31 +255,31 @@ Built on [Base UI](https://base-ui.com/) (unstyled primitives) + custom styling:
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| **Framework** | TanStack Start (React 19, Vite, file-based routing) |
-| **Backend** | Convex (real-time database, serverless functions) |
-| **Auth** | Better Auth via `@convex-dev/better-auth` |
-| **Styling** | Tailwind CSS v4 |
-| **UI** | shadcn/ui + Base UI (unstyled) |
-| **Forms** | TanStack Form |
-| **Data** | TanStack Query + Convex React Query adapter |
-| **Monorepo** | Turborepo + pnpm workspaces |
-| **Linting** | oxlint + oxfmt |
-| **Types** | TypeScript 5 |
-| **Deployment** | Cloudflare Workers (web) + Convex Cloud (backend) |
+| Layer          | Technology                                          |
+| -------------- | --------------------------------------------------- |
+| **Framework**  | TanStack Start (React 19, Vite, file-based routing) |
+| **Backend**    | Convex (real-time database, serverless functions)   |
+| **Auth**       | Better Auth via `@convex-dev/better-auth`           |
+| **Styling**    | Tailwind CSS v4                                     |
+| **UI**         | shadcn/ui + Base UI (unstyled)                      |
+| **Forms**      | TanStack Form                                       |
+| **Data**       | TanStack Query + Convex React Query adapter         |
+| **Monorepo**   | Turborepo + pnpm workspaces                         |
+| **Linting**    | oxlint + oxfmt                                      |
+| **Types**      | TypeScript 5                                        |
+| **Deployment** | Cloudflare Workers (web) + Convex Cloud (backend)   |
 
 ### Database Schema
 
-| Table | Description |
-|-------|-------------|
-| `profiles` | User business profiles — name, logo, address, invoice defaults, default template |
-| `clients` | Client directory — name, email, address, tax ID, notes, template override |
-| `invoices` | Invoice records — client, dates, status, amounts, tax, discount, public token, template override |
-| `lineItems` | Itemized line items per invoice — description, quantity, unit, rate, total, sort order |
+| Table       | Description                                                                                      |
+| ----------- | ------------------------------------------------------------------------------------------------ |
+| `profiles`  | User business profiles — name, logo, address, invoice defaults, default template                 |
+| `clients`   | Client directory — name, email, address, tax ID, notes, template override                        |
+| `invoices`  | Invoice records — client, dates, status, amounts, tax, discount, public token, template override |
+| `lineItems` | Itemized line items per invoice — description, quantity, unit, rate, total, sort order           |
 
 All monetary values stored as **integers in cents** to avoid floating-point issues.
 
 ---
 
-*Last updated: February 2026*
+_Last updated: February 2026_

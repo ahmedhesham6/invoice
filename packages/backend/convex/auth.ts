@@ -1,4 +1,5 @@
 import type { DataModel } from './_generated/dataModel';
+import { passkey } from '@better-auth/passkey';
 import { createClient } from '@convex-dev/better-auth';
 import type { GenericCtx } from '@convex-dev/better-auth';
 import { convex, crossDomain } from '@convex-dev/better-auth/plugins';
@@ -10,6 +11,8 @@ import authConfig from './auth.config';
 
 const siteUrl = process.env.SITE_URL!;
 const convexSiteUrl = process.env.CONVEX_SITE_URL!;
+const rpID = new URL(siteUrl).hostname;
+const origin = siteUrl;
 
 // The component client has methods needed for integrating Convex with Better Auth
 export const authComponent = createClient<DataModel>(components.betterAuth);
@@ -46,7 +49,11 @@ export const createAuth = (ctx: GenericCtx<DataModel>) => {
         }
       },
     },
-    plugins: [convex({ authConfig }), crossDomain({ siteUrl })],
+    plugins: [
+      convex({ authConfig }),
+      crossDomain({ siteUrl }),
+      passkey({ rpID, rpName: 'Invoice', origin }),
+    ],
   });
 };
 
