@@ -1,7 +1,8 @@
 import type { InvoiceTemplateId } from '../invoice-templates';
 import { Button } from '@invoice/ui/components/button';
 import { Printer } from 'lucide-react';
-import { createRoot } from 'react-dom/client';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { toast } from 'sonner';
 
 import { getTemplateComponent } from '../invoice-templates';
 
@@ -76,26 +77,16 @@ export function DownloadPDFButton({
   const handlePrint = () => {
     const printWindow = window.open('', '_blank');
     if (!printWindow) {
-      alert('Please allow popups to print the invoice');
+      toast.error('Please allow popups to print the invoice');
       return;
     }
 
-    // Get the template component and render it to HTML
     const TemplateComponent = getTemplateComponent(templateId);
+    const templateHTML = renderToStaticMarkup(
+      <TemplateComponent invoice={invoice} profile={profile} />,
+    );
 
-    // Create a temporary container to render React into static HTML
-    const container = document.createElement('div');
-    const root = createRoot(container);
-
-    // Render synchronously-ish using flushSync-like approach
-    root.render(<TemplateComponent invoice={invoice} profile={profile} />);
-
-    // Small delay to let React render, then extract HTML
-    setTimeout(() => {
-      const templateHTML = container.innerHTML;
-      root.unmount();
-
-      const html = `
+    const html = `
 <!DOCTYPE html>
 <html>
 <head>
@@ -131,11 +122,10 @@ export function DownloadPDFButton({
   <${'/'}>script>
 </body>
 </html>
-      `;
+    `;
 
-      printWindow.document.write(html);
-      printWindow.document.close();
-    }, 100);
+    printWindow.document.write(html);
+    printWindow.document.close();
   };
 
   return (
