@@ -1,7 +1,8 @@
 import type { InvoiceTemplateId } from '../invoice-templates';
 import { Button } from '@invoice/ui/components/button';
 import { Printer } from 'lucide-react';
-import { renderToStaticMarkup } from 'react-dom/server';
+import { flushSync } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { toast } from 'sonner';
 
 import { getTemplateComponent } from '../invoice-templates';
@@ -81,20 +82,39 @@ export function DownloadPDFButton({
       return;
     }
 
+    // Render template synchronously using flushSync
     const TemplateComponent = getTemplateComponent(templateId);
-    const templateHTML = renderToStaticMarkup(
-      <TemplateComponent invoice={invoice} profile={profile} />
-    );
+    const container = document.createElement('div');
+    const root = createRoot(container);
+    flushSync(() => {
+      root.render(<TemplateComponent invoice={invoice} profile={profile} />);
+    });
+    const templateHTML = container.innerHTML;
+    root.unmount();
+
+    // Collect the app's built stylesheets (already includes all template classes)
+    const styleSheets: string[] = [];
+    for (const sheet of document.styleSheets) {
+      try {
+        if (sheet.href) {
+          styleSheets.push(`<link rel="stylesheet" href="${sheet.href}">`);
+        } else if (sheet.ownerNode instanceof HTMLStyleElement) {
+          styleSheets.push(`<style>${sheet.ownerNode.textContent}</style>`);
+        }
+      } catch {
+        // Skip cross-origin sheets
+      }
+    }
 
     const html = `
 <!DOCTYPE html>
 <html>
 <head>
   <title>Invoice ${invoice.invoiceNumber}</title>
-  <script src="https://cdn.tailwindcss.com"><${'/'}>script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@200;300;400;500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  ${styleSheets.join('\n  ')}
   <style>
     @media print {
       body { margin: 0; padding: 0; }
@@ -115,17 +135,16 @@ export function DownloadPDFButton({
   <div class="no-print" style="position:fixed;top:0;left:0;right:0;background:#fef3c7;padding:12px 20px;font-size:13px;border-bottom:1px solid #f59e0b;z-index:1000;font-family:system-ui;">
     <strong>Tip:</strong> In the print dialog, set margins to "None" and uncheck "Headers and footers" for the best result.
   </div>
-  <script>
-    window.onload = function() {
-      setTimeout(function() { window.print(); }, 300);
-    }
-  <${'/'}>script>
 </body>
 </html>
     `;
 
     printWindow.document.write(html);
     printWindow.document.close();
+
+    printWindow.onload = () => {
+      setTimeout(() => printWindow.print(), 50);
+    };
   };
 
   return (

@@ -88,7 +88,7 @@ function PublicInvoicePage() {
               }}
               profile={{
                 ...profile,
-                logoUrl: profile.logoUrl ?? undefined,
+                logoUrl: undefined,
                 phone: profile.phone ?? undefined,
                 address: profile.address ?? undefined,
                 city: profile.city ?? undefined,
@@ -125,7 +125,7 @@ function PublicInvoicePage() {
               profile
                 ? {
                     ...profile,
-                    logoUrl: profile.logoUrl ?? undefined,
+                    logoUrl: undefined,
                     phone: profile.phone ?? undefined,
                     address: profile.address ?? undefined,
                     city: profile.city ?? undefined,

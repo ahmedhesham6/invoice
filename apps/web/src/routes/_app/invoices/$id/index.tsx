@@ -228,7 +228,7 @@ function InvoiceDetailContent() {
                   }}
                   profile={{
                     ...profile.data,
-                    logoUrl: (profile.data as any).logoUrl ?? undefined,
+                    logoUrl: undefined,
                     phone: profile.data.phone ?? undefined,
                     address: profile.data.address ?? undefined,
                     city: profile.data.city ?? undefined,
