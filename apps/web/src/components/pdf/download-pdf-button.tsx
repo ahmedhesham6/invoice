@@ -83,7 +83,7 @@ export function DownloadPDFButton({
 
     const TemplateComponent = getTemplateComponent(templateId);
     const templateHTML = renderToStaticMarkup(
-      <TemplateComponent invoice={invoice} profile={profile} />,
+      <TemplateComponent invoice={invoice} profile={profile} />
     );
 
     const html = `

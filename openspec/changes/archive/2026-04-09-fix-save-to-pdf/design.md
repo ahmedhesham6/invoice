@@ -11,12 +11,14 @@ The component lives at `apps/web/src/components/pdf/download-pdf-button.tsx` and
 ## Goals / Non-Goals
 
 **Goals:**
+
 - Eliminate the race condition by generating template HTML synchronously
 - Ensure the print dialog always shows the correct, fully-rendered invoice
 - Replace `alert()` with a toast for blocked popups
 - Keep the browser-native print-to-PDF approach (no new PDF libraries)
 
 **Non-Goals:**
+
 - Server-side PDF generation (future scope)
 - Changing the template system or adding new templates
 - Email PDF attachments
@@ -28,6 +30,7 @@ The component lives at `apps/web/src/components/pdf/download-pdf-button.tsx` and
 **Choice**: `react-dom/server.renderToStaticMarkup()` generates HTML synchronously from React components, returning a plain string with no React hydration markers.
 
 **Why over alternatives**:
+
 - `createRoot` + `setTimeout(100)` — current approach, race condition, breaks on slow devices
 - `renderToString` — adds React hydration attributes (`data-reactroot`, etc.) unnecessarily since we don't hydrate
 - `renderToStaticMarkup` — clean HTML, synchronous, zero timing issues. Already bundled with `react-dom`.
