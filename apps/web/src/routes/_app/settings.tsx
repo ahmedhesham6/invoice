@@ -782,9 +782,7 @@ function PasskeysCard() {
                     </div>
                   ) : (
                     <>
-                      <p className="text-sm font-medium truncate">
-                        {pk.name || 'Unnamed passkey'}
-                      </p>
+                      <p className="text-sm font-medium truncate">{pk.name || 'Unnamed passkey'}</p>
                       <p className="text-xs text-muted-foreground">
                         {pk.deviceType && `${pk.deviceType} · `}
                         Added {new Date(pk.createdAt).toLocaleDateString()}
