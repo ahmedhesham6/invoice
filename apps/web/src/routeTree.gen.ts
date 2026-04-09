@@ -14,7 +14,9 @@ import { Route as AppIndexRouteImport } from './routes/_app/index'
 import { Route as ITokenRouteImport } from './routes/i/$token'
 import { Route as AppSignupRouteImport } from './routes/_app/signup'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
+import { Route as AppResetPasswordRouteImport } from './routes/_app/reset-password'
 import { Route as AppLoginRouteImport } from './routes/_app/login'
+import { Route as AppForgotPasswordRouteImport } from './routes/_app/forgot-password'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppInvoicesIndexRouteImport } from './routes/_app/invoices/index'
 import { Route as AppClientsIndexRouteImport } from './routes/_app/clients/index'
@@ -48,9 +50,19 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
+const AppResetPasswordRoute = AppResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppLoginRoute = AppLoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppForgotPasswordRoute = AppForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => AppRoute,
 } as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
@@ -97,7 +109,9 @@ const AppInvoicesIdEditRoute = AppInvoicesIdEditRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof AppIndexRoute
   '/dashboard': typeof AppDashboardRoute
+  '/forgot-password': typeof AppForgotPasswordRoute
   '/login': typeof AppLoginRoute
+  '/reset-password': typeof AppResetPasswordRoute
   '/settings': typeof AppSettingsRoute
   '/signup': typeof AppSignupRoute
   '/i/$token': typeof ITokenRoute
@@ -111,7 +125,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/dashboard': typeof AppDashboardRoute
+  '/forgot-password': typeof AppForgotPasswordRoute
   '/login': typeof AppLoginRoute
+  '/reset-password': typeof AppResetPasswordRoute
   '/settings': typeof AppSettingsRoute
   '/signup': typeof AppSignupRoute
   '/i/$token': typeof ITokenRoute
@@ -128,7 +144,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_app': typeof AppRouteWithChildren
   '/_app/dashboard': typeof AppDashboardRoute
+  '/_app/forgot-password': typeof AppForgotPasswordRoute
   '/_app/login': typeof AppLoginRoute
+  '/_app/reset-password': typeof AppResetPasswordRoute
   '/_app/settings': typeof AppSettingsRoute
   '/_app/signup': typeof AppSignupRoute
   '/i/$token': typeof ITokenRoute
@@ -146,7 +164,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/forgot-password'
     | '/login'
+    | '/reset-password'
     | '/settings'
     | '/signup'
     | '/i/$token'
@@ -160,7 +180,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/dashboard'
+    | '/forgot-password'
     | '/login'
+    | '/reset-password'
     | '/settings'
     | '/signup'
     | '/i/$token'
@@ -176,7 +198,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_app'
     | '/_app/dashboard'
+    | '/_app/forgot-password'
     | '/_app/login'
+    | '/_app/reset-password'
     | '/_app/settings'
     | '/_app/signup'
     | '/i/$token'
@@ -232,11 +256,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/reset-password': {
+      id: '/_app/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof AppResetPasswordRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/login': {
       id: '/_app/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof AppLoginRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/forgot-password': {
+      id: '/_app/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof AppForgotPasswordRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/dashboard': {
@@ -300,7 +338,9 @@ declare module '@tanstack/react-router' {
 
 interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
+  AppForgotPasswordRoute: typeof AppForgotPasswordRoute
   AppLoginRoute: typeof AppLoginRoute
+  AppResetPasswordRoute: typeof AppResetPasswordRoute
   AppSettingsRoute: typeof AppSettingsRoute
   AppSignupRoute: typeof AppSignupRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -315,7 +355,9 @@ interface AppRouteChildren {
 
 const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
+  AppForgotPasswordRoute: AppForgotPasswordRoute,
   AppLoginRoute: AppLoginRoute,
+  AppResetPasswordRoute: AppResetPasswordRoute,
   AppSettingsRoute: AppSettingsRoute,
   AppSignupRoute: AppSignupRoute,
   AppIndexRoute: AppIndexRoute,
